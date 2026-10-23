@@ -61,4 +61,4 @@ A preencher conforme as dependências entrarem (FastAPI, Qdrant, Ollama e os mod
 
 ## Contribuição
 
-Projeto individual de [SEU NOME COMPLETO].
+Projeto individual de Leonardo Costa Fernandes.
