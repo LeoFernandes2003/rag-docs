@@ -1,6 +1,6 @@
 # Proposta técnica (Marco 1): RAG para documentação técnica
 
-Tema 4 · Autor: [SEU NOME COMPLETO] · 24/10/2026
+Tema 4 · Autor: Leonardo Costa Fernandes · 24/10/2026
 
 ## 1. Problema
 
