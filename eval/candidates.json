@@ -1,0 +1,302 @@
+[
+  {
+    "id": "C01",
+    "source_file": "tutorial/first-steps.md",
+    "passage": "If you are curious about what the raw OpenAPI schema looks like, FastAPI automatically generates a JSON (schema) with the descriptions of all your API."
+  },
+  {
+    "id": "C02",
+    "source_file": "advanced/opentelemetry.md",
+    "passage": "Exception logs include the exception's type, message, and stack trace. Messages and stack traces can contain sensitive information. Use your provider's log processors to filter or redact them, or set `logs` to `False` to disable these logs."
+  },
+  {
+    "id": "C03",
+    "source_file": "advanced/advanced-python-types.md",
+    "passage": "If your code for some reason can't use `|`, for example if it's not in a type annotation but in something like `response_model=`, instead of using the vertical bar (`|`) you can use `Union` from `typing`."
+  },
+  {
+    "id": "C04",
+    "source_file": "tutorial/query-params.md",
+    "passage": "Also notice that **FastAPI** is smart enough to notice that the path parameter `item_id` is a path parameter and `q` is not, so, it's a query parameter."
+  },
+  {
+    "id": "C05",
+    "source_file": "deployment/concepts.md",
+    "passage": "I'll tell you a bit more about these **concepts** here, and that would hopefully give you the **intuition** you would need to decide how to deploy your API in very different environments, possibly even in **future** ones that don't exist yet."
+  },
+  {
+    "id": "C06",
+    "source_file": "advanced/websockets.md",
+    "passage": "If you need something easy to integrate with FastAPI but that is more robust, supported by Redis, PostgreSQL or others, check [encode/broadcaster](https://github.com/encode/broadcaster)."
+  },
+  {
+    "id": "C07",
+    "source_file": "advanced/testing-dependencies.md",
+    "passage": "To override a dependency for testing, you put as a key the original dependency (a function), and as the value, your dependency override (another function)."
+  },
+  {
+    "id": "C08",
+    "source_file": "advanced/response-cookies.md",
+    "passage": "**FastAPI** provides the same `starlette.responses` as `fastapi.responses` just as a convenience for you, the developer. But most of the available responses come directly from Starlette."
+  },
+  {
+    "id": "C09",
+    "source_file": "tutorial/static-files.md",
+    "passage": "**FastAPI** provides the same `starlette.staticfiles` as `fastapi.staticfiles` just as a convenience for you, the developer. But it actually comes directly from Starlette."
+  },
+  {
+    "id": "C10",
+    "source_file": "advanced/openapi-webhooks.md",
+    "passage": "With **FastAPI**, using OpenAPI, you can define the names of these webhooks, the types of HTTP operations that your app can send (e.g. `POST`, `PUT`, etc.) and the request **bodies** that your app would send."
+  },
+  {
+    "id": "C11",
+    "source_file": "tutorial/index.md",
+    "passage": "Using it in your editor is what really shows you the benefits of FastAPI, seeing how little code you have to write, all the type checks, autocompletion, etc."
+  },
+  {
+    "id": "C12",
+    "source_file": "tutorial/security/index.md",
+    "passage": "There was an OAuth 1, which is very different from OAuth2, and more complex, as it included direct specifications on how to encrypt the communication."
+  },
+  {
+    "id": "C13",
+    "source_file": "tutorial/cookie-param-models.md",
+    "passage": "Poor cookie banners with all their effort to get your consent for the API to reject it (This is another joke. Don't pay attention to me. Have some coffee for your cookie. ☕). 🍪"
+  },
+  {
+    "id": "C14",
+    "source_file": "advanced/middleware.md",
+    "passage": "**FastAPI** provides several middlewares in `fastapi.middleware` just as a convenience for you, the developer. But most of the available middlewares come directly from Starlette."
+  },
+  {
+    "id": "C15",
+    "source_file": "tutorial/dependencies/dependencies-with-yield.md",
+    "passage": "This is because any dependency needs to be able to run its exit code before the sub-dependencies, as it might need to still use them during its exit code."
+  },
+  {
+    "id": "C16",
+    "source_file": "how-to/general.md",
+    "passage": "To deprecate a *path operation*, and show it in the docs UI, read the docs for [Tutorial - Path Operation Configurations - Deprecation](../tutorial/path-operation-configuration.md#deprecate-a-path-operation)."
+  },
+  {
+    "id": "C17",
+    "source_file": "advanced/async-tests.md",
+    "passage": "Being able to use asynchronous functions in your tests could be useful, for example, when you're querying your database asynchronously. Imagine you want to test sending requests to your FastAPI application and then verify that your backend successfully wrote the correct data in the database, while using an async database library."
+  },
+  {
+    "id": "C18",
+    "source_file": "tutorial/stream-json-lines.md",
+    "passage": "You could use this to stream data from an **AI LLM** service, from **logs** or **telemetry**, or from other types of data that can be structured in **JSON** items."
+  },
+  {
+    "id": "C19",
+    "source_file": "tutorial/response-model.md",
+    "passage": "We want FastAPI to keep **filtering** the data using the response model. So that even though the function returns more data, the response will only include the fields declared in the response model."
+  },
+  {
+    "id": "C20",
+    "source_file": "advanced/templates.md",
+    "passage": "**FastAPI** provides the same `starlette.templating` as `fastapi.templating` just as a convenience for you, the developer. But most of the available responses come directly from Starlette. The same with `Request` and `StaticFiles`."
+  },
+  {
+    "id": "C21",
+    "source_file": "advanced/testing-events.md",
+    "passage": "You can read more details about the [\"Running lifespan in tests in the official Starlette documentation site.\"](https://starlette.dev/lifespan/#running-lifespan-in-tests)"
+  },
+  {
+    "id": "C22",
+    "source_file": "tutorial/body-fields.md",
+    "passage": "Notice how each model's attribute with a type, default value and `Field` has the same structure as a *path operation function's* parameter, with `Field` instead of `Path`, `Query` and `Body`."
+  },
+  {
+    "id": "C23",
+    "source_file": "tutorial/dependencies/index.md",
+    "passage": "In the end, a hierarchical tree of dependencies is built, and the **Dependency Injection** system takes care of solving all these dependencies for you (and their sub-dependencies) and providing (injecting) the results at each step."
+  },
+  {
+    "id": "C24",
+    "source_file": "tutorial/request-files.md",
+    "passage": "**FastAPI** provides the same `starlette.responses` as `fastapi.responses` just as a convenience for you, the developer. But most of the available responses come directly from Starlette."
+  },
+  {
+    "id": "C25",
+    "source_file": "tutorial/cors.md",
+    "passage": "So, let's say you have a frontend running in your browser at `http://localhost:8080`, and its JavaScript is trying to communicate with a backend running at `http://localhost` (because we don't specify a port, the browser will assume the default port `80`)."
+  },
+  {
+    "id": "C26",
+    "source_file": "advanced/strict-content-type.md",
+    "passage": "As it's running **locally**, and not in the open internet, you decide to **not have any authentication** set up, just trusting the access to the local network."
+  },
+  {
+    "id": "C27",
+    "source_file": "tutorial/handling-errors.md",
+    "passage": "The only difference is that **FastAPI**'s `HTTPException` accepts any JSON-able data for the `detail` field, while Starlette's `HTTPException` only accepts strings for it."
+  },
+  {
+    "id": "C28",
+    "source_file": "tutorial/response-status-code.md",
+    "passage": "`status_code` can alternatively also receive an `IntEnum`, such as Python's [`http.HTTPStatus`](https://docs.python.org/3/library/http.html#http.HTTPStatus)."
+  },
+  {
+    "id": "C29",
+    "source_file": "how-to/extending-openapi.md",
+    "passage": "`app.routes` is a lower-level route tree. It can include route candidates that FastAPI uses internally for included routers, not only final `APIRoute` objects."
+  },
+  {
+    "id": "C30",
+    "source_file": "tutorial/security/simple-oauth2.md",
+    "passage": "So, the thief won't be able to try to use those same passwords in another system (as many users use the same password everywhere, this would be dangerous)."
+  },
+  {
+    "id": "C31",
+    "source_file": "how-to/migrate-from-pydantic-v1-to-pydantic-v2.md",
+    "passage": "If you need to use some of the FastAPI-specific tools for parameters like `Body`, `Query`, `Form`, etc. with Pydantic v1 models, you can import them from `fastapi.temp_pydantic_v1_params` while you finish the migration to Pydantic v2:"
+  },
+  {
+    "id": "C32",
+    "source_file": "tutorial/request-forms.md",
+    "passage": "To declare form bodies, you need to use `Form` explicitly, because without it the parameters would be interpreted as query parameters or body (JSON) parameters."
+  },
+  {
+    "id": "C33",
+    "source_file": "tutorial/sql-databases.md",
+    "passage": "We don't really need to inherit from `HeroBase` because we are re-declaring all the fields. I'll leave it inheriting just for consistency, but this is not necessary. It's more a matter of personal taste. 🤷"
+  },
+  {
+    "id": "C34",
+    "source_file": "advanced/additional-responses.md",
+    "passage": "You might want to have some predefined responses that apply to many *path operations*, but you want to combine them with custom responses needed by each *path operation*."
+  },
+  {
+    "id": "C35",
+    "source_file": "advanced/security/http-basic-auth.md",
+    "passage": "Python will have to compare the whole `stanleyjobso` in both `stanleyjobsox` and `stanleyjobson` before realizing that both strings are not the same. So it will take some extra microseconds to reply back \"Incorrect username or password\"."
+  },
+  {
+    "id": "C36",
+    "source_file": "tutorial/request-forms-and-files.md",
+    "passage": "You can declare multiple `File` and `Form` parameters in a *path operation*, but you can't also declare `Body` fields that you expect to receive as JSON, as the request will have the body encoded using `multipart/form-data` instead of `application/json`."
+  },
+  {
+    "id": "C37",
+    "source_file": "editor-support.md",
+    "passage": "The official [FastAPI Extension](https://marketplace.visualstudio.com/items?itemName=FastAPILabs.fastapi-vscode) enhances your FastAPI development workflow with *path operation* discovery, navigation, as well as FastAPI Cloud deployment, and live log streaming."
+  },
+  {
+    "id": "C38",
+    "source_file": "tutorial/extra-models.md",
+    "passage": "The supporting additional functions `fake_password_hasher` and `fake_save_user` are just to demo a possible flow of the data, but they of course are not providing any real security."
+  },
+  {
+    "id": "C39",
+    "source_file": "advanced/response-headers.md",
+    "passage": "**FastAPI** will use that *temporary* response to extract the headers (also cookies and status code), and will put them in the final response that contains the value you returned, filtered by any `response_model`."
+  },
+  {
+    "id": "C40",
+    "source_file": "tutorial/query-params-str-validations.md",
+    "passage": "If you feel lost with all these **\"regular expression\"** ideas, don't worry. They are a hard topic for many people. You can still do a lot of stuff without needing regular expressions yet."
+  },
+  {
+    "id": "C41",
+    "source_file": "tutorial/dependencies/global-dependencies.md",
+    "passage": "And all the ideas in the section about [adding `dependencies` to the *path operation decorators*](dependencies-in-path-operation-decorators.md) still apply, but in this case, to all of the *path operations* in the app."
+  },
+  {
+    "id": "C42",
+    "source_file": "tutorial/security/get-current-user.md",
+    "passage": "You actually don't have users that log in to your application but robots, bots, or other systems, that have just an access token? Again, it all works the same."
+  },
+  {
+    "id": "C43",
+    "source_file": "tutorial/schema-extra-example.md",
+    "passage": "You can set `\"json_schema_extra\"` with a `dict` containing any additional data you would like to show up in the generated JSON Schema, including `examples`."
+  },
+  {
+    "id": "C44",
+    "source_file": "how-to/authentication-error-status-code.md",
+    "passage": "Before FastAPI version `0.122.0`, when the integrated security utilities returned an error to the client after a failed authentication, they used the HTTP status code `403 Forbidden`."
+  },
+  {
+    "id": "C45",
+    "source_file": "advanced/openapi-callbacks.md",
+    "passage": "At this point you have the *callback path operation(s)* needed (the one(s) that the *external developer*  should implement in the *external API*) in the callback router you created above."
+  },
+  {
+    "id": "C46",
+    "source_file": "fastapi-cli.md",
+    "passage": "In most cases you would (and should) have a \"termination proxy\" handling HTTPS for you on top, this will depend on how you deploy your application, your provider might do this for you, or you might need to set it up yourself."
+  },
+  {
+    "id": "C47",
+    "source_file": "environment-variables.md",
+    "passage": "Read the [Environment Variables guide](https://tiangolo.com/guides/environment-variables/) for a detailed, cross-platform explanation, including how to create and read environment variables and how the `PATH` environment variable works."
+  },
+  {
+    "id": "C48",
+    "source_file": "async.md",
+    "passage": "But then, even though you still don't have your burgers, your work with the cashier is \"on pause\" ⏸, because you have to wait 🕙 for your burgers to be ready."
+  },
+  {
+    "id": "C49",
+    "source_file": "advanced/behind-a-proxy.md",
+    "passage": "If you need to mount a sub-application (as described in [Sub Applications - Mounts](sub-applications.md)) while also using a proxy with `root_path`, you can do it normally, as you would expect."
+  },
+  {
+    "id": "C50",
+    "source_file": "how-to/separate-openapi-schemas.md",
+    "passage": "Probably the main use case for this is if you already have some autogenerated client code/SDKs and you don't want to update all the autogenerated client code/SDKs yet, you probably will want to do it at some point, but maybe not right now."
+  },
+  {
+    "id": "C51",
+    "source_file": "benchmarks.md",
+    "passage": "The simpler the problem solved by the tool, the better performance it will get. And most of the benchmarks don't test the additional features provided by the tool."
+  },
+  {
+    "id": "C52",
+    "source_file": "advanced/dataclasses.md",
+    "passage": "So, even with the code above that doesn't use Pydantic explicitly, FastAPI is using Pydantic to convert those standard dataclasses to Pydantic's own flavor of dataclasses."
+  },
+  {
+    "id": "C53",
+    "source_file": "index.md",
+    "passage": "If you prefer to use `pip`, install `fastapi[standard]` inside a virtual environment. See the [installation guide](tutorial/#install-fastapi) for the alternative steps."
+  },
+  {
+    "id": "C54",
+    "source_file": "advanced/stream-data.md",
+    "passage": "This also means that with `StreamingResponse` you have the **freedom** and **responsibility** to produce and encode the data bytes exactly as you need them to be sent, independent of the type annotations. 🤓"
+  },
+  {
+    "id": "C55",
+    "source_file": "tutorial/path-params.md",
+    "passage": "And because the generated schema is from the [OpenAPI](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md) standard, there are many compatible tools."
+  },
+  {
+    "id": "C56",
+    "source_file": "virtual-environments.md",
+    "passage": "Read the [Virtual Environments guide](https://tiangolo.com/guides/virtual-environments/) to learn how virtual environments work underneath, including activation and the alternative `python -m venv` and `pip` workflow."
+  },
+  {
+    "id": "C57",
+    "source_file": "advanced/response-directly.md",
+    "passage": "When you declare a [Response Model - Return Type](../tutorial/response-model.md) in a path operation, **FastAPI** will use it to serialize the data to JSON, using Pydantic."
+  },
+  {
+    "id": "C58",
+    "source_file": "tutorial/header-param-models.md",
+    "passage": "The same rules for defaults, extra fields, and OpenAPI apply as for [optional query parameter models](query-param-models.md#optional-query-parameter-models)."
+  },
+  {
+    "id": "C59",
+    "source_file": "deployment/manually.md",
+    "passage": "The word \"**server**\" is commonly used to refer to both the remote/cloud computer (the physical or virtual machine) and also the program that is running on that machine (e.g. Uvicorn)."
+  },
+  {
+    "id": "C60",
+    "source_file": "deployment/index.md",
+    "passage": "This is in contrast to the **development** stages, where you are constantly changing the code, breaking it and fixing it, stopping and restarting the development server, etc."
+  }
+]
