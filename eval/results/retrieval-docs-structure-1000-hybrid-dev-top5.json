@@ -1,0 +1,43 @@
+{
+  "questions": 16,
+  "hits": 13,
+  "recall": 0.8125,
+  "misses": [
+    {
+      "id": "q001",
+      "question": "O que o FastAPI gera automaticamente com as descrições de toda a sua API?",
+      "source_file": "tutorial/first-steps.md",
+      "retrieved_files": [
+        "features.md",
+        "advanced/behind-a-proxy.md",
+        "advanced/generate-clients.md",
+        "index.md",
+        "async.md"
+      ]
+    },
+    {
+      "id": "q013",
+      "question": "Mesmo que a função retorne mais dados, o que o response model garante na resposta?",
+      "source_file": "tutorial/response-model.md",
+      "retrieved_files": [
+        "how-to/general.md",
+        "advanced/custom-response.md",
+        "advanced/additional-responses.md",
+        "advanced/additional-responses.md",
+        "advanced/response-directly.md"
+      ]
+    },
+    {
+      "id": "q026",
+      "question": "Que informações o FastAPI extrai da resposta temporária?",
+      "source_file": "advanced/response-headers.md",
+      "retrieved_files": [
+        "advanced/path-operation-advanced-configuration.md",
+        "advanced/response-change-status-code.md",
+        "advanced/custom-response.md",
+        "async.md",
+        "advanced/custom-response.md"
+      ]
+    }
+  ]
+}

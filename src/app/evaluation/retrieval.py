@@ -9,8 +9,9 @@ para ajustar o sistema. Por isso o padrão é medir só as de desenvolvimento
 
 Uso (a partir da pasta `src`):
 
-    python -m app.evaluation.retrieval                 # perguntas dev, baseline
-    python -m app.evaluation.retrieval --final         # perguntas test (só no fim!)
+    python -m app.evaluation.retrieval                          # dev, baseline
+    python -m app.evaluation.retrieval --strategy structure --mode hybrid
+    python -m app.evaluation.retrieval --final                  # test (só no fim!)
 """
 
 from __future__ import annotations
@@ -23,11 +24,13 @@ from pathlib import Path
 from typing import Any
 
 from ..ingest.prepare import DEFAULT_OUT
+from ..rag.chunking import STRATEGIES, chunk_corpus
 from ..rag.config import get_settings
 from ..rag.index import default_collection
 from ..rag.ollama import embed
 from ..rag.qdrant import QdrantStore
-from ..rag.search import search
+from ..rag.retrieve import MODES, build_searcher
+from ..rag.translate import translate_to_english
 from .check_questions import DEFAULT_QUESTIONS, load_questions
 
 RESULTS_DIR = DEFAULT_QUESTIONS.parent / "results"
@@ -90,7 +93,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Mede o Recall@k da busca.")
     parser.add_argument("--questions", type=Path, default=DEFAULT_QUESTIONS)
     parser.add_argument("--corpus", type=Path, default=DEFAULT_OUT)
-    parser.add_argument("--collection", help="coleção (padrão: baseline de 1000 caracteres)")
+    parser.add_argument("--mode", choices=MODES, default="dense", help="tipo de busca")
+    parser.add_argument(
+        "--translate",
+        action="store_true",
+        help="traduz a pergunta para inglês antes da busca por palavras (bm25/hybrid)",
+    )
+    parser.add_argument("--strategy", choices=STRATEGIES, default="fixed")
+    parser.add_argument("--size", type=int, default=1000)
+    parser.add_argument("--overlap", type=int, default=0)
+    parser.add_argument("--collection", help="coleção (padrão: a da estratégia escolhida)")
     parser.add_argument("--top", type=int, default=5, help="k do Recall@k")
     parser.add_argument(
         "--final",
@@ -104,7 +116,7 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     split = "test" if args.final else "dev"
     settings = get_settings()
-    name = args.collection or default_collection(1000, 0)
+    name = args.collection or default_collection(args.size, args.overlap, args.strategy)
     store = QdrantStore(settings.qdrant_url, name)
 
     items, errors = load_questions(args.questions)
@@ -116,15 +128,41 @@ def main(argv: list[str] | None = None) -> int:
     def embed_fn(texts: list[str]) -> list[list[float]]:
         return embed(texts, url=settings.ollama_url, model=settings.embed_model)
 
+    chunks = []
+    if args.mode != "dense":
+        chunks = chunk_corpus(args.corpus, args.size, args.overlap, args.strategy)
+    translations: dict[str, str] = {}
+    if args.translate and args.mode != "dense":
+        try:
+            for item in questions:
+                if item.get("answerable") is True:
+                    translations[item["question"]] = translate_to_english(
+                        item["question"], url=settings.ollama_url, model=settings.gen_model
+                    )
+        except ConnectionError as error:
+            print(f"Erro: {error}")
+            return 1
+        print("Traduções usadas na busca por palavras:")
+        for original, english in translations.items():
+            print(f"  {original}\n    -> {english}")
+        print()
+    searcher = build_searcher(
+        args.mode,
+        embed_fn,
+        store,
+        chunks,
+        args.top,
+        lexical_query=lambda question: translations.get(question, question),
+    )
+
     try:
-        result = evaluate(
-            questions, args.corpus, lambda question: search(question, embed_fn, store, args.top)
-        )
+        result = evaluate(questions, args.corpus, searcher)
     except ConnectionError as error:
         print(f"Erro: {error}")
         return 1
 
-    print(f"Coleção: {name} | conjunto: {split} | Recall@{args.top}")
+    label = f"{args.mode}-traducao" if translations else args.mode
+    print(f"Coleção: {name} | busca: {label} | conjunto: {split} | Recall@{args.top}")
     print(f"Perguntas com resposta: {result['questions']}")
     print(f"Acertos: {result['hits']}")
     print(f"Recall@{args.top}: {result['recall']:.3f}")
@@ -134,7 +172,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  achou: {', '.join(miss['retrieved_files'])}")
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    out = RESULTS_DIR / f"retrieval-{name}-{split}-top{args.top}.json"
+    result["translations"] = translations
+    out = RESULTS_DIR / f"retrieval-{name}-{label}-{split}-top{args.top}.json"
     out.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nResultado salvo em: {out}")
     return 0

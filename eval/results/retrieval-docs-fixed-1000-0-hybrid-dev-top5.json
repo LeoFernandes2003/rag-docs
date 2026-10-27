@@ -1,0 +1,67 @@
+{
+  "questions": 16,
+  "hits": 11,
+  "recall": 0.6875,
+  "misses": [
+    {
+      "id": "q001",
+      "question": "O que o FastAPI gera automaticamente com as descrições de toda a sua API?",
+      "source_file": "tutorial/first-steps.md",
+      "retrieved_files": [
+        "features.md",
+        "tutorial/first-steps.md",
+        "tutorial/metadata.md",
+        "alternatives.md",
+        "tutorial/query-params-str-validations.md"
+      ]
+    },
+    {
+      "id": "q013",
+      "question": "Mesmo que a função retorne mais dados, o que o response model garante na resposta?",
+      "source_file": "tutorial/response-model.md",
+      "retrieved_files": [
+        "how-to/general.md",
+        "advanced/additional-responses.md",
+        "advanced/response-directly.md",
+        "advanced/additional-responses.md",
+        "tutorial/response-model.md"
+      ]
+    },
+    {
+      "id": "q026",
+      "question": "Que informações o FastAPI extrai da resposta temporária?",
+      "source_file": "advanced/response-headers.md",
+      "retrieved_files": [
+        "advanced/custom-response.md",
+        "tutorial/query-params-str-validations.md",
+        "advanced/additional-responses.md",
+        "tutorial/response-model.md",
+        "advanced/custom-response.md"
+      ]
+    },
+    {
+      "id": "q033",
+      "question": "O que mostra, no editor, os benefícios do FastAPI?",
+      "source_file": "tutorial/index.md",
+      "retrieved_files": [
+        "about/index.md",
+        "tutorial/query-params-str-validations.md",
+        "advanced/stream-data.md",
+        "features.md",
+        "editor-support.md"
+      ]
+    },
+    {
+      "id": "q036",
+      "question": "Como a fase de desenvolvimento se contrapõe à de implantação?",
+      "source_file": "deployment/index.md",
+      "retrieved_files": [
+        "async.md",
+        "advanced/events.md",
+        "advanced/websockets.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/dependencies/index.md"
+      ]
+    }
+  ]
+}

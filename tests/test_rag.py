@@ -1,12 +1,21 @@
 import pytest
 
 from app.evaluation.retrieval import covers, evaluate, find_span
-from app.rag.chunking import chunk_corpus, chunk_text, fixed_windows
+from app.rag.bm25 import BM25Index, tokenize
+from app.rag.chunking import (
+    chunk_corpus,
+    chunk_structure,
+    chunk_text,
+    fixed_windows,
+    markdown_blocks,
+)
 from app.rag.http import HttpError
 from app.rag.index import build_index, default_collection, to_point
 from app.rag.ollama import embed
 from app.rag.qdrant import QdrantStore
+from app.rag.retrieve import build_searcher, reciprocal_rank_fusion
 from app.rag.search import search
+from app.rag.translate import translate_to_english
 
 # --- pedaços ---
 
@@ -208,3 +217,163 @@ def test_evaluate_calcula_recall_e_lista_erros(tmp_path):
     assert resultado["recall"] == 0.5
     assert resultado["misses"][0]["id"] == "q2"
     assert resultado["misses"][0]["retrieved_files"] == ["b.md"]
+
+
+# --- divisão por estrutura ---
+
+DOC = """# Título A
+
+Primeiro parágrafo curto.
+
+## Seção B
+
+Texto da seção B com bastante conteúdo para passar do mínimo de caracteres. """ + "x" * 220 + """
+
+```python
+# isto não é título
+
+def f():
+    return 1
+```
+
+Fim.
+"""
+
+
+def test_blocos_nao_cortam_codigo_nem_confundem_comentario_com_titulo():
+    blocos = markdown_blocks(DOC)
+    textos = [DOC[a:b] for a, b, _ in blocos]
+    codigo = next(t for t in textos if t.startswith("```python"))
+    assert "def f():" in codigo and codigo.rstrip().endswith("```")
+    titulos = [DOC[a:b] for a, b, titulo in blocos if titulo]
+    assert titulos == ["# Título A", "## Seção B"]
+
+
+def test_estrutura_comeca_pedaco_novo_em_titulo_quando_o_atual_ja_e_grande():
+    chunks = chunk_structure("a.md", DOC, size=2000, min_size=20)
+    assert len(chunks) == 2
+    assert chunks[0].text.startswith("# Título A")
+    assert chunks[1].text.startswith("## Seção B")
+    assert all(DOC[c.start : c.end] == c.text for c in chunks)
+
+
+def test_estrutura_junta_secao_minuscula_com_a_seguinte():
+    chunks = chunk_structure("a.md", DOC, size=2000, min_size=1000)
+    assert len(chunks) == 1
+
+
+def test_estrutura_respeita_o_tamanho_maximo_e_corta_bloco_gigante():
+    texto = "# T\n\n" + "palavra " * 100
+    chunks = chunk_structure("a.md", texto, size=300)
+    assert all(len(c.text) <= 300 for c in chunks)
+    assert "".join(texto[c.start : c.end] for c in chunks).replace(" ", "")  # sem erro de posição
+
+
+def test_chunk_corpus_aceita_estrategia_e_rejeita_desconhecida(tmp_path):
+    (tmp_path / "a.md").write_text(DOC, encoding="utf-8")
+    assert chunk_corpus(tmp_path, 2000, strategy="structure")
+    with pytest.raises(ValueError):
+        chunk_corpus(tmp_path, 2000, strategy="outra")
+
+
+def test_nome_da_colecao_por_estrategia():
+    assert default_collection(1000, 0, "structure") == "docs-structure-1000"
+
+
+# --- busca por palavras (BM25) e híbrida ---
+
+TEXTOS = [
+    "Use app.routes to list the route tree of the application",
+    "Dependencies are declared with Depends and can have sub-dependencies",
+    "The status_code parameter sets the HTTP status of the response",
+]
+
+
+def test_tokenize_separa_palavras_e_ignora_maiusculas():
+    assert tokenize("Use app.routes, status_code!") == ["use", "app", "routes", "status_code"]
+
+
+def test_bm25_acha_o_documento_com_o_termo_exato():
+    indice = BM25Index(TEXTOS)
+    assert indice.search("app.routes", 3)[0][0] == 0
+    assert indice.search("status_code", 3)[0][0] == 2
+
+
+def test_bm25_sem_termos_em_comum_devolve_vazio_e_respeita_o_limite():
+    indice = BM25Index(TEXTOS)
+    assert indice.search("zzz qqq", 3) == []
+    assert len(indice.search("the", 2)) <= 2
+
+
+def test_rrf_premia_quem_aparece_bem_nas_duas_listas():
+    a = [{"id": 1, "payload": {}}, {"id": 2, "payload": {}}, {"id": 3, "payload": {}}]
+    b = [{"id": 3, "payload": {}}, {"id": 2, "payload": {}}, {"id": 9, "payload": {}}]
+    fundidos = reciprocal_rank_fusion([a, b])
+    assert {p["id"] for p in fundidos[:2]} == {2, 3}
+    assert {p["id"] for p in fundidos} == {1, 2, 3, 9}
+
+
+def test_searcher_modos_dense_bm25_e_hybrid():
+    chunks = [chunk_text(f"f{i}.md", texto, size=1000)[0] for i, texto in enumerate(TEXTOS)]
+    falso = QdrantFalso()  # o Qdrant falso devolve sempre o ponto de id 1
+    loja = QdrantStore("http://q", "c", falso)
+
+    def embed_fn(textos):
+        return [[0.1, 0.2] for _ in textos]
+
+    denso = build_searcher("dense", embed_fn, loja, [], 3)
+    assert denso("qualquer")[0]["id"] == 1
+
+    lexico = build_searcher("bm25", embed_fn, loja, chunks, 3)
+    achados = lexico("app.routes")
+    assert achados[0]["payload"]["source_file"] == "f0.md"
+
+    hibrido = build_searcher("hybrid", embed_fn, loja, chunks, 3)
+    ids = [p["id"] for p in hibrido("app.routes")]
+    assert set(ids[:2]) == {0, 1}  # 0 vem do BM25 e 1 vem da busca por sentido
+
+    with pytest.raises(ValueError):
+        build_searcher("outro", embed_fn, loja, chunks, 3)
+
+
+# --- tradução da pergunta ---
+
+
+def test_traducao_usa_o_modelo_e_fica_com_a_primeira_linha():
+    chamadas = []
+
+    def falso(method, url, payload=None):
+        chamadas.append((method, url, payload))
+        return {"response": '\n"How do I override a dependency?"\nNote: translated.\n'}
+
+    texto = translate_to_english("Como sobrescrever?", url="http://o", model="qwen", request=falso)
+    assert texto == "How do I override a dependency?"
+    metodo, url, corpo = chamadas[0]
+    assert (metodo, url) == ("POST", "http://o/api/generate")
+    assert corpo["model"] == "qwen" and corpo["stream"] is False
+    assert "Como sobrescrever?" in corpo["prompt"]
+
+
+def test_traducao_vazia_devolve_a_pergunta_original():
+    vazio = lambda *args, **kwargs: {"response": "  \n"}  # noqa: E731
+    assert translate_to_english("Oi?", url="http://o", model="m", request=vazio) == "Oi?"
+
+
+def test_bm25_usa_a_pergunta_traduzida_e_o_dense_usa_a_original():
+    chunks = [chunk_text(f"f{i}.md", texto, size=1000)[0] for i, texto in enumerate(TEXTOS)]
+    loja = QdrantStore("http://q", "c", QdrantFalso())
+    recebidas = []
+
+    def embed_fn(textos):
+        recebidas.extend(textos)
+        return [[0.1, 0.2] for _ in textos]
+
+    busca = build_searcher(
+        "bm25", embed_fn, loja, chunks, 1, lexical_query=lambda q: "app.routes"
+    )
+    assert busca("pergunta em português")[0]["payload"]["source_file"] == "f0.md"
+    hibrida = build_searcher(
+        "hybrid", embed_fn, loja, chunks, 3, lexical_query=lambda q: "app.routes"
+    )
+    hibrida("pergunta em português")
+    assert recebidas == ["pergunta em português"]
