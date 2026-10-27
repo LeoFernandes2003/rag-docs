@@ -1,0 +1,43 @@
+{
+  "questions": 16,
+  "hits": 13,
+  "recall": 0.8125,
+  "misses": [
+    {
+      "id": "q001",
+      "question": "O que o FastAPI gera automaticamente com as descrições de toda a sua API?",
+      "source_file": "tutorial/first-steps.md",
+      "retrieved_files": [
+        "features.md",
+        "advanced/behind-a-proxy.md",
+        "how-to/extending-openapi.md",
+        "about/index.md",
+        "tutorial/first-steps.md"
+      ]
+    },
+    {
+      "id": "q026",
+      "question": "Que informações o FastAPI extrai da resposta temporária?",
+      "source_file": "advanced/response-headers.md",
+      "retrieved_files": [
+        "advanced/custom-response.md",
+        "advanced/additional-responses.md",
+        "advanced/custom-response.md",
+        "advanced/additional-responses.md",
+        "advanced/response-change-status-code.md"
+      ]
+    },
+    {
+      "id": "q033",
+      "question": "O que mostra, no editor, os benefícios do FastAPI?",
+      "source_file": "tutorial/index.md",
+      "retrieved_files": [
+        "about/index.md",
+        "features.md",
+        "editor-support.md",
+        "tutorial/schema-extra-example.md",
+        "index.md"
+      ]
+    }
+  ]
+}
