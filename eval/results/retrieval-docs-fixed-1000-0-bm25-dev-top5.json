@@ -1,0 +1,103 @@
+{
+  "questions": 16,
+  "hits": 8,
+  "recall": 0.5,
+  "misses": [
+    {
+      "id": "q001",
+      "question": "O que o FastAPI gera automaticamente com as descrições de toda a sua API?",
+      "source_file": "tutorial/first-steps.md",
+      "retrieved_files": [
+        "tutorial/query-params-str-validations.md",
+        "alternatives.md",
+        "tutorial/security/first-steps.md",
+        "async.md",
+        "tutorial/first-steps.md"
+      ]
+    },
+    {
+      "id": "q011",
+      "question": "Quando é útil usar funções assíncronas nos testes?",
+      "source_file": "advanced/async-tests.md",
+      "retrieved_files": [
+        "advanced/dataclasses.md",
+        "tutorial/frontend.md",
+        "advanced/stream-data.md",
+        "deployment/manually.md",
+        "advanced/dataclasses.md"
+      ]
+    },
+    {
+      "id": "q013",
+      "question": "Mesmo que a função retorne mais dados, o que o response model garante na resposta?",
+      "source_file": "tutorial/response-model.md",
+      "retrieved_files": [
+        "tutorial/query-params-str-validations.md",
+        "advanced/response-directly.md",
+        "how-to/general.md",
+        "advanced/response-directly.md",
+        "tutorial/extra-models.md"
+      ]
+    },
+    {
+      "id": "q018",
+      "question": "Que outro tipo o `status_code` pode receber, além de um número?",
+      "source_file": "tutorial/response-status-code.md",
+      "retrieved_files": [
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/sql-databases.md",
+        "tutorial/security/oauth2-jwt.md",
+        "advanced/security/oauth2-scopes.md",
+        "tutorial/sql-databases.md"
+      ]
+    },
+    {
+      "id": "q026",
+      "question": "Que informações o FastAPI extrai da resposta temporária?",
+      "source_file": "advanced/response-headers.md",
+      "retrieved_files": [
+        "tutorial/query-params-str-validations.md",
+        "tutorial/response-model.md",
+        "advanced/stream-data.md",
+        "deployment/manually.md",
+        "advanced/security/http-basic-auth.md"
+      ]
+    },
+    {
+      "id": "q028",
+      "question": "Como adicionar dados extras ao JSON Schema gerado de um modelo, incluindo exemplos?",
+      "source_file": "tutorial/schema-extra-example.md",
+      "retrieved_files": [
+        "tutorial/first-steps.md",
+        "advanced/additional-responses.md",
+        "advanced/additional-responses.md",
+        "tutorial/schema-extra-example.md",
+        "tutorial/schema-extra-example.md"
+      ]
+    },
+    {
+      "id": "q033",
+      "question": "O que mostra, no editor, os benefícios do FastAPI?",
+      "source_file": "tutorial/index.md",
+      "retrieved_files": [
+        "tutorial/query-params-str-validations.md",
+        "advanced/stream-data.md",
+        "tutorial/sql-databases.md",
+        "tutorial/response-model.md",
+        "async.md"
+      ]
+    },
+    {
+      "id": "q036",
+      "question": "Como a fase de desenvolvimento se contrapõe à de implantação?",
+      "source_file": "deployment/index.md",
+      "retrieved_files": [
+        "advanced/websockets.md",
+        "advanced/security/oauth2-scopes.md",
+        "async.md",
+        "advanced/response-directly.md",
+        "tutorial/dependencies/sub-dependencies.md"
+      ]
+    }
+  ]
+}

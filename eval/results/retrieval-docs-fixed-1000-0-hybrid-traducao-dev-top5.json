@@ -1,0 +1,49 @@
+{
+  "questions": 16,
+  "hits": 14,
+  "recall": 0.875,
+  "misses": [
+    {
+      "id": "q026",
+      "question": "Que informações o FastAPI extrai da resposta temporária?",
+      "source_file": "advanced/response-headers.md",
+      "retrieved_files": [
+        "advanced/additional-responses.md",
+        "advanced/response-change-status-code.md",
+        "advanced/additional-responses.md",
+        "advanced/custom-response.md",
+        "tutorial/response-status-code.md"
+      ]
+    },
+    {
+      "id": "q033",
+      "question": "O que mostra, no editor, os benefícios do FastAPI?",
+      "source_file": "tutorial/index.md",
+      "retrieved_files": [
+        "editor-support.md",
+        "about/index.md",
+        "deployment/concepts.md",
+        "features.md",
+        "tutorial/response-model.md"
+      ]
+    }
+  ],
+  "translations": {
+    "O que o FastAPI gera automaticamente com as descrições de toda a sua API?": "What does FastAPI automatically generate with the descriptions of its entire API?",
+    "O que usar no lugar da barra vertical (|) quando ela não pode ser usada, por exemplo em `response_model=`?": "What to use instead of the vertical bar (|) when it cannot be used, for example in `response_model=`?",
+    "Por que existe `fastapi.staticfiles` se o código vem do Starlette?": "Why does `fastapi.staticfiles` exist if the code comes from Starlette?",
+    "O que diferencia o OAuth 1 do OAuth2?": "What differs OAuth 1 from OAuth2?",
+    "Quando é útil usar funções assíncronas nos testes?": "When is it useful to use asynchronous functions in async tests?",
+    "Mesmo que a função retorne mais dados, o que o response model garante na resposta?": "Even though the function returns more data, what does the response model guarantee in the response?",
+    "No exemplo de CORS, por que o navegador assume a porta 80 para o backend?": "In the CORS example, why does the browser assume port 80 for the backend?",
+    "Que outro tipo o `status_code` pode receber, além de um número?": "What other type can `status_code` receive besides a number?",
+    "Por que é preciso usar `Form` explicitamente para declarar corpos de formulário?": "Why is it necessary to use `Form` explicitly to declare form bodies?",
+    "Por que a resposta \"Incorrect username or password\" leva alguns microssegundos extras no exemplo de HTTP Basic?": "Why does the response \"Incorrect username or password\" take some microseconds extra in the HTTP Basic example with FastAPI?",
+    "Que informações o FastAPI extrai da resposta temporária?": "What information does FastAPI extract from the response status?",
+    "Como adicionar dados extras ao JSON Schema gerado de um modelo, incluindo exemplos?": "How do you add extra data to the JSON Schema generated from a model, including examples, to a FastAPI application?",
+    "O que o FastAPI usa por baixo para converter dataclasses padrão?": "What does FastAPI use under the hood to convert standard dataclasses?",
+    "O que mostra, no editor, os benefícios do FastAPI?": "What does the editor show, for the FastAPI, about the benefits?",
+    "Como a fase de desenvolvimento se contrapõe à de implantação?": "How does the development phase contrast with the deployment phase?",
+    "O que é `app.routes`?": "What is `app.routes`?"
+  }
+}

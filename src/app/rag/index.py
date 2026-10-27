@@ -4,6 +4,7 @@ Uso (a partir da pasta `src`):
 
     python -m app.rag.index                  # baseline: pedaços de 1000 caracteres
     python -m app.rag.index --recreate       # apaga a coleção e refaz do zero
+    python -m app.rag.index --strategy structure   # divide respeitando títulos e código
 
 É preciso estar com o Ollama aberto (modelo bge-m3) e o Qdrant ligado no Docker.
 """
@@ -16,28 +17,30 @@ from collections.abc import Callable
 from pathlib import Path
 
 from ..ingest.prepare import DEFAULT_OUT
-from .chunking import Chunk, chunk_corpus
+from .chunking import STRATEGIES, Chunk, chunk_corpus
 from .config import get_settings
 from .ollama import embed
 from .qdrant import QdrantStore
 
 
-def default_collection(size: int, overlap: int) -> str:
+def default_collection(size: int, overlap: int, strategy: str = "fixed") -> str:
+    if strategy == "structure":
+        return f"docs-structure-{size}"
     return f"docs-fixed-{size}-{overlap}"
 
 
-def to_point(point_id: int, chunk: Chunk, vector: list[float]) -> dict:
+def chunk_payload(chunk: Chunk) -> dict:
     return {
-        "id": point_id,
-        "vector": vector,
-        "payload": {
-            "source_file": chunk.source_file,
-            "index": chunk.index,
-            "start": chunk.start,
-            "end": chunk.end,
-            "text": chunk.text,
-        },
+        "source_file": chunk.source_file,
+        "index": chunk.index,
+        "start": chunk.start,
+        "end": chunk.end,
+        "text": chunk.text,
     }
+
+
+def to_point(point_id: int, chunk: Chunk, vector: list[float]) -> dict:
+    return {"id": point_id, "vector": vector, "payload": chunk_payload(chunk)}
 
 
 def build_index(
@@ -62,10 +65,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Indexa o corpus no Qdrant.")
     parser.add_argument("--corpus", type=Path, default=DEFAULT_OUT, help="pasta do corpus limpo")
     parser.add_argument("--size", type=int, default=1000, help="tamanho do pedaço, em caracteres")
-    parser.add_argument("--overlap", type=int, default=0, help="sobreposição entre pedaços")
+    parser.add_argument("--overlap", type=int, default=0, help="sobreposição (só estratégia fixed)")
+    parser.add_argument(
+        "--strategy", choices=STRATEGIES, default="fixed", help="como dividir os textos"
+    )
     parser.add_argument(
         "--collection",
-        help="nome da coleção (padrão: docs-fixed-<size>-<overlap>)",
+        help="nome da coleção (padrão: docs-<estratégia>-<tamanho>)",
     )
     parser.add_argument("--batch", type=int, default=16, help="pedaços por lote")
     parser.add_argument("--recreate", action="store_true", help="apaga a coleção antes de indexar")
@@ -79,10 +85,10 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     settings = get_settings()
-    name = args.collection or default_collection(args.size, args.overlap)
+    name = args.collection or default_collection(args.size, args.overlap, args.strategy)
     store = QdrantStore(settings.qdrant_url, name)
-    chunks = chunk_corpus(args.corpus, args.size, args.overlap)
-    print(f"Pedaços a indexar: {len(chunks)} (tamanho {args.size}, sobreposição {args.overlap})")
+    chunks = chunk_corpus(args.corpus, args.size, args.overlap, args.strategy)
+    print(f"Pedaços a indexar: {len(chunks)} (estratégia {args.strategy}, tamanho {args.size})")
     print(f"Coleção: {name}")
 
     started = time.time()

@@ -3,14 +3,18 @@
 Uso (a partir da pasta `src`):
 
     python -m app.rag.search "Como sobrescrever uma dependência em testes?"
+    python -m app.rag.search "O que é app.routes?" --mode hybrid
 """
 
 from __future__ import annotations
 
 import argparse
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 
+from ..ingest.prepare import DEFAULT_OUT
+from .chunking import STRATEGIES, chunk_corpus
 from .config import get_settings
 from .index import default_collection
 from .ollama import embed
@@ -32,20 +36,33 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Busca pedaços da documentação.")
     parser.add_argument("question", help="a pergunta, entre aspas")
     parser.add_argument("--top", type=int, default=5, help="quantos pedaços mostrar")
-    parser.add_argument("--collection", help="coleção (padrão: baseline de 1000 caracteres)")
+    parser.add_argument("--mode", choices=("dense", "bm25", "hybrid"), default="dense")
+    parser.add_argument("--strategy", choices=STRATEGIES, default="fixed")
+    parser.add_argument("--size", type=int, default=1000)
+    parser.add_argument("--overlap", type=int, default=0)
+    parser.add_argument("--corpus", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--collection", help="coleção (padrão: a da estratégia escolhida)")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     settings = get_settings()
-    store = QdrantStore(settings.qdrant_url, args.collection or default_collection(1000, 0))
+    name = args.collection or default_collection(args.size, args.overlap, args.strategy)
+    store = QdrantStore(settings.qdrant_url, name)
 
     def embed_fn(texts: list[str]) -> list[list[float]]:
         return embed(texts, url=settings.ollama_url, model=settings.embed_model)
 
+    from .retrieve import build_searcher  # aqui dentro para evitar import circular
+
+    chunks = []
+    if args.mode != "dense":
+        chunks = chunk_corpus(args.corpus, args.size, args.overlap, args.strategy)
+    searcher = build_searcher(args.mode, embed_fn, store, chunks, args.top)
+
     try:
-        results = search(args.question, embed_fn, store, args.top)
+        results = searcher(args.question)
     except ConnectionError as error:
         print(f"Erro: {error}")
         return 1

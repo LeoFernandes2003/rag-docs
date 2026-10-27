@@ -1,0 +1,43 @@
+{
+  "questions": 16,
+  "hits": 13,
+  "recall": 0.8125,
+  "misses": [
+    {
+      "id": "q001",
+      "question": "O que o FastAPI gera automaticamente com as descrições de toda a sua API?",
+      "source_file": "tutorial/first-steps.md",
+      "retrieved_files": [
+        "index.md",
+        "features.md",
+        "advanced/generate-clients.md",
+        "advanced/generate-clients.md",
+        "about/index.md"
+      ]
+    },
+    {
+      "id": "q026",
+      "question": "Que informações o FastAPI extrai da resposta temporária?",
+      "source_file": "advanced/response-headers.md",
+      "retrieved_files": [
+        "advanced/response-change-status-code.md",
+        "advanced/custom-response.md",
+        "advanced/custom-response.md",
+        "advanced/custom-response.md",
+        "advanced/response-directly.md"
+      ]
+    },
+    {
+      "id": "q038",
+      "question": "O que é `app.routes`?",
+      "source_file": "how-to/extending-openapi.md",
+      "retrieved_files": [
+        "tutorial/bigger-applications.md",
+        "tutorial/bigger-applications.md",
+        "advanced/openapi-webhooks.md",
+        "tutorial/bigger-applications.md",
+        "tutorial/frontend.md"
+      ]
+    }
+  ]
+}
