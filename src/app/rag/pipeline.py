@@ -24,22 +24,25 @@ REFUSAL_TEXT = "NÃO ENCONTREI NA DOCUMENTAÇÃO."
 PROMPT = """Você é um assistente que responde dúvidas sobre a documentação do FastAPI.
 Regras:
 1. Responda em português, usando SOMENTE as informações dos trechos abaixo.
-2. TODA frase da resposta termina com o número do trecho que a sustenta, assim: [1] ou [2].
-3. Não invente nada que não esteja nos trechos.
-4. Se os trechos não trazem informação suficiente, responda exatamente: {refusal}
+2. Primeiro escreva a resposta com frases completas, sem copiar código dos trechos.
+3. Depois, em uma nova linha, escreva "Fontes:" seguido dos números dos trechos que você
+   usou, cada um entre colchetes.
+4. Não invente nada que não esteja nos trechos.
+5. Se os trechos não trazem informação suficiente, responda exatamente: {refusal}
 
 Trechos:
 {passages}
 
-Exemplo de formato: "Use o parâmetro X para fazer Y [2]."
-
 Pergunta: {question}
-Resposta (cada frase termina com [número]):"""
+Resposta:"""
 
 RETRY_NOTE = (
-    "\n\nLEMBRETE: sua resposta anterior não citou nenhum trecho. "
-    "Responda de novo e termine cada frase com [1], [2]..."
+    "\n\nLEMBRETE: sua resposta anterior não foi aproveitável (sem texto ou sem fontes). "
+    "Responda de novo com frases completas e termine com a linha Fontes: e os números dos "
+    "trechos usados, entre colchetes."
 )
+
+MIN_ANSWER_CHARS = 20
 
 
 @dataclass
@@ -54,6 +57,7 @@ class Answer:
     retrieved: list[dict[str, Any]] = field(default_factory=list)  # todos os devolvidos
     translated: str = ""
     seconds: float = 0.0
+    raw: str = ""  # texto bruto do modelo, para analisar falhas
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -68,7 +72,15 @@ def build_prompt(question: str, payloads: list[dict[str, Any]]) -> str:
 
 
 def is_refusal(text: str) -> bool:
-    return "não encontrei na documentação" in " ".join(text.lower().split())
+    """Reconhece a recusa mesmo com pequenas variações do modelo (encontrei/encontrou...)."""
+    normalized = " ".join(text.lower().split())
+    return re.search(r"n[ãa]o encontr\w*\s+na\s+documenta", normalized) is not None
+
+
+def is_empty_answer(text: str) -> bool:
+    """Resposta sem conteúdo útil: vazia ou só com marcas de citação, como "[1]"."""
+    body = re.sub(r"(?im)^\s*fontes?:.*$", "", text)
+    return len(re.sub(r"\[\d+\]|\s", "", body)) < MIN_ANSWER_CHARS
 
 
 def cited_numbers(text: str, total: int) -> list[int]:
@@ -120,6 +132,8 @@ class RagPipeline:
         ]
         translated = self._translations.get(question, "")
 
+        raw_text = ""
+
         def result(text: str, refused: bool, reason: str, numbers: list[int]) -> Answer:
             return Answer(
                 question=question,
@@ -141,14 +155,20 @@ class RagPipeline:
                 retrieved=retrieved,
                 translated=translated,
                 seconds=time.time() - started,
+                raw=raw_text,
             )
 
         if score < self.min_score:
             return result(REFUSAL_TEXT, True, "evidencia_fraca", [])
         prompt = build_prompt(question, payloads)
-        text = self.generate_fn(prompt)
-        if not is_refusal(text) and not cited_numbers(text, len(payloads)):
+        text = raw_text = self.generate_fn(prompt)
+        if not is_refusal(text) and (
+            is_empty_answer(text) or not cited_numbers(text, len(payloads))
+        ):
             text = self.generate_fn(prompt + RETRY_NOTE)  # uma segunda chance
+            raw_text = f"{raw_text}\n--- segunda tentativa ---\n{text}"
         if is_refusal(text):
             return result(REFUSAL_TEXT, True, "modelo_recusou", [])
+        if is_empty_answer(text):
+            return result(REFUSAL_TEXT, True, "resposta_vazia", [])
         return result(text, False, "respondeu", cited_numbers(text, len(payloads)))
