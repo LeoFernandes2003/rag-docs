@@ -40,3 +40,41 @@ caracteres. Cada arquivo `retrieval-*.json` desta pasta guarda os erros de uma e
   arquivos falam de OpenAPI; falha com busca só por sentido.
 - **q033** ("O que mostra, no editor, os benefícios do FastAPI?"): o tema aparece repetido em
   `about`, `features` e `index`; falha na divisão fixa mesmo com tradução.
+
+# Resultados da resposta com citação e recusa (conjunto de desenvolvimento)
+
+Medido em 29/10/2026 com `python -m app.evaluation.generation` nas 20 perguntas `dev` (16 com
+resposta e 4 sem). Busca: divisão por estrutura + híbrida + tradução. Modelo de respostas:
+`qwen2.5:3b`. Cada versão do prompt guardou seus arquivos `generation-*-dev-<versão>.json`
+(a v1 e a v2 só têm o arquivo de conferência `v2`; a v1 foi verificada à mão em 2 perguntas).
+
+| Versão do prompt | Recusa indevida | Recusa correta | Fonte correta | Problema observado |
+|---|---|---|---|---|
+| v2 (com exemplo de formato) | 1/16 | 3/4 | 13/16 | O modelo copiou o exemplo ("Use o parâmetro X para fazer Y") em 3 respostas; recusas com grafia diferente ("NÃO ENCONTROU") não eram reconhecidas |
+| v3 (frases curtas, suas palavras) | 6/16 | 4/4 | 8/16 | Modelo "medroso": recusou perguntas que antes respondia |
+| v4 (citação no fim de cada frase) | 7/16 | 4/4 | 7/16 | 7 respostas só com "[1]", sem texto |
+| **v5 (linha separada "Fontes:")** | **0/16** | **4/4** | **14/16** | Escolhida |
+
+Conferência manual da v5 (feita pelo aluno, lendo cada resposta ao lado da esperada):
+**15 de 16** respostas com resposta corretas e **4 de 4** recusas corretas.
+
+## Limitações
+
+- Só 4 perguntas sem resposta: cada uma vale 25 pontos percentuais.
+- O prompt foi ajustado olhando estas mesmas 20 perguntas; o valor oficial virá do conjunto
+  `test`, medido uma vez (`--final`).
+- A métrica "fonte correta" é rígida: q018 e q026 estavam corretas no texto, mas o trecho citado
+  não era o exato trecho-fonte (a mesma informação aparece em outro pedaço).
+- A única resposta errada na conferência (q033) lista benefícios gerais do FastAPI em vez do que
+  o editor mostra.
+- O modelo pequeno às vezes escreve frases desajeitadas (q023 embaralha nomes de exemplo) e a
+  q028 é longa e cita um nome antigo (`schema_extra`).
+
+## Casos de falha para a análise
+
+- **q033:** pergunta sobre benefícios no editor; o assistente respondeu com uma lista geral
+  (a documentação repete o tema em vários arquivos).
+- **q026:** a resposta está certa, mas o pedaço certo só entra na busca por sorte; a pergunta
+  é vaga fora de contexto.
+- **v2, q001/q011/q033:** alucinação por cópia do exemplo do prompt, corrigida removendo o
+  exemplo (v3 em diante).

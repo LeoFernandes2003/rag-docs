@@ -30,7 +30,7 @@ def generate(prompt: str, *, url: str, model: str, request: Request = request_js
             "model": model,
             "prompt": prompt,
             "stream": False,
-            "options": {"temperature": 0, "num_ctx": 4096},
+            "options": {"temperature": 0, "num_ctx": 4096, "num_predict": 400},
         },
     )
     return result["response"].strip()
