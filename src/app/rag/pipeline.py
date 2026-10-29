@@ -114,7 +114,10 @@ class RagPipeline:
         points = self._search(question)
         payloads = [point["payload"] for point in points]
         score = self.top_score(question)
-        retrieved = [{"source_file": p["source_file"], "start": p["start"]} for p in payloads]
+        retrieved = [
+            {"source_file": p["source_file"], "start": p["start"], "end": p["end"]}
+            for p in payloads
+        ]
         translated = self._translations.get(question, "")
 
         def result(text: str, refused: bool, reason: str, numbers: list[int]) -> Answer:
@@ -126,8 +129,13 @@ class RagPipeline:
                 top_score=score,
                 cited=numbers,
                 sources=[
-                    {"n": n, "source_file": payloads[n - 1]["source_file"],
-                     "start": payloads[n - 1]["start"], "end": payloads[n - 1]["end"]}
+                    {
+                        "n": n,
+                        "source_file": payloads[n - 1]["source_file"],
+                        "start": payloads[n - 1]["start"],
+                        "end": payloads[n - 1]["end"],
+                        "text": payloads[n - 1]["text"].strip(),
+                    }
                     for n in numbers
                 ],
                 retrieved=retrieved,

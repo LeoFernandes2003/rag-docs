@@ -1,0 +1,926 @@
+{
+  "answerable": 16,
+  "unanswerable": 4,
+  "answered": 9,
+  "valid_citation_rate": 1.0,
+  "right_source_rate": 0.4375,
+  "wrongful_refusal_rate": 0.4375,
+  "correct_refusal_rate": 1.0,
+  "unanswerable_answered": 0,
+  "unanswerable_with_forbidden_terms": 0,
+  "problem_cases": [
+    {
+      "id": "q003",
+      "question": "O que usar no lugar da barra vertical (|) quando ela não pode ser usada, por exemplo em `response_model=`?",
+      "problem": "recusa indevida"
+    },
+    {
+      "id": "q006",
+      "question": "Por que existe `fastapi.staticfiles` se o código vem do Starlette?",
+      "problem": "recusa indevida"
+    },
+    {
+      "id": "q016",
+      "question": "No exemplo de CORS, por que o navegador assume a porta 80 para o backend?",
+      "problem": "recusa indevida"
+    },
+    {
+      "id": "q018",
+      "question": "Que outro tipo o `status_code` pode receber, além de um número?",
+      "problem": "fonte errada"
+    },
+    {
+      "id": "q023",
+      "question": "Por que a resposta \"Incorrect username or password\" leva alguns microssegundos extras no exemplo de HTTP Basic?",
+      "problem": "fonte errada"
+    },
+    {
+      "id": "q026",
+      "question": "Que informações o FastAPI extrai da resposta temporária?",
+      "problem": "recusa indevida"
+    },
+    {
+      "id": "q031",
+      "question": "O que o FastAPI usa por baixo para converter dataclasses padrão?",
+      "problem": "recusa indevida"
+    },
+    {
+      "id": "q033",
+      "question": "O que mostra, no editor, os benefícios do FastAPI?",
+      "problem": "recusa indevida"
+    },
+    {
+      "id": "q038",
+      "question": "O que é `app.routes`?",
+      "problem": "recusa indevida"
+    }
+  ],
+  "answers": {
+    "q001": {
+      "question": "O que o FastAPI gera automaticamente com as descrições de toda a sua API?",
+      "answer": "[2] O FastAPI gera automaticamente com as descrições de toda a sua API um arquivo JSON chamado `openapi.json`.",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.67536366,
+      "cited": [
+        2
+      ],
+      "sources": [
+        {
+          "n": 2,
+          "source_file": "tutorial/first-steps.md",
+          "start": 3447,
+          "end": 4169,
+          "text": "#### Check the `openapi.json`\n\nIf you are curious about what the raw OpenAPI schema looks like, FastAPI automatically generates a JSON (schema) with the descriptions of all your API.\n\nYou can see it directly at: [http://127.0.0.1:8000/openapi.json](http://127.0.0.1:8000/openapi.json).\n\nIt will show a JSON starting with something like:\n\n```JSON\n{\n    \"openapi\": \"3.1.0\",\n    \"info\": {\n        \"title\": \"FastAPI\",\n        \"version\": \"0.1.0\"\n    },\n    \"paths\": {\n        \"/items/\": {\n            \"get\": {\n                \"responses\": {\n                    \"200\": {\n                        \"description\": \"Successful Response\",\n                        \"content\": {\n                            \"application/json\": {\n\n...\n```"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/first-steps.md",
+          "start": 4171,
+          "end": 4584
+        },
+        {
+          "source_file": "tutorial/first-steps.md",
+          "start": 3447,
+          "end": 4169
+        },
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 0,
+          "end": 467
+        },
+        {
+          "source_file": "index.md",
+          "start": 895,
+          "end": 1044
+        },
+        {
+          "source_file": "features.md",
+          "start": 0,
+          "end": 670
+        }
+      ],
+      "translated": "What does FastAPI automatically generate with descriptions of all its API?",
+      "seconds": 34.256282806396484
+    },
+    "q003": {
+      "question": "O que usar no lugar da barra vertical (|) quando ela não pode ser usada, por exemplo em `response_model=`?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "resposta_vazia",
+      "top_score": 0.56715465,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/advanced-python-types.md",
+          "start": 0,
+          "end": 755
+        },
+        {
+          "source_file": "tutorial/extra-models.md",
+          "start": 7082,
+          "end": 7724
+        },
+        {
+          "source_file": "tutorial/response-model.md",
+          "start": 4000,
+          "end": 4708
+        },
+        {
+          "source_file": "tutorial/response-model.md",
+          "start": 1709,
+          "end": 2613
+        },
+        {
+          "source_file": "tutorial/response-status-code.md",
+          "start": 1481,
+          "end": 2481
+        }
+      ],
+      "translated": "What to use instead of the vertical bar (|) when it cannot be used, for example in `response_model=`?",
+      "seconds": 37.490681648254395
+    },
+    "q006": {
+      "question": "Por que existe `fastapi.staticfiles` se o código vem do Starlette?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "resposta_vazia",
+      "top_score": 0.71870804,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/templates.md",
+          "start": 1791,
+          "end": 2022
+        },
+        {
+          "source_file": "tutorial/static-files.md",
+          "start": 344,
+          "end": 891
+        },
+        {
+          "source_file": "tutorial/handling-errors.md",
+          "start": 8882,
+          "end": 9596
+        },
+        {
+          "source_file": "tutorial/static-files.md",
+          "start": 1807,
+          "end": 1930
+        },
+        {
+          "source_file": "advanced/templates.md",
+          "start": 817,
+          "end": 1789
+        }
+      ],
+      "translated": "Why does `fastapi.staticfiles` exist if the code comes from Starlette?",
+      "seconds": 28.138908624649048
+    },
+    "q008": {
+      "question": "O que diferencia o OAuth 1 do OAuth2?",
+      "answer": "[1] OAuth 1 é muito diferente do OAuth2 e é mais complexo, pois especifica diretamente como criptografar a comunicação. Já o OAuth2 não especifica como criptografar a comunicação, ele espera que você tenha seu aplicativo servido com HTTPS.",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.7289653,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/security/index.md",
+          "start": 1063,
+          "end": 1507,
+          "text": "### OAuth 1\n\nThere was an OAuth 1, which is very different from OAuth2, and more complex, as it included direct specifications on how to encrypt the communication.\n\nIt is not very popular or used nowadays.\n\nOAuth2 doesn't specify how to encrypt the communication, it expects you to have your application served with HTTPS.\n\n**Tip**\n\nIn the section about **deployment** you will see how to set up HTTPS for free, using Traefik and Let's Encrypt."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/security/index.md",
+          "start": 1063,
+          "end": 1507
+        },
+        {
+          "source_file": "tutorial/security/index.md",
+          "start": 534,
+          "end": 1061
+        },
+        {
+          "source_file": "tutorial/security/index.md",
+          "start": 2649,
+          "end": 3649
+        },
+        {
+          "source_file": "tutorial/security/first-steps.md",
+          "start": 2574,
+          "end": 3029
+        },
+        {
+          "source_file": "tutorial/security/index.md",
+          "start": 1509,
+          "end": 1879
+        }
+      ],
+      "translated": "What differs OAuth 1 from OAuth2?",
+      "seconds": 32.283365964889526
+    },
+    "q011": {
+      "question": "Quando é útil usar funções assíncronas nos testes?",
+      "answer": "[1] Quando é útil usar funções assíncronas nos testes é quando você quer testar operações assíncronas, como a escrita de dados no banco de dados, usando uma biblioteca de banco de dados assíncrona.",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.67818093,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/async-tests.md",
+          "start": 0,
+          "end": 581,
+          "text": "# Async Tests\n\nYou have already seen how to test your **FastAPI** applications using the provided `TestClient`. Up to now, you have only seen how to write synchronous tests, without using `async` functions.\n\nBeing able to use asynchronous functions in your tests could be useful, for example, when you're querying your database asynchronously. Imagine you want to test sending requests to your FastAPI application and then verify that your backend successfully wrote the correct data in the database, while using an async database library.\n\nLet's look at how we can make that work."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/async-tests.md",
+          "start": 0,
+          "end": 581
+        },
+        {
+          "source_file": "advanced/async-tests.md",
+          "start": 583,
+          "end": 827
+        },
+        {
+          "source_file": "advanced/async-tests.md",
+          "start": 829,
+          "end": 1431
+        },
+        {
+          "source_file": "advanced/async-tests.md",
+          "start": 3983,
+          "end": 4659
+        },
+        {
+          "source_file": "tutorial/testing.md",
+          "start": 1315,
+          "end": 1952
+        }
+      ],
+      "translated": "When is it useful to use asynchronous functions in tests?",
+      "seconds": 31.74414086341858
+    },
+    "q013": {
+      "question": "Mesmo que a função retorne mais dados, o que o response model garante na resposta?",
+      "answer": "[1] Mesmo que a função retorne mais dados, o response model garante que a resposta incluirá apenas os campos declarados nele.",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6270305,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/response-model.md",
+          "start": 8468,
+          "end": 9466,
+          "text": "## Return Type and Data Filtering\n\nLet's continue from the previous example. We wanted to **annotate the function with one type**, but we wanted to be able to return from the function something that actually includes **more data**.\n\nWe want FastAPI to keep **filtering** the data using the response model. So that even though the function returns more data, the response will only include the fields declared in the response model.\n\nIn the previous example, because the classes were different, we had to use the `response_model` parameter. But that also means that we don't get the support from the editor and tools checking the function return type.\n\nBut in most of the cases where we need to do something like this, we want the model just to **filter/remove** some of the data as in this example.\n\nAnd in those cases, we can use classes and inheritance to take advantage of function **type annotations** to get better support in the editor and tools, and still get the FastAPI **data filtering**."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/response-model.md",
+          "start": 8468,
+          "end": 9466
+        },
+        {
+          "source_file": "how-to/general.md",
+          "start": 0,
+          "end": 298
+        },
+        {
+          "source_file": "advanced/custom-response.md",
+          "start": 12846,
+          "end": 13402
+        },
+        {
+          "source_file": "advanced/response-directly.md",
+          "start": 4497,
+          "end": 5062
+        },
+        {
+          "source_file": "how-to/separate-openapi-schemas.md",
+          "start": 2445,
+          "end": 3371
+        }
+      ],
+      "translated": "Even though the function returns more data, what does the response model guarantee in the response?",
+      "seconds": 33.22902774810791
+    },
+    "q016": {
+      "question": "No exemplo de CORS, por que o navegador assume a porta 80 para o backend?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.67969143,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "tutorial/cors.md",
+          "start": 701,
+          "end": 1469
+        },
+        {
+          "source_file": "tutorial/cors.md",
+          "start": 0,
+          "end": 315
+        },
+        {
+          "source_file": "tutorial/cors.md",
+          "start": 4099,
+          "end": 4649
+        },
+        {
+          "source_file": "tutorial/cors.md",
+          "start": 317,
+          "end": 699
+        },
+        {
+          "source_file": "tutorial/cors.md",
+          "start": 4945,
+          "end": 5584
+        }
+      ],
+      "translated": "In the CORS example, why does the browser assume port 80 for the backend?",
+      "seconds": 26.139549732208252
+    },
+    "q018": {
+      "question": "Que outro tipo o `status_code` pode receber, além de um número?",
+      "answer": "[2] O `status_code` também pode receber um `IntEnum`, como o Python's `http.HTTPStatus`.",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.67558026,
+      "cited": [
+        2
+      ],
+      "sources": [
+        {
+          "n": 2,
+          "source_file": "tutorial/path-operation-configuration.md",
+          "start": 269,
+          "end": 1228,
+          "text": "## Response Status Code\n\nYou can define the (HTTP) `status_code` to be used in the response of your *path operation*.\n\nYou can pass directly the `int` code, like `404`.\n\nBut if you don't remember what each number code is for, you can use the shortcut constants in `status`:\n\n```python\nfrom fastapi import FastAPI, status\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n    tags: set[str] = set()\n\n@app.post(\"/items/\", status_code=status.HTTP_201_CREATED)\nasync def create_item(item: Item) -> Item:\n    return item\n```\n\nThat status code will be used in the response and will be added to the OpenAPI schema.\n\n**Note**: Technical Details\n\nYou could also use `from starlette import status`.\n\n**FastAPI** provides the same `starlette.status` as `fastapi.status` just as a convenience for you, the developer. But it comes directly from Starlette."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/response-status-code.md",
+          "start": 0,
+          "end": 989
+        },
+        {
+          "source_file": "tutorial/path-operation-configuration.md",
+          "start": 269,
+          "end": 1228
+        },
+        {
+          "source_file": "tutorial/response-status-code.md",
+          "start": 2859,
+          "end": 3800
+        },
+        {
+          "source_file": "how-to/custom-request-and-route.md",
+          "start": 3837,
+          "end": 4699
+        },
+        {
+          "source_file": "advanced/additional-status-codes.md",
+          "start": 273,
+          "end": 915
+        }
+      ],
+      "translated": "What other type can `status_code` receive besides a number?",
+      "seconds": 39.32421135902405
+    },
+    "q021": {
+      "question": "Por que é preciso usar `Form` explicitamente para declarar corpos de formulário?",
+      "answer": "[1] É necessário usar `Form` explicitamente para declarar corpos de formulário porque, sem isso, os parâmetros seriam interpretados como parâmetros de consulta ou parâmetros de corpo (JSON).",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6484242,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/request-forms.md",
+          "start": 1441,
+          "end": 2118,
+          "text": "To declare form bodies, you need to use `Form` explicitly, because without it the parameters would be interpreted as query parameters or body (JSON) parameters.\n\n## Boolean Form Fields\n\nBrowsers omit unchecked checkboxes when submitting HTML forms. Declare a boolean form parameter with a default of `False` to receive `False` when unchecked:\n\n```python\nfrom typing import Annotated\n\nfrom fastapi import FastAPI, Form\n\napp = FastAPI()\n\n@app.post(\"/preferences/\")\nasync def update_preferences(subscribe: Annotated[bool, Form()] = False):\n    return {\"subscribe\": subscribe}\n```\n\nA checked checkbox sends its value, which defaults to `\"on\"`. **FastAPI** accepts `\"on\"` as `True`."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/request-forms.md",
+          "start": 1441,
+          "end": 2118
+        },
+        {
+          "source_file": "tutorial/request-form-models.md",
+          "start": 0,
+          "end": 321
+        },
+        {
+          "source_file": "tutorial/request-forms.md",
+          "start": 3342,
+          "end": 3401
+        },
+        {
+          "source_file": "tutorial/request-forms.md",
+          "start": 3009,
+          "end": 3340
+        },
+        {
+          "source_file": "tutorial/request-forms.md",
+          "start": 546,
+          "end": 1439
+        }
+      ],
+      "translated": "Why is it necessary to use `Form` explicitly to declare form bodies?",
+      "seconds": 30.821443557739258
+    },
+    "q023": {
+      "question": "Por que a resposta \"Incorrect username or password\" leva alguns microssegundos extras no exemplo de HTTP Basic?",
+      "answer": "[2] A resposta \"Incorrect username or password\" leva alguns microssegundos extras porque o servidor precisa comparar completamente o `stanleyjobso` em ambas as `stanleyjobsox` e `stanleyjobson` antes de reconhecer que ambos os strings são diferentes. Isso leva tempo adicional, fazendo com que a resposta demore alguns microssegundos para ser enviada.",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.70722187,
+      "cited": [
+        2
+      ],
+      "sources": [
+        {
+          "n": 2,
+          "source_file": "advanced/security/http-basic-auth.md",
+          "start": 4720,
+          "end": 5106,
+          "text": "#### The time to answer helps the attackers\n\nAt that point, by noticing that the server took some microseconds longer to send the \"Incorrect username or password\" response, the attackers will know that they got _something_ right, some of the initial letters were right.\n\nAnd then they can try again knowing that it's probably something more similar to `stanleyjobsox` than to `johndoe`."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/security/http-basic-auth.md",
+          "start": 4481,
+          "end": 4718
+        },
+        {
+          "source_file": "advanced/security/http-basic-auth.md",
+          "start": 4720,
+          "end": 5106
+        },
+        {
+          "source_file": "advanced/security/http-basic-auth.md",
+          "start": 0,
+          "end": 523
+        },
+        {
+          "source_file": "advanced/security/http-basic-auth.md",
+          "start": 525,
+          "end": 1350
+        },
+        {
+          "source_file": "tutorial/security/simple-oauth2.md",
+          "start": 3959,
+          "end": 4479
+        }
+      ],
+      "translated": "Why does the response \"Incorrect username or password\" take some microseconds extra in the HTTP Basic example with FastAPI?",
+      "seconds": 35.39293718338013
+    },
+    "q026": {
+      "question": "Que informações o FastAPI extrai da resposta temporária?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "resposta_vazia",
+      "top_score": 0.70014995,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/response-change-status-code.md",
+          "start": 1438,
+          "end": 1803
+        },
+        {
+          "source_file": "tutorial/response-status-code.md",
+          "start": 991,
+          "end": 1479
+        },
+        {
+          "source_file": "advanced/additional-responses.md",
+          "start": 7226,
+          "end": 7958
+        },
+        {
+          "source_file": "advanced/custom-response.md",
+          "start": 6284,
+          "end": 7177
+        },
+        {
+          "source_file": "advanced/custom-response.md",
+          "start": 845,
+          "end": 1392
+        }
+      ],
+      "translated": "What information does FastAPI extract from the response status?",
+      "seconds": 29.504692554473877
+    },
+    "q028": {
+      "question": "Como adicionar dados extras ao JSON Schema gerado de um modelo, incluindo exemplos?",
+      "answer": "[1] Você pode usar a atributo `model_config` que toma um `dict` como descrito na [Pydantic's docs: Configuration](https://pydantic.dev/docs/validation/latest/api/pydantic/config/).\n\nVocê pode configurar `\"json_schema_extra\"` com um `dict` contendo qualquer dado adicional que gostaria de mostrar no JSON Schema gerado, incluindo `examples`.\n\n**Dica**\n\nVocê pode usar a mesma técnica para estender o JSON Schema e adicionar seu próprio extra de dados personalizados.\n\nPor exemplo, você pode usá-lo para adicionar metadados para uma interface de usuário do frontend, etc.\n\n**Nota**\n\nOpenAPI 3.1.0 (usado desde FastAPI 0.99.0) adicionou suporte para `examples`, que faz parte do **JSON Schema** padrão.\n\n[2] Você pode declarar informações adicionais com `json_schema_extra` em `Field`, `Query`, `Body`, etc. Eles serão incluídos no JSON Schema gerado.\n\nVocê aprenderá mais sobre como adicionar informações adicionais mais tarde nos docs, quando aprender a declarar exemplos.\n\n**Aviso**\n\nChaves extras passadas em `json_schema_extra` também estarão presentes no OpenAPI gerado para sua aplicação.\n\n[3] Você pode declarar exemplos de dados que seu app pode receber.\n\nAqui estão algumas maneiras de fazer isso.\n\n**Extra JSON Schema data in Pydantic models**\n\nVocê pode declarar `examples` para um modelo Pydantic que será adicionado ao JSON Schema gerado.\n\n```python\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n\n    model_config = {\n        \"json_schema",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.72695535,
+      "cited": [
+        1,
+        2,
+        3
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/schema-extra-example.md",
+          "start": 928,
+          "end": 1699,
+          "text": "That extra info will be added as-is to the output **JSON Schema** for that model, and it will be used in the API docs.\n\nYou can use the attribute `model_config` that takes a `dict` as described in [Pydantic's docs: Configuration](https://pydantic.dev/docs/validation/latest/api/pydantic/config/).\n\nYou can set `\"json_schema_extra\"` with a `dict` containing any additional data you would like to show up in the generated JSON Schema, including `examples`.\n\n**Tip**\n\nYou could use the same technique to extend the JSON Schema and add your own custom extra info.\n\nFor example you could use it to add metadata for a frontend user interface, etc.\n\n**Note**\n\nOpenAPI 3.1.0 (used since FastAPI 0.99.0) added support for `examples`, which is part of the **JSON Schema** standard."
+        },
+        {
+          "n": 2,
+          "source_file": "tutorial/body-fields.md",
+          "start": 2517,
+          "end": 3126,
+          "text": "## Add extra information\n\nYou can declare extra information with `json_schema_extra` in `Field`, `Query`, `Body`, etc. And it will be included in the generated JSON Schema.\n\nYou will learn more about adding extra information later in the docs, when learning to declare examples.\n\n**Warning**\n\nExtra keys passed in `json_schema_extra` will also be present in the resulting OpenAPI schema for your application.\nAs these keys may not necessarily be part of the OpenAPI specification, some OpenAPI tools, for example [the OpenAPI validator](https://validator.swagger.io/), may not work with your generated schema."
+        },
+        {
+          "n": 3,
+          "source_file": "tutorial/schema-extra-example.md",
+          "start": 0,
+          "end": 926,
+          "text": "# Declare Request Example Data\n\nYou can declare examples of the data your app can receive.\n\nHere are several ways to do it.\n\n## Extra JSON Schema data in Pydantic models\n\nYou can declare `examples` for a Pydantic model that will be added to the generated JSON Schema.\n\n```python\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n\n    model_config = {\n        \"json_schema_extra\": {\n            \"examples\": [\n                {\n                    \"name\": \"Foo\",\n                    \"description\": \"A very nice Item\",\n                    \"price\": 35.4,\n                    \"tax\": 3.2,\n                }\n            ]\n        }\n    }\n\n@app.put(\"/items/{item_id}\")\nasync def update_item(item_id: int, item: Item):\n    results = {\"item_id\": item_id, \"item\": item}\n    return results\n```"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/schema-extra-example.md",
+          "start": 928,
+          "end": 1699
+        },
+        {
+          "source_file": "tutorial/body-fields.md",
+          "start": 2517,
+          "end": 3126
+        },
+        {
+          "source_file": "tutorial/schema-extra-example.md",
+          "start": 0,
+          "end": 926
+        },
+        {
+          "source_file": "tutorial/schema-extra-example.md",
+          "start": 10619,
+          "end": 11589
+        },
+        {
+          "source_file": "tutorial/schema-extra-example.md",
+          "start": 4795,
+          "end": 5110
+        }
+      ],
+      "translated": "How do I add extra data to the JSON Schema generated from a model, including examples?",
+      "seconds": 67.93557095527649
+    },
+    "q031": {
+      "question": "O que o FastAPI usa por baixo para converter dataclasses padrão?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "resposta_vazia",
+      "top_score": 0.69988286,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/dataclasses.md",
+          "start": 0,
+          "end": 971
+        },
+        {
+          "source_file": "advanced/dataclasses.md",
+          "start": 3979,
+          "end": 4927
+        },
+        {
+          "source_file": "advanced/dataclasses.md",
+          "start": 4929,
+          "end": 5516
+        },
+        {
+          "source_file": "advanced/dataclasses.md",
+          "start": 973,
+          "end": 1418
+        },
+        {
+          "source_file": "advanced/dataclasses.md",
+          "start": 1420,
+          "end": 2178
+        }
+      ],
+      "translated": "What does FastAPI use under the hood to convert standard dataclasses?",
+      "seconds": 33.843594551086426
+    },
+    "q033": {
+      "question": "O que mostra, no editor, os benefícios do FastAPI?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "resposta_vazia",
+      "top_score": 0.7288952,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "tutorial/index.md",
+          "start": 1657,
+          "end": 1909
+        },
+        {
+          "source_file": "tutorial/body-nested-models.md",
+          "start": 9319,
+          "end": 9638
+        },
+        {
+          "source_file": "about/index.md",
+          "start": 0,
+          "end": 59
+        },
+        {
+          "source_file": "index.md",
+          "start": 895,
+          "end": 1044
+        },
+        {
+          "source_file": "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+          "start": 1407,
+          "end": 1995
+        }
+      ],
+      "translated": "What does the editor show, regarding the benefits of FastAPI?",
+      "seconds": 22.250683307647705
+    },
+    "q036": {
+      "question": "Como a fase de desenvolvimento se contrapõe à de implantação?",
+      "answer": "[1] Fase de desenvolvimento se contrapõe à fase de implantação na medida em que, durante o desenvolvimento, ocorrem constantes alterações no código, quebrando-o e corrigindo erros, interrompendo e reiniciando o servidor de desenvolvimento, o que não ocorre na fase de implantação. Na fase de implantação, o aplicativo é feito disponível para os usuários, geralmente em um servidor remoto, com um programa de servidor que garante desempenho, estabilidade e acesso eficiente ao aplicativo pelos usuários.",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.47689816,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "deployment/index.md",
+          "start": 0,
+          "end": 637,
+          "text": "# Deployment\n\nDeploying a **FastAPI** application is relatively easy.\n\n## What Does Deployment Mean\n\nTo **deploy** an application means to perform the necessary steps to make it **available to the users**.\n\nFor a **web API**, it normally involves putting it in a **remote machine**, with a **server program** that provides good performance, stability, etc, so that your **users** can **access** the application efficiently and without interruptions or problems.\n\nThis is in contrast to the **development** stages, where you are constantly changing the code, breaking it and fixing it, stopping and restarting the development server, etc."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "deployment/index.md",
+          "start": 0,
+          "end": 637
+        },
+        {
+          "source_file": "deployment/docker.md",
+          "start": 15484,
+          "end": 16147
+        },
+        {
+          "source_file": "fastapi-cli.md",
+          "start": 3124,
+          "end": 4056
+        },
+        {
+          "source_file": "advanced/events.md",
+          "start": 8963,
+          "end": 9531
+        },
+        {
+          "source_file": "async.md",
+          "start": 13372,
+          "end": 14105
+        }
+      ],
+      "translated": "How does the development phase contrast with the deployment phase?",
+      "seconds": 38.441505670547485
+    },
+    "q038": {
+      "question": "O que é `app.routes`?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "resposta_vazia",
+      "top_score": 0.60677415,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "how-to/extending-openapi.md",
+          "start": 843,
+          "end": 1797
+        },
+        {
+          "source_file": "tutorial/bigger-applications.md",
+          "start": 25422,
+          "end": 25593
+        },
+        {
+          "source_file": "advanced/openapi-callbacks.md",
+          "start": 12051,
+          "end": 12293
+        },
+        {
+          "source_file": "advanced/openapi-callbacks.md",
+          "start": 3019,
+          "end": 3308
+        },
+        {
+          "source_file": "tutorial/bigger-applications.md",
+          "start": 901,
+          "end": 1897
+        }
+      ],
+      "translated": "What is `app.routes`?",
+      "seconds": 28.483581066131592
+    },
+    "q041": {
+      "question": "Como integrar o FastAPI com a API de pagamentos da Stripe?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.6323074,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 2234,
+          "end": 2715
+        },
+        {
+          "source_file": "tutorial/first-steps.md",
+          "start": 6857,
+          "end": 7168
+        },
+        {
+          "source_file": "how-to/graphql.md",
+          "start": 0,
+          "end": 463
+        },
+        {
+          "source_file": "tutorial/security/first-steps.md",
+          "start": 7819,
+          "end": 8620
+        },
+        {
+          "source_file": "advanced/security/oauth2-scopes.md",
+          "start": 21170,
+          "end": 21266
+        }
+      ],
+      "translated": "How do I integrate FastAPI with the Stripe payments API?",
+      "seconds": 23.59028697013855
+    },
+    "q043": {
+      "question": "Como gerar relatórios em PDF com ReportLab em uma rota?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.5270111,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "tutorial/frontend.md",
+          "start": 0,
+          "end": 693
+        },
+        {
+          "source_file": "alternatives.md",
+          "start": 7629,
+          "end": 8571
+        },
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 2234,
+          "end": 2715
+        },
+        {
+          "source_file": "advanced/openapi-callbacks.md",
+          "start": 12051,
+          "end": 12293
+        },
+        {
+          "source_file": "advanced/response-directly.md",
+          "start": 0,
+          "end": 766
+        }
+      ],
+      "translated": "How do I generate PDF reports using ReportLab in a route of FastAPI?",
+      "seconds": 27.620752334594727
+    },
+    "q045": {
+      "question": "Como consumir e publicar mensagens em tópicos do Kafka?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.4974015,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/websockets.md",
+          "start": 13087,
+          "end": 13854
+        },
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 1063,
+          "end": 1793
+        },
+        {
+          "source_file": "deployment/concepts.md",
+          "start": 15487,
+          "end": 16203
+        },
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 2234,
+          "end": 2715
+        },
+        {
+          "source_file": "how-to/index.md",
+          "start": 0,
+          "end": 556
+        }
+      ],
+      "translated": "How do you consume and publish messages to Kafka topics using FastAPI?",
+      "seconds": 28.337400674819946
+    },
+    "q047": {
+      "question": "Como ler um CSV com pandas e devolver o resultado na API?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.53825194,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 2234,
+          "end": 2715
+        },
+        {
+          "source_file": "tutorial/server-sent-events.md",
+          "start": 5266,
+          "end": 5409
+        },
+        {
+          "source_file": "advanced/events.md",
+          "start": 1913,
+          "end": 2796
+        },
+        {
+          "source_file": "tutorial/path-params.md",
+          "start": 990,
+          "end": 1504
+        },
+        {
+          "source_file": "alternatives.md",
+          "start": 7025,
+          "end": 7627
+        }
+      ],
+      "translated": "How do I read a CSV with pandas and return the result in the API?",
+      "seconds": 21.925891399383545
+    }
+  }
+}
