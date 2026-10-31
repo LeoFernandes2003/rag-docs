@@ -293,3 +293,33 @@ def test_fetch_corpus_extracts_and_prepares(tmp_path):
     assert fetch_corpus("0.1.0", saida, falso_download) == 0
     assert (saida / "index.md").exists()
     assert (saida / "manifest.json").exists()
+
+
+def test_parse_score_takes_first_digit_or_zero():
+    from app.rag.rerank import parse_score
+
+    assert parse_score(" 7") == 7
+    assert parse_score("Nota: 9, porque...") == 9
+    assert parse_score("não sei") == 0
+
+
+def test_rerank_orders_by_score_keeps_original_order_on_ties_and_cuts():
+    from app.rag.rerank import rerank
+
+    pontos = [{"payload": {"text": t}} for t in ("a", "b", "c", "d")]
+    notas = {"a": "2", "b": "9", "c": "9", "d": "0"}
+
+    def modelo(prompt):
+        trecho = prompt.split("Trecho da documentação:\n")[1].split("\n")[0]
+        return notas[trecho]
+
+    resultado = rerank("pergunta?", pontos, modelo, top_k=3)
+    assert [p["payload"]["text"] for p in resultado] == ["b", "c", "a"]
+
+
+def test_with_reranker_wraps_a_searcher():
+    from app.rag.rerank import with_reranker
+
+    pontos = [{"payload": {"text": "x"}}, {"payload": {"text": "y"}}]
+    busca = with_reranker(lambda pergunta: pontos, lambda prompt: "5", top_k=1)
+    assert busca("q") == [pontos[0]]

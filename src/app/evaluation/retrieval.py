@@ -27,8 +27,9 @@ from ..ingest.prepare import DEFAULT_OUT
 from ..rag.chunking import STRATEGIES, chunk_corpus
 from ..rag.config import get_settings
 from ..rag.index import default_collection
-from ..rag.ollama import embed
+from ..rag.ollama import embed, generate
 from ..rag.qdrant import QdrantStore
+from ..rag.rerank import with_reranker
 from ..rag.retrieve import MODES, build_searcher
 from ..rag.translate import translate_to_english
 from .check_questions import DEFAULT_QUESTIONS, load_questions
@@ -99,6 +100,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="traduz a pergunta para inglês antes da busca por palavras (bm25/hybrid)",
     )
+    parser.add_argument(
+        "--rerank",
+        action="store_true",
+        help="reordena os candidatos com o modelo de texto (mais lento)",
+    )
+    parser.add_argument(
+        "--candidates", type=int, default=10, help="quantos candidatos o reranker recebe"
+    )
     parser.add_argument("--strategy", choices=STRATEGIES, default="fixed")
     parser.add_argument("--size", type=int, default=1000)
     parser.add_argument("--overlap", type=int, default=0)
@@ -151,9 +160,28 @@ def main(argv: list[str] | None = None) -> int:
         embed_fn,
         store,
         chunks,
-        args.top,
+        args.candidates if args.rerank else args.top,
         lexical_query=lambda question: translations.get(question, question),
     )
+    if args.rerank:
+
+        def score_fn(prompt: str) -> str:
+            return generate(
+                prompt, url=settings.ollama_url, model=settings.gen_model, max_tokens=3
+            )
+
+        searcher = with_reranker(searcher, score_fn, args.top)
+
+    total = sum(1 for q in questions if q.get("answerable") is True)
+    done = 0
+    base_searcher = searcher
+
+    def searcher(question: str) -> list:
+        nonlocal done
+        found = base_searcher(question)
+        done += 1
+        print(f"  pergunta {done}/{total} feita", flush=True)
+        return found
 
     try:
         result = evaluate(questions, args.corpus, searcher)
@@ -162,6 +190,8 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     label = f"{args.mode}-traducao" if translations else args.mode
+    if args.rerank:
+        label += f"-rerank{args.candidates}"
     print(f"Coleção: {name} | busca: {label} | conjunto: {split} | Recall@{args.top}")
     print(f"Perguntas com resposta: {result['questions']}")
     print(f"Acertos: {result['hits']}")

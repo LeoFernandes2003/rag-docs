@@ -21,7 +21,14 @@ def embed(
     return vectors
 
 
-def generate(prompt: str, *, url: str, model: str, request: Request = request_json) -> str:
+def generate(
+    prompt: str,
+    *,
+    url: str,
+    model: str,
+    request: Request = request_json,
+    max_tokens: int = 400,
+) -> str:
     """Pede ao modelo de texto que escreva uma resposta (determinística: temperatura 0)."""
     result = request(
         "POST",
@@ -30,7 +37,7 @@ def generate(prompt: str, *, url: str, model: str, request: Request = request_js
             "model": model,
             "prompt": prompt,
             "stream": False,
-            "options": {"temperature": 0, "num_ctx": 4096, "num_predict": 400},
+            "options": {"temperature": 0, "num_ctx": 4096, "num_predict": max_tokens},
         },
     )
     return result["response"].strip()
