@@ -208,3 +208,88 @@ def test_score_review_accepts_spaces_inside_brackets():
     )
     result = score_review(markdown)
     assert (result["answerable_correct"], result["answerable_total"]) == (2, 3)
+
+
+def test_missing_models_accepts_latest_suffix():
+    from app.setup import missing_models
+
+    installed = ["bge-m3:latest", "qwen2.5:3b"]
+    assert missing_models(installed, ["bge-m3", "qwen2.5:3b"]) == []
+    assert missing_models(installed, ["llama3"]) == ["llama3"]
+
+
+def test_ensure_models_pulls_only_missing_ones():
+    from app.setup import ensure_models
+
+    chamadas = []
+
+    def falso(method, url, payload=None, timeout=0):
+        chamadas.append((method, url, payload))
+        if url.endswith("/api/tags"):
+            return {"models": [{"name": "bge-m3:latest"}]}
+        return {"status": "success"}
+
+    ensure_models("http://o", ["bge-m3", "qwen2.5:3b"], falso)
+    assert [c[1] for c in chamadas] == ["http://o/api/tags", "http://o/api/pull"]
+    assert chamadas[1][2]["model"] == "qwen2.5:3b"
+
+
+def test_ensure_corpus_skips_when_manifest_exists(tmp_path):
+    from app.setup import ensure_corpus
+
+    (tmp_path / "manifest.json").write_text("{}", encoding="utf-8")
+    chamadas = []
+    ensure_corpus(tmp_path, lambda *args: chamadas.append(args) or 0)
+    assert chamadas == []
+
+
+def test_ensure_corpus_fetches_when_missing(tmp_path):
+    import pytest
+
+    from app.setup import ensure_corpus
+
+    chamadas = []
+    ensure_corpus(tmp_path / "novo", lambda *args: chamadas.append(args) or 0)
+    assert len(chamadas) == 1
+    with pytest.raises(RuntimeError):
+        ensure_corpus(tmp_path / "outro", lambda *args: 1)
+
+
+def test_wait_for_retries_then_gives_up():
+    import pytest
+
+    from app.setup import wait_for
+
+    tentativas = []
+
+    def sempre_fora(method, url, payload=None, timeout=0):
+        tentativas.append(url)
+        raise ConnectionError("fora")
+
+    with pytest.raises(ConnectionError):
+        wait_for("http://x", sempre_fora, tries=3, pause=0)
+    assert len(tentativas) == 3
+
+
+def test_fetch_corpus_extracts_and_prepares(tmp_path):
+    import io
+    import tarfile
+
+    from app.ingest.fetch import fetch_corpus
+
+    def falso_download(url, destination):
+        assert url.endswith("/0.1.0.tar.gz")
+        with tarfile.open(destination, "w:gz") as tar:
+            for nome, conteudo in (
+                ("fastapi-0.1.0/docs/en/docs/index.md", "# Início\n\nTexto.\n"),
+                ("fastapi-0.1.0/docs_src/exemplo.py", "print(1)\n"),
+            ):
+                dados = conteudo.encode()
+                info = tarfile.TarInfo(nome)
+                info.size = len(dados)
+                tar.addfile(info, io.BytesIO(dados))
+
+    saida = tmp_path / "corpus"
+    assert fetch_corpus("0.1.0", saida, falso_download) == 0
+    assert (saida / "index.md").exists()
+    assert (saida / "manifest.json").exists()

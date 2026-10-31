@@ -1,30 +1,60 @@
-# Sobe a API, o banco vetorial (Qdrant) e o Ollama, tudo local e sem custo.
-# TODO (Marco 2): fixar as versões das imagens do Qdrant e do Ollama.
+# Sobe tudo com um comando (`docker compose up`), sem custo: banco vetorial (Qdrant),
+# modelos locais (Ollama), preparação automática, API (porta 8000) e interface (porta 8501).
+#
+# Na primeira vez, o serviço `setup` baixa os modelos (alguns GB), a documentação do FastAPI
+# e cria o índice (vários minutos). Nas próximas vezes ele pula tudo o que já existe.
+# Depois, abra http://localhost:8501
 services:
-  api:
-    build: .
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env.example
-    depends_on:
-      - qdrant
-      - ollama
-
   qdrant:
-    image: qdrant/qdrant:latest
+    image: qdrant/qdrant:v1.20.0
     ports:
       - "6333:6333"
     volumes:
       - qdrant_data:/qdrant/storage
 
   ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:latest   # TODO: fixar a versão depois do teste completo
     ports:
-      - "11434:11434"
+      - "11435:11434"   # 11435 no seu computador, para não colidir com um Ollama já instalado
     volumes:
       - ollama_data:/root/.ollama
+
+  setup:
+    build: .
+    command: ["python", "-m", "app.setup"]
+    env_file:
+      - .env.example
+    volumes:
+      - app_data:/app/data
+    depends_on:
+      - qdrant
+      - ollama
+    restart: "no"
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.example
+    volumes:
+      - app_data:/app/data
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+
+  ui:
+    build: .
+    command: ["streamlit", "run", "src/app/ui.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
+      - PYTHONPATH=/app/src
+    depends_on:
+      - api
 
 volumes:
   qdrant_data:
   ollama_data:
+  app_data:
