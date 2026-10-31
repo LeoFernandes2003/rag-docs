@@ -1,10 +1,14 @@
 # RAG para documentação técnica
 
+- **Curso:** EAD_PROINT_100.DD-ADS-PI-10-74.2026.74
+- **Disciplina:** Projeto Integrador
+- **Integrante 1:** Leonardo Costa Fernandes, RA 2410279
+
 Assistente que responde dúvidas sobre uma documentação grande de código aberto, **sempre citando o trecho-fonte**, e que mede com números qual estratégia de recuperação funciona melhor (divisão do texto, busca híbrida e reranking). Quando a resposta não está na documentação, o sistema deve dizer que não sabe.
 
 Projeto da disciplina de IA na Programação, Tema 4.
 
-> **Status:** Marco 1 (esqueleto, CI e proposta técnica). A busca e a geração de respostas entram a partir do Marco 2.
+> **Status (31/10/2026):** em desenvolvimento, a caminho do Marco 2. Já existem: corpus limpo, 50 perguntas de avaliação, busca (densa, por palavras e híbrida), resposta com citação e recusa, API (`POST /ask`) e interface (Streamlit). O `docker compose up` completo ainda está em teste. Resultados parciais em `eval/results/README.md`.
 
 ## Como rodar
 
@@ -14,6 +18,9 @@ Pré-requisito: Docker com Docker Compose.
 docker compose up --build
 ```
 
+Na primeira vez, o serviço `setup` baixa os modelos, a documentação do FastAPI 0.162.0 e cria o índice (vários minutos). Depois:
+
+- Interface: http://localhost:8501
 - API: http://localhost:8000 (documentação interativa em `/docs`)
 - Saúde do serviço: http://localhost:8000/health
 
@@ -61,4 +68,4 @@ A preencher conforme as dependências entrarem (FastAPI, Qdrant, Ollama e os mod
 
 ## Contribuição
 
-Projeto individual de Leonardo Costa Fernandes.
+Projeto individual de Leonardo Costa Fernandes (RA 2410279).
