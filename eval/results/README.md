@@ -41,6 +41,29 @@ caracteres. Cada arquivo `retrieval-*.json` desta pasta guarda os erros de uma e
 - **q033** ("O que mostra, no editor, os benefícios do FastAPI?"): o tema aparece repetido em
   `about`, `features` e `index`; falha na divisão fixa mesmo com tradução.
 
+# Reranking (conjunto de desenvolvimento)
+
+Medido em 31/10/2026 com `python -m app.evaluation.retrieval --strategy structure --mode hybrid
+--translate --rerank`. A busca híbrida traz 10 candidatos; o `qwen2.5:3b` dá a cada um uma nota
+de 0 a 9 ("este trecho responde à pergunta?"); os 5 melhores seguem. Empates mantêm a ordem
+original da busca.
+
+| Configuração | Recall@5 (dev, 16 perguntas) | Custo por pergunta |
+|---|---|---|
+| Híbrida + tradução (sem reranker) | 0,938 (15/16) | uma busca |
+| Híbrida + tradução + reranker (10 candidatos) | 0,875 (14/16) | uma busca + 10 chamadas ao modelo (cerca de 45 s a mais neste computador) |
+
+**Resultado negativo.** O reranker não melhorou: perdeu a q021 (o arquivo certo, `request-forms.md`,
+continuou entre os 5, mas o modelo preferiu outros pedaços do mesmo arquivo ao pedaço que
+contém a resposta) e manteve o erro da q026 (a tradução errada da pergunta nasce antes do
+reranker; ele não consegue consertar). A diferença de uma pergunta está dentro do ruído
+(16 perguntas), mas o custo de tempo é alto demais para uma interface interativa. Decisão:
+**não usar o reranker no sistema final**; o resultado fica registrado como comparação.
+
+Limitações: o Ollama não tem modelo de reranking dedicado, então o modelo de respostas foi usado
+como juiz (nota de um modelo de 3 bilhões de parâmetros, sem calibração); um reranker
+cross-encoder próprio (por exemplo `bge-reranker-v2-m3`) não foi testado.
+
 # Resultados da resposta com citação e recusa (conjunto de desenvolvimento)
 
 Medido em 29/10/2026 com `python -m app.evaluation.generation` nas 20 perguntas `dev` (16 com
