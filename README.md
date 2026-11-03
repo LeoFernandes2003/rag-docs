@@ -58,13 +58,24 @@ docs/         proposta, documentação técnica e trabalho de pesquisa
 
 ## Ferramentas de IA usadas na programação
 
-- Claude (Anthropic), em conversa de chat, para gerar o esqueleto do repositório e rascunhar a proposta. Todas as interações relevantes estão em `PROMPTS.md`.
+- Claude (Anthropic), plano Pro pago pelo autor, usado em conversa de chat para escrever e revisar código, testes, scripts de avaliação e documentação. O uso de IA paga e o trabalho individual foram confirmados pelo professor em 31/10/2026.
+- Todas as interações relevantes, com o que foi aceito, corrigido ou descartado, estão em `PROMPTS.md`.
+- As revisões dos pull requests foram feitas por IA e declaradas em comentário em cada PR, porque o projeto é individual.
 
-A IA dentro do produto roda apenas com modelos abertos locais, via Ollama.
+A IA dentro do produto roda apenas com modelos abertos locais, via Ollama, sem custo e sem chaves de API.
 
 ## Licenças de terceiros
 
-A preencher conforme as dependências entrarem (FastAPI, Qdrant, Ollama e os modelos escolhidos).
+| Componente | Uso no projeto | Licença | Fonte |
+| --- | --- | --- | --- |
+| FastAPI | API (`/ask`, `/health`) e corpus (documentação 0.162.0) | MIT | https://github.com/fastapi/fastapi |
+| Streamlit | Interface web | Apache-2.0 | https://github.com/streamlit/streamlit |
+| Qdrant (imagem `qdrant/qdrant:v1.20.0`) | Banco vetorial | Apache-2.0 | https://github.com/qdrant/qdrant |
+| Ollama (imagem `ollama/ollama`) | Execução local dos modelos | MIT | https://github.com/ollama/ollama |
+| bge-m3 (BAAI) | Embeddings | MIT | https://ollama.com/library/bge-m3 |
+| qwen2.5:3b (Alibaba Cloud) | Tradução da pergunta e geração da resposta | Qwen Research License (uso de pesquisa e não comercial) | https://ollama.com/library/qwen2.5:3b |
+
+Observação sobre o Qwen: a licença Qwen Research não permite uso comercial. O uso neste trabalho é acadêmico, dentro dessa licença. Para uso comercial seria preciso trocar de modelo.
 
 ## Contribuição
 
