@@ -42,7 +42,7 @@ Definidas antes do código. Os 50 casos de teste são 40 perguntas com resposta 
 | Fundamentação | Respostas apoiadas pelo trecho citado (amostra conferida à mão) | ≥ 0,85 |
 | Recusa correta | Perguntas sem resposta que o sistema recusa | ≥ 0,80 |
 | Recusa indevida | Perguntas com resposta que o sistema recusa | ≤ 0,15 |
-| Latência | Tempo por pergunta, em CPU (apenas reportada) | — |
+| Latência | Tempo por pergunta, em CPU (apenas reportada) | - |
 
 As metas são ponto de partida e podem ser revistas depois do baseline, com justificativa registrada.
 

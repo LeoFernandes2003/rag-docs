@@ -8,7 +8,7 @@ Assistente que responde dúvidas sobre uma documentação grande de código aber
 
 Projeto da disciplina de IA na Programação, Tema 4.
 
-> **Status (31/10/2026):** em desenvolvimento, a caminho do Marco 2. Já existem: corpus limpo, 50 perguntas de avaliação, busca (densa, por palavras e híbrida), resposta com citação e recusa, API (`POST /ask`) e interface (Streamlit). O `docker compose up` completo ainda está em teste. Resultados parciais em `eval/results/README.md`.
+> **Status (03/11/2026):** protótipo ponta a ponta funcionando. Já existem: corpus limpo, 50 perguntas de avaliação, busca (densa, por palavras e híbrida), resposta com citação e recusa, API (`POST /ask`), interface (Streamlit) e `docker compose up` testado de ponta a ponta. Resultados parciais em `eval/results/README.md`. Documentação técnica em `docs/README.md`.
 
 ## Como rodar
 
@@ -44,7 +44,7 @@ uvicorn app.main:app --reload --app-dir src
 
 ## Arquitetura
 
-Veja `docs/proposta-marco1.md` para o problema, o diagrama, as métricas e o plano.
+Diagrama e fluxo de dados em `docs/arquitetura.md`. O problema, as métricas e o plano estão em `docs/proposta-marco1.md`.
 
 ## Estrutura
 
