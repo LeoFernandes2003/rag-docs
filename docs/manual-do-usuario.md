@@ -13,9 +13,17 @@
 4. Abaixo da resposta há uma caixa para cada fonte, com o número e o nome do arquivo (por exemplo, `[1] tutorial/first-steps.md`). Clique para abrir e ler o trecho da documentação de onde veio a resposta.
 5. Na última linha aparecem o tempo gasto e a nota de similaridade, que é só informativa.
 
+![Interface com uma resposta e as fontes citadas](img/ui-resposta.png)
+
+*Figura 1. Resposta com fontes [1] e [3] para "Como sobrescrever uma dependência em testes?" (captura de 31/10/2026).*
+
 ## Quando o sistema recusa
 
 Se a resposta não estiver na documentação do FastAPI, aparece um aviso amarelo: "Não encontrei essa informação na documentação. Tente reformular a pergunta ou consulte outra fonte." Exemplo: "Como integrar com a Stripe?". Isso é o comportamento esperado.
+
+![Interface com a recusa](img/ui-recusa.png)
+
+*Figura 2. Recusa para "Como integrar o FastAPI com a Stripe?" (captura de 31/10/2026).*
 
 Se você acha que a resposta deveria existir, reescreva a pergunta com outras palavras ou mais detalhes e tente de novo.
 
