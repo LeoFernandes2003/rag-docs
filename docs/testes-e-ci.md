@@ -16,13 +16,13 @@ Os testes ficam em `tests/` e rodam sem Ollama nem Qdrant (usam dados e serviço
 
 ```bash
 pip install -r requirements-dev.txt -r requirements-ui.txt
-pytest -v
+pytest -v --cov=src/app --cov-report=term-missing
 ruff check .
 ```
 
 ## Integração contínua
 
-O workflow `.github/workflows/ci.yml` roda em todo push na `main` e em todo pull request: instala as dependências (Python 3.12), roda `ruff check .` (estilo e erros comuns) e `pytest -v`. Os testes da API só rodam no CI, porque dependem do FastAPI instalado.
+O workflow `.github/workflows/ci.yml` roda em todo push na `main` e em todo pull request: instala as dependências (Python 3.12), roda `ruff check .` (estilo e erros comuns) e `pytest -v`. Os testes da API só rodam no CI, porque dependem do FastAPI instalado. O CI também mede a cobertura (veja abaixo).
 
 ## Regras de trabalho
 
@@ -32,4 +32,10 @@ O workflow `.github/workflows/ci.yml` roda em todo push na `main` e em todo pull
 
 ## Cobertura
 
-A cobertura percentual ainda não foi medida. Será medida e registrada antes da entrega final.
+A cobertura é medida com `pytest-cov` e impressa no final do log de cada execução do CI (passo "Testes (pytest) com cobertura", linha `TOTAL`, com as linhas não cobertas de cada arquivo). Para ver no seu computador:
+
+```bash
+pytest --cov=src/app --cov-report=term-missing
+```
+
+O valor da execução do CI na tag `v1.0` será copiado para `evidencias/` como parte da evidência de integração contínua. Partes que dependem de Ollama e Qdrant reais (como `ollama.py` e `qdrant.py`) são cobertas só por testes com serviços simulados, então a cobertura delas é menor.

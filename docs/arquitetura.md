@@ -60,7 +60,7 @@ flowchart LR
 | Serviço | Imagem | Porta no computador |
 | --- | --- | --- |
 | `qdrant` | `qdrant/qdrant:v1.20.0` | 6333 |
-| `ollama` | `ollama/ollama:latest` | 11435 (evita colisão com um Ollama já instalado) |
+| `ollama` | `ollama/ollama` fixada pelo digest `sha256:b2f0122c476bc9fe7ce679d8bb4bd555351e25e2554eefb156f61cb0a89cf429` | 11435 (evita colisão com um Ollama já instalado) |
 | `setup` | build local | nenhuma (termina ao acabar) |
 | `api` | build local | 8000 |
 | `ui` | build local | 8501 |
