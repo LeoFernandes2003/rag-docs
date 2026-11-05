@@ -38,4 +38,17 @@ A cobertura é medida com `pytest-cov` e impressa no final do log de cada execu�
 pytest --cov=src/app --cov-report=term-missing
 ```
 
-O valor da execução do CI na tag `v1.0` será copiado para `evidencias/` como parte da evidência de integração contínua. Partes que dependem de Ollama e Qdrant reais (como `ollama.py` e `qdrant.py`) são cobertas só por testes com serviços simulados, então a cobertura delas é menor.
+Resultado medido no CI em 05/11/2026 (CI #32, `main`, Python 3.12): **97 testes passaram, cobertura total de 73%** (1341 linhas de código, 358 sem teste).
+
+Onde a cobertura é alta: `chunking.py`, `bm25.py`, `pipeline.py`, `retrieve.py`, `translate.py`, `ollama.py` e `config.py` (100%), `qdrant.py` (97%) e `clean.py` (98%). Esses arquivos são a lógica central do RAG.
+
+Onde é baixa, e por quê:
+
+| Arquivo | Cobertura | Motivo |
+| --- | --- | --- |
+| `ui.py` (interface Streamlit) | 0% | Testada à mão, com as capturas de tela do manual; não há teste automático da interface. |
+| `ask.py`, `search.py` (linhas de comando) | 34% e 33% | Código de terminal que chama Ollama e Qdrant reais. |
+| `evaluation/retrieval.py`, `evaluation/generation.py` | 36% e 45% | Scripts de avaliação que dependem dos serviços reais; foram executados à mão e seus resultados estão em `eval/results/`. |
+| `rag/index.py`, `setup.py`, `rag/http.py` | 45%, 59%, 52% | Indexação e preparação automática dependem de Qdrant e Ollama rodando. |
+
+Esse número será copiado para `evidencias/` (captura da linha `TOTAL`) junto com a execução do CI da tag `v1.0`. Ele mostra o que os testes automáticos cobrem, não a qualidade das respostas; essa é medida em `docs/avaliacao.md`.
