@@ -5,7 +5,7 @@
 - **Sem segredos:** o sistema não usa chaves de API. O `.env` está no `.gitignore`.
 - **Execução local:** modelos, banco e API rodam no computador do usuário. Nenhuma pergunta é enviada a serviços externos.
 - **Entrada limitada:** a API aceita perguntas de 3 a 500 caracteres.
-- **Dependências:** versões de imagens fixadas onde possível (`qdrant/qdrant:v1.20.0`). A imagem `ollama/ollama:latest` ainda não está fixada.
+- **Dependências:** as imagens são fixadas: `qdrant/qdrant:v1.20.0` e `ollama/ollama` pelo digest da versão testada (veja `docker-compose.yml`). Assim uma atualização futura das imagens não muda o comportamento do sistema.
 - **Portas:** as portas 8000, 8501, 6333 e 11435 ficam abertas no computador. A API não tem autenticação e não deve ser exposta na internet.
 - **Injeção de instruções no corpus:** o prompt manda usar só os trechos, mas um texto malicioso dentro da documentação poderia tentar influenciar o modelo. O corpus aqui é uma documentação oficial fixada em versão.
 
