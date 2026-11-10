@@ -64,17 +64,38 @@ python -m app.evaluation.generation --final --label v5
 
 Os números do conjunto de teste são os oficiais.
 
+Para medir o sistema do Docker (o que será entregue), com os serviços de pé (`docker compose up -d`), os comandos rodam de dentro da pasta `src` apontando para o Ollama do Docker, que usa a porta 11435 no computador:
+
+```bash
+set OLLAMA_URL=http://localhost:11435      # Windows (CMD); no Linux/macOS: export OLLAMA_URL=http://localhost:11435
+```
+
+Depois da conferência manual (Passo 3, feita sobre o arquivo `...-test-v5-conferencia.md`), o resultado do teste é calculado com `--conferencia`. Os arquivos do teste ficam em `eval/results/`.
+
 ## Métricas
 
 | Métrica | Como é calculada |
 | --- | --- |
 | Recall@5 | A busca acerta quando um dos 5 trechos devolvidos cobre o trecho-fonte da pergunta, no arquivo certo |
 | Citação válida | A resposta cita ao menos um trecho que existe |
-| Fonte certa | Entre os trechos citados está o arquivo-fonte esperado |
+| Fonte certa | Entre os trechos citados, algum cobre a frase-fonte esperada (mesmo arquivo e mesma posição); citar só o arquivo certo, em outro trecho, conta como erro |
 | Recusa indevida | Recusou uma pergunta que tinha resposta |
 | Recusa correta | Recusou uma pergunta sem resposta |
 | Alucinação | Respondeu uma pergunta sem resposta |
 
-## Resultados já medidos (desenvolvimento)
+## Resultados já medidos
 
-Estão em `eval/results/README.md`. A comparação de recuperação tem 10 combinações; a de geração compara as versões v2 a v5 do prompt (v5: recusa indevida 0/16, recusa correta 4/4, fonte certa 14/16, citação válida 1,000).
+Estão em `eval/results/README.md`. A comparação de recuperação tem 10 combinações; a de geração compara as versões v2 a v5 do prompt (v5, no desenvolvimento: recusa indevida 0/16, recusa correta 4/4, fonte certa 14/16, citação válida 1,000).
+
+### Teste final (10/11/2026, 30 perguntas, medido uma vez)
+
+| Medida | Resultado |
+| --- | --- |
+| Recall@5 da busca (24 com resposta) | 0,833 (20/24) |
+| Citação válida | 1,000 |
+| Fonte certa | 0,792 (19/24) |
+| Recusa indevida | 0/24 |
+| Recusa correta | 6/6 |
+| Conferência manual do autor | 22/24 com resposta; 6/6 sem resposta |
+
+Análise dos 5 casos de falha em `evidencias/analise-de-falhas.md`. Limitações (24 perguntas com resposta, uma só execução, modelo pequeno) em `eval/results/README.md`.

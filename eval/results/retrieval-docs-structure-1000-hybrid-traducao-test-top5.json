@@ -1,0 +1,81 @@
+{
+  "questions": 24,
+  "hits": 20,
+  "recall": 0.8333333333333334,
+  "misses": [
+    {
+      "id": "q004",
+      "question": "Como o FastAPI distingue parâmetros de caminho de parâmetros de consulta?",
+      "source_file": "tutorial/query-params.md",
+      "retrieved_files": [
+        "tutorial/query-params.md",
+        "tutorial/query-params.md",
+        "tutorial/body.md",
+        "tutorial/path-params-numeric-validations.md",
+        "tutorial/body-multiple-params.md"
+      ]
+    },
+    {
+      "id": "q012",
+      "question": "Para que tipos de dados o streaming de JSON Lines pode ser usado?",
+      "source_file": "tutorial/stream-json-lines.md",
+      "retrieved_files": [
+        "advanced/custom-response.md",
+        "tutorial/server-sent-events.md",
+        "advanced/stream-data.md",
+        "tutorial/stream-json-lines.md",
+        "tutorial/stream-json-lines.md"
+      ]
+    },
+    {
+      "id": "q037",
+      "question": "O que vale ao adicionar dependências globais a toda a aplicação?",
+      "source_file": "tutorial/dependencies/global-dependencies.md",
+      "retrieved_files": [
+        "tutorial/dependencies/global-dependencies.md",
+        "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+        "tutorial/bigger-applications.md",
+        "tutorial/frontend.md",
+        "advanced/settings.md"
+      ]
+    },
+    {
+      "id": "q040",
+      "question": "Quem deve cuidar do HTTPS na frente da aplicação na maioria dos casos?",
+      "source_file": "fastapi-cli.md",
+      "retrieved_files": [
+        "advanced/behind-a-proxy.md",
+        "deployment/https.md",
+        "deployment/https.md",
+        "deployment/https.md",
+        "deployment/https.md"
+      ]
+    }
+  ],
+  "translations": {
+    "Como desativar os logs de exceção do OpenTelemetry no FastAPI?": "How do I disable exception logs from OpenTelemetry in FastAPI?",
+    "Como o FastAPI distingue parâmetros de caminho de parâmetros de consulta?": "How does FastAPI distinguish between path parameters and query parameters?",
+    "Como sobrescrever uma dependência em testes?": "How do you override a dependency in tests?",
+    "O que se pode definir sobre webhooks usando OpenAPI no FastAPI?": "What can be defined about webhooks using OpenAPI in FastAPI?",
+    "De onde vêm a maioria dos middlewares disponíveis em `fastapi.middleware`?": "Where do most of the middlewares available in `fastapi.middleware` come from?",
+    "Por que o código de saída de uma dependência precisa rodar antes das subdependências?": "Why does the output code of a dependency need to run before its subdependencies?",
+    "Para que tipos de dados o streaming de JSON Lines pode ser usado?": "For which data types is JSON Lines streaming used?",
+    "A que se parece a estrutura de um atributo de modelo declarado com `Field`?": "What does an attribute model field declared with `Field` look like?",
+    "O que o sistema de Injeção de Dependências faz com a árvore hierárquica de dependências?": "What does the Dependency Injection system do with the hierarchical dependency tree?",
+    "Qual a diferença entre a `HTTPException` do FastAPI e a do Starlette?": "What is the difference between `HTTPException` from FastAPI and `Starlette`?",
+    "Qual a vantagem de guardar as senhas com hash caso o banco de dados seja roubado?": "What advantage does storing passwords with a hash have if the database is hacked?",
+    "De onde importar `Body`, `Query`, `Form` etc. para usar com modelos Pydantic v1 durante a migração?": "Where do I import `Body`, `Query`, `Form` etc. from to use with Pydantic v1 models during migration?",
+    "Por que combinar respostas predefinidas com respostas específicas de cada operação de rota?": "Why combine predefined responses with specific responses for each route operation?",
+    "Por que não dá para declarar campos `Body` em JSON junto com parâmetros `File` e `Form`?": "Why can't I declare `Body` fields in JSON along with `File` and `Form` parameters?",
+    "As funções `fake_password_hasher` e `fake_save_user` oferecem segurança real?": "Do functions `fake_password_hasher` and `fake_save_user` offer real security?",
+    "O que o FastAPI diz a quem se sente perdido com expressões regulares?": "What does FastAPI say to someone lost with regular expressions?",
+    "Que status HTTP as utilidades de segurança retornavam, antes do FastAPI 0.122.0, após uma falha de autenticação?": "What HTTP status codes did the security utilities return, before FastAPI 0.122.0, after a authentication failure?",
+    "No exemplo do restaurante de hambúrguer, por que o trabalho com o caixa fica \"em pausa\"?": "Why does the cashier work stop in the restaurant example?",
+    "O que o desenvolvedor passa a controlar ao usar `StreamingResponse`?": "What does the developer control when using `StreamingResponse`?",
+    "Por que os benchmarks costumam não refletir bem as ferramentas?": "Why do benchmarks usually not reflect well the tools?",
+    "A que a palavra \"servidor\" costuma se referir?": "What does the word \"server\" typically refer to?",
+    "O que vale ao adicionar dependências globais a toda a aplicação?": "What does it mean to add global dependencies to the entire application?",
+    "É possível montar uma subaplicação usando também um proxy com `root_path`?": "Is it possible to mount a subapplication using also a proxy with `root_path`?",
+    "Quem deve cuidar do HTTPS na frente da aplicação na maioria dos casos?": "Who should handle HTTPS in front of the application in most cases?"
+  }
+}

@@ -1,0 +1,1586 @@
+{
+  "answerable": 24,
+  "unanswerable": 6,
+  "answered": 24,
+  "valid_citation_rate": 1.0,
+  "right_source_rate": 0.7916666666666666,
+  "wrongful_refusal_rate": 0.0,
+  "correct_refusal_rate": 1.0,
+  "unanswerable_answered": 0,
+  "unanswerable_with_forbidden_terms": 0,
+  "problem_cases": [
+    {
+      "id": "q004",
+      "question": "Como o FastAPI distingue parâmetros de caminho de parâmetros de consulta?",
+      "problem": "fonte errada"
+    },
+    {
+      "id": "q012",
+      "question": "Para que tipos de dados o streaming de JSON Lines pode ser usado?",
+      "problem": "fonte errada"
+    },
+    {
+      "id": "q030",
+      "question": "No exemplo do restaurante de hambúrguer, por que o trabalho com o caixa fica \"em pausa\"?",
+      "problem": "fonte errada"
+    },
+    {
+      "id": "q037",
+      "question": "O que vale ao adicionar dependências globais a toda a aplicação?",
+      "problem": "fonte errada"
+    },
+    {
+      "id": "q040",
+      "question": "Quem deve cuidar do HTTPS na frente da aplicação na maioria dos casos?",
+      "problem": "fonte errada"
+    }
+  ],
+  "answers": {
+    "q002": {
+      "question": "Como desativar os logs de exceção do OpenTelemetry no FastAPI?",
+      "answer": "Para desativar os logs de exceção do OpenTelemetry no FastAPI, você pode definir a propriedade `logs` para `False` em seu código.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.704047,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/opentelemetry.md",
+          "start": 6442,
+          "end": 7013,
+          "text": "### Inspect errors\n\nFastAPI records unhandled exceptions as OpenTelemetry logs, linked to the request's or connection's trace. Error logs are recorded even when the trace is not sampled.\n\nException logs include the exception's type, message, and stack trace. Messages and stack traces can contain sensitive information. Use your provider's log processors to filter or redact them, or set `logs` to `False` to disable these logs.\n\nFastAPI also records request validation failures as warning logs with the route and error count. These logs do not include the invalid input."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/opentelemetry.md",
+          "start": 6442,
+          "end": 7013
+        },
+        {
+          "source_file": "advanced/opentelemetry.md",
+          "start": 805,
+          "end": 1018
+        },
+        {
+          "source_file": "advanced/opentelemetry.md",
+          "start": 3155,
+          "end": 4150
+        },
+        {
+          "source_file": "advanced/opentelemetry.md",
+          "start": 4973,
+          "end": 5360
+        },
+        {
+          "source_file": "advanced/opentelemetry.md",
+          "start": 1867,
+          "end": 2751
+        }
+      ],
+      "translated": "How do I disable exception logs from OpenTelemetry in FastAPI?",
+      "seconds": 22.25316023826599,
+      "raw": "Para desativar os logs de exceção do OpenTelemetry no FastAPI, você pode configurar a propriedade `logs` para `False` em seu código. Fontes:1\n--- segunda tentativa ---\nPara desativar os logs de exceção do OpenTelemetry no FastAPI, você pode definir a propriedade `logs` para `False` em seu código.\n\nFontes: [1]"
+    },
+    "q004": {
+      "question": "Como o FastAPI distingue parâmetros de caminho de parâmetros de consulta?",
+      "answer": "O FastAPI distingue parâmetros de caminho de parâmetros de consulta através do nome dos parâmetros declarados. Você pode declarar tanto parâmetros de caminho quanto parâmetros de consulta simultaneamente, e o FastAPI sabe distinguir entre eles devido ao nome dos parâmetros. Por exemplo, em um endpoint como `/users/{user_id}/items/{item_id}`, `user_id` é um parâmetro de caminho e `item_id` é um parâmetro de consulta. Fontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6927543,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/query-params.md",
+          "start": 3561,
+          "end": 4254,
+          "text": "## Multiple path and query parameters\n\nYou can declare multiple path parameters and query parameters at the same time, **FastAPI** knows which is which.\n\nAnd you don't have to declare them in any specific order.\n\nThey will be detected by name:\n\n```python\nfrom fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/users/{user_id}/items/{item_id}\")\nasync def read_user_item(\n    user_id: int, item_id: str, q: str | None = None, short: bool = False\n):\n    item = {\"item_id\": item_id, \"owner_id\": user_id}\n    if q:\n        item.update({\"q\": q})\n    if not short:\n        item.update(\n            {\"description\": \"This is an amazing item that has a long description\"}\n        )\n    return item\n```"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/query-params.md",
+          "start": 3561,
+          "end": 4254
+        },
+        {
+          "source_file": "tutorial/query-params.md",
+          "start": 0,
+          "end": 984
+        },
+        {
+          "source_file": "tutorial/body.md",
+          "start": 6193,
+          "end": 6888
+        },
+        {
+          "source_file": "tutorial/path-params-numeric-validations.md",
+          "start": 1036,
+          "end": 1803
+        },
+        {
+          "source_file": "tutorial/body-multiple-params.md",
+          "start": 0,
+          "end": 998
+        }
+      ],
+      "translated": "How does FastAPI distinguish between path parameters and query parameters?",
+      "seconds": 38.285518169403076,
+      "raw": "O FastAPI distingue parâmetros de caminho de parâmetros de consulta usando o nome dos parâmetros declarados. Neste exemplo, você pode ver que os parâmetros `user_id` e `item_id`, que fazem parte da URL, são considerados parâmetros de caminho. Já `q` e `short` são considerados parâmetros de consulta, pois são declarados após a barra `/` e antes dos parâmetros de caminho.\n--- segunda tentativa ---\nO FastAPI distingue parâmetros de caminho de parâmetros de consulta através do nome dos parâmetros declarados. Você pode declarar tanto parâmetros de caminho quanto parâmetros de consulta simultaneamente, e o FastAPI sabe distinguir entre eles devido ao nome dos parâmetros. Por exemplo, em um endpoint como `/users/{user_id}/items/{item_id}`, `user_id` é um parâmetro de caminho e `item_id` é um parâmetro de consulta. Fontes: [1]"
+    },
+    "q005": {
+      "question": "Como sobrescrever uma dependência em testes?",
+      "answer": "Para sobrescrever uma dependência em testes, você pode usar o atributo `app.dependency_overrides` de seu aplicativo FastAPI. Você define uma nova função como valor para a chave que é a dependência original que deseja substituir. Isso permite que você forneça uma nova dependência que será usada apenas durante os testes.\n\nFontes: [1] [3]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6191884,
+      "cited": [
+        1,
+        3
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/testing-dependencies.md",
+          "start": 0,
+          "end": 485,
+          "text": "# Testing Dependencies with Overrides\n\n## Overriding dependencies during testing\n\nThere are some scenarios where you might want to override a dependency during testing.\n\nYou don't want the original dependency to run (nor any of the sub-dependencies it might have).\n\nInstead, you want to provide a different dependency that will be used only during tests (possibly only some specific tests), and will provide a value that can be used where the value of the original dependency was used."
+        },
+        {
+          "n": 3,
+          "source_file": "advanced/testing-dependencies.md",
+          "start": 1067,
+          "end": 1469,
+          "text": "### Use the `app.dependency_overrides` attribute\n\nFor these cases, your **FastAPI** application has an attribute `app.dependency_overrides`, it is a simple `dict`.\n\nTo override a dependency for testing, you put as a key the original dependency (a function), and as the value, your dependency override (another function).\n\nAnd then **FastAPI** will call that override instead of the original dependency."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/testing-dependencies.md",
+          "start": 0,
+          "end": 485
+        },
+        {
+          "source_file": "advanced/testing-dependencies.md",
+          "start": 3005,
+          "end": 3693
+        },
+        {
+          "source_file": "advanced/testing-dependencies.md",
+          "start": 1067,
+          "end": 1469
+        },
+        {
+          "source_file": "advanced/settings.md",
+          "start": 7419,
+          "end": 8287
+        },
+        {
+          "source_file": "advanced/settings.md",
+          "start": 5534,
+          "end": 5840
+        }
+      ],
+      "translated": "How do you override a dependency in tests?",
+      "seconds": 26.12141704559326,
+      "raw": "Para sobrescrever uma dependência em testes no FastAPI, você pode usar o atributo `app.dependency_overrides`. Você define uma nova função como valor para a chave original dependência que deseja sobrescrever. Isso permite que você forneça um valor diferente durante os testes, que será usado em vez da dependência original.\n\nFontes:\n1\n2\n3\n--- segunda tentativa ---\nPara sobrescrever uma dependência em testes, você pode usar o atributo `app.dependency_overrides` de seu aplicativo FastAPI. Você define uma nova função como valor para a chave que é a dependência original que deseja substituir. Isso permite que você forneça uma nova dependência que será usada apenas durante os testes.\n\nFontes: [1] [3]"
+    },
+    "q007": {
+      "question": "O que se pode definir sobre webhooks usando OpenAPI no FastAPI?",
+      "answer": "O FastAPI permite definir o nome dos webhooks, os tipos de operações HTTP que o aplicativo pode enviar (como POST, PUT, etc.) e os corpos de solicitação que o aplicativo enviará usando OpenAPI.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.7833406,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/openapi-webhooks.md",
+          "start": 992,
+          "end": 1537,
+          "text": "## Documenting webhooks with **FastAPI** and OpenAPI\n\nWith **FastAPI**, using OpenAPI, you can define the names of these webhooks, the types of HTTP operations that your app can send (e.g. `POST`, `PUT`, etc.) and the request **bodies** that your app would send.\n\nThis can make it a lot easier for your users to **implement their APIs** to receive your **webhook** requests, they might even be able to autogenerate some of their own API code.\n\n**Note**\n\nWebhooks are available in OpenAPI 3.1.0 and above, supported by FastAPI `0.99.0` and above."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/openapi-webhooks.md",
+          "start": 992,
+          "end": 1537
+        },
+        {
+          "source_file": "advanced/openapi-webhooks.md",
+          "start": 1539,
+          "end": 2438
+        },
+        {
+          "source_file": "tutorial/security/index.md",
+          "start": 2130,
+          "end": 2647
+        },
+        {
+          "source_file": "advanced/openapi-webhooks.md",
+          "start": 0,
+          "end": 435
+        },
+        {
+          "source_file": "async.md",
+          "start": 15972,
+          "end": 16632
+        }
+      ],
+      "translated": "What can be defined about webhooks using OpenAPI in FastAPI?",
+      "seconds": 24.968780279159546,
+      "raw": "Com o FastAPI e OpenAPI, é possível definir o nome desses webhooks, os tipos de operações HTTP que o seu aplicativo pode enviar (como `POST`, `PUT`, etc.) e os corpos de solicitação que o seu aplicativo enviará.\n\nFontes: 1\n--- segunda tentativa ---\nO FastAPI permite definir o nome dos webhooks, os tipos de operações HTTP que o aplicativo pode enviar (como POST, PUT, etc.) e os corpos de solicitação que o aplicativo enviará usando OpenAPI.\n\nFontes: [1]"
+    },
+    "q009": {
+      "question": "De onde vêm a maioria dos middlewares disponíveis em `fastapi.middleware`?",
+      "answer": "Maioria dos middlewares disponíveis em `fastapi.middleware` vêm diretamente da Starlette. Fontes: [1] [2]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.71951306,
+      "cited": [
+        1,
+        2
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/middleware.md",
+          "start": 1455,
+          "end": 1894,
+          "text": "## Integrated middlewares\n\n**FastAPI** includes several middlewares for common use cases, we'll see next how to use them.\n\n**Note**: Technical Details\n\nFor the next examples, you could also use `from starlette.middleware.something import SomethingMiddleware`.\n\n**FastAPI** provides several middlewares in `fastapi.middleware` just as a convenience for you, the developer. But most of the available middlewares come directly from Starlette."
+        },
+        {
+          "n": 2,
+          "source_file": "tutorial/cors.md",
+          "start": 4945,
+          "end": 5584,
+          "text": "### Simple requests\n\nAny request with an `Origin` header. In this case the middleware will pass the request through as normal, but will include appropriate CORS headers on the response.\n\n## More info\n\nFor more info about CORS (Cross-Origin Resource Sharing), check the [Mozilla CORS documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).\n\n**Note**: Technical Details\n\nYou could also use `from starlette.middleware.cors import CORSMiddleware`.\n\n**FastAPI** provides several middlewares in `fastapi.middleware` just as a convenience for you, the developer. But most of the available middlewares come directly from Starlette."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/middleware.md",
+          "start": 1455,
+          "end": 1894
+        },
+        {
+          "source_file": "tutorial/cors.md",
+          "start": 4945,
+          "end": 5584
+        },
+        {
+          "source_file": "advanced/middleware.md",
+          "start": 283,
+          "end": 1158
+        },
+        {
+          "source_file": "advanced/middleware.md",
+          "start": 4117,
+          "end": 4560
+        },
+        {
+          "source_file": "tutorial/middleware.md",
+          "start": 0,
+          "end": 956
+        }
+      ],
+      "translated": "Where do most of the middlewares available in `fastapi.middleware` come from?",
+      "seconds": 19.997509479522705,
+      "raw": "A maioria dos middlewares disponíveis em `fastapi.middleware` vem diretamente da Starlette.\n\nFontes: 1\n--- segunda tentativa ---\nMaioria dos middlewares disponíveis em `fastapi.middleware` vêm diretamente da Starlette. Fontes: [1] [2]"
+    },
+    "q010": {
+      "question": "Por que o código de saída de uma dependência precisa rodar antes das subdependências?",
+      "answer": "O código de saída de uma dependência precisa rodar antes das subdependências para garantir que a dependência ainda possa usar as subdependências durante seu próprio código de saída. Isso é importante porque a dependência pode precisar de acesso a valores ou estado gerenciados pelas subdependências durante a execução de seu próprio código de saída.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.64620066,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/dependencies/dependencies-with-yield.md",
+          "start": 12104,
+          "end": 12553,
+          "text": "### `scope` for sub-dependencies\n\nWhen you declare a dependency with a `scope=\"request\"` (the default), any sub-dependency needs to also have a `scope` of `\"request\"`.\n\nBut a dependency with `scope` of `\"function\"` can have dependencies with `scope` of `\"function\"` and `scope` of `\"request\"`.\n\nThis is because any dependency needs to be able to run its exit code before the sub-dependencies, as it might need to still use them during its exit code."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/dependencies/dependencies-with-yield.md",
+          "start": 12104,
+          "end": 12553
+        },
+        {
+          "source_file": "tutorial/dependencies/dependencies-with-yield.md",
+          "start": 10584,
+          "end": 11406
+        },
+        {
+          "source_file": "advanced/advanced-dependencies.md",
+          "start": 5497,
+          "end": 6381
+        },
+        {
+          "source_file": "advanced/advanced-dependencies.md",
+          "start": 12633,
+          "end": 13549
+        },
+        {
+          "source_file": "tutorial/dependencies/dependencies-with-yield.md",
+          "start": 11408,
+          "end": 12102
+        }
+      ],
+      "translated": "Why does the output code of a dependency need to run before its subdependencies?",
+      "seconds": 30.867845058441162,
+      "raw": "O código de saída de uma dependência precisa rodar antes das subdependências para garantir que a dependência ainda possa usar as subdependências durante seu próprio código de saída. Isso é importante porque a dependência pode precisar de acesso a subdependências durante o seu próprio código de saída, mesmo que isso ocorra após o retorno da função de operação de caminho.\n\nFontes: 1\n--- segunda tentativa ---\nO código de saída de uma dependência precisa rodar antes das subdependências para garantir que a dependência ainda possa usar as subdependências durante seu próprio código de saída. Isso é importante porque a dependência pode precisar de acesso a valores ou estado gerenciados pelas subdependências durante a execução de seu próprio código de saída.\n\nFontes: [1]"
+    },
+    "q012": {
+      "question": "Para que tipos de dados o streaming de JSON Lines pode ser usado?",
+      "answer": "Streaming de JSON Lines pode ser usado para enviar sequências de dados estruturados como JSON. É especialmente útil quando você precisa enviar dados em uma sequência, como uma série de objetos JSON separados por linhas, sem esperar que todos os dados estejam prontos antes de começar a enviar.\n\nFontes: [3] [4]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.71396804,
+      "cited": [
+        3,
+        4
+      ],
+      "sources": [
+        {
+          "n": 3,
+          "source_file": "advanced/stream-data.md",
+          "start": 0,
+          "end": 262,
+          "text": "# Stream Data\n\nIf you want to stream data that can be structured as JSON, you should [Stream JSON Lines](../tutorial/stream-json-lines.md).\n\nBut if you want to **stream pure binary data** or strings, here's how you can do it.\n\n**Note**\n\nAdded in FastAPI 0.134.0."
+        },
+        {
+          "n": 4,
+          "source_file": "tutorial/stream-json-lines.md",
+          "start": 0,
+          "end": 986,
+          "text": "# Stream JSON Lines\n\nYou could have a sequence of data that you would like to send in a \"**stream**\", you could do it with **JSON Lines**.\n\n**Note**\n\nAdded in FastAPI 0.134.0.\n\n## What is a Stream?\n\n\"**Streaming**\" data means that your app will start sending data items to the client without waiting for the entire sequence of items to be ready.\n\nSo, it will send the first item, the client will receive and start processing it, and you might still be producing the next item.\n\n```mermaid\nsequenceDiagram\n    participant App\n    participant Client\n\n    App->>App: Produce Item 1\n    App->>Client: Send Item 1\n    App->>App: Produce Item 2\n    Client->>Client: Process Item 1\n    App->>Client: Send Item 2\n    App->>App: Produce Item 3\n    Client->>Client: Process Item 2\n    App->>Client: Send Item 3\n    Client->>Client: Process Item 3\n    Note over App: Keeps producing...\n    Note over Client: Keeps consuming...\n```\n\nIt could even be an infinite stream, where you keep sending data."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/custom-response.md",
+          "start": 10180,
+          "end": 10492
+        },
+        {
+          "source_file": "tutorial/server-sent-events.md",
+          "start": 0,
+          "end": 370
+        },
+        {
+          "source_file": "advanced/stream-data.md",
+          "start": 0,
+          "end": 262
+        },
+        {
+          "source_file": "tutorial/stream-json-lines.md",
+          "start": 0,
+          "end": 986
+        },
+        {
+          "source_file": "tutorial/stream-json-lines.md",
+          "start": 988,
+          "end": 1855
+        }
+      ],
+      "translated": "For which data types is JSON Lines streaming used?",
+      "seconds": 25.943267822265625,
+      "raw": "Streaming de JSON Lines pode ser usado para enviar sequências de dados estruturados como JSON. É especialmente útil quando você precisa enviar dados em uma sequência, como uma série de objetos JSON semelhante a um array JSON, mas separados por linhas em vez de colchetes e vírgulas.\n--- segunda tentativa ---\nStreaming de JSON Lines pode ser usado para enviar sequências de dados estruturados como JSON. É especialmente útil quando você precisa enviar dados em uma sequência, como uma série de objetos JSON separados por linhas, sem esperar que todos os dados estejam prontos antes de começar a enviar.\n\nFontes: [3] [4]"
+    },
+    "q014": {
+      "question": "A que se parece a estrutura de um atributo de modelo declarado com `Field`?",
+      "answer": "A estrutura de um atributo de modelo declarado com `Field` é semelhante à estrutura de um parâmetro de operação de rota, onde `Field` substitui `Path`, `Query` e `Body`. Fontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.59914374,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/body-fields.md",
+          "start": 1965,
+          "end": 2515,
+          "text": "And Pydantic's `Field` returns an instance of `FieldInfo` as well.\n\n`Body` also returns objects of a subclass of `FieldInfo` directly. And there are others you will see later that are subclasses of the `Body` class.\n\nRemember that when you import `Query`, `Path`, and others from `fastapi`, those are actually functions that return special classes.\n\n**Tip**\n\nNotice how each model's attribute with a type, default value and `Field` has the same structure as a *path operation function's* parameter, with `Field` instead of `Path`, `Query` and `Body`."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/body-fields.md",
+          "start": 1965,
+          "end": 2515
+        },
+        {
+          "source_file": "tutorial/extra-models.md",
+          "start": 589,
+          "end": 728
+        },
+        {
+          "source_file": "tutorial/body-nested-models.md",
+          "start": 2589,
+          "end": 2841
+        },
+        {
+          "source_file": "how-to/separate-openapi-schemas.md",
+          "start": 1615,
+          "end": 2443
+        },
+        {
+          "source_file": "tutorial/body.md",
+          "start": 1410,
+          "end": 2393
+        }
+      ],
+      "translated": "What does an attribute model field declared with `Field` look like?",
+      "seconds": 23.875866413116455,
+      "raw": "A estrutura de um atributo de modelo declarado com `Field` tem a mesma estrutura de um parâmetro de uma operação de rota, mas em vez de `Path`, `Query` e `Body`, usa `Field`. Fontes:1\n--- segunda tentativa ---\nA estrutura de um atributo de modelo declarado com `Field` é semelhante à estrutura de um parâmetro de operação de rota, onde `Field` substitui `Path`, `Query` e `Body`. Fontes: [1]"
+    },
+    "q015": {
+      "question": "O que o sistema de Injeção de Dependências faz com a árvore hierárquica de dependências?",
+      "answer": "O sistema de Injeção de Dependências cria e organiza uma árvore hierárquica de dependências, onde cada função ou objeto dependente pode ter dependências próprias. O sistema FastAPI cuida de resolver todas essas dependências e fornecer (injetar) os resultados em cada etapa, garantindo que a árvore hierárquica de dependências seja construída de forma eficiente e eficaz.\n\nFontes: [1] [2] [3] [4] [5]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6902334,
+      "cited": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/dependencies/index.md",
+          "start": 9403,
+          "end": 10123,
+          "text": "## Simple and Powerful\n\nAlthough the hierarchical dependency injection system is very simple to define and use, it's still very powerful.\n\nYou can define dependencies that in turn can define dependencies themselves.\n\nIn the end, a hierarchical tree of dependencies is built, and the **Dependency Injection** system takes care of solving all these dependencies for you (and their sub-dependencies) and providing (injecting) the results at each step.\n\nFor example, let's say you have 4 API endpoints (*path operations*):\n\n* `/items/public/`\n* `/items/private/`\n* `/users/{user_id}/activate`\n* `/items/pro/`\n\nthen you could add different permission requirements for each of them just with dependencies and sub-dependencies:"
+        },
+        {
+          "n": 2,
+          "source_file": "tutorial/dependencies/index.md",
+          "start": 301,
+          "end": 971,
+          "text": "## What is \"Dependency Injection\"\n\n**\"Dependency Injection\"** means, in programming, that there is a way for your code (in this case, your *path operation functions*) to declare things that it requires to work and use: \"dependencies\".\n\nAnd then, that system (in this case **FastAPI**) will take care of doing whatever is needed to provide your code with those needed dependencies (\"inject\" the dependencies).\n\nThis is very useful when you need to:\n\n* Have shared logic (the same code logic again and again).\n* Share database connections.\n* Enforce security, authentication, role requirements, etc.\n* And many other things...\n\nAll these, while minimizing code repetition."
+        },
+        {
+          "n": 3,
+          "source_file": "tutorial/background-tasks.md",
+          "start": 3495,
+          "end": 3926,
+          "text": "## Dependency Injection\n\nUsing `BackgroundTasks` also works with the dependency injection system, you can declare a parameter of type `BackgroundTasks` at multiple levels: in a *path operation function*, in a dependency (dependable), in a sub-dependency, etc.\n\n**FastAPI** knows what to do in each case and how to reuse the same object, so that all the background tasks are merged together and are run in the background afterwards:"
+        },
+        {
+          "n": 4,
+          "source_file": "features.md",
+          "start": 4570,
+          "end": 5317,
+          "text": "### Dependency Injection\n\nFastAPI includes an extremely easy to use, but extremely powerful <dfn title='also known as \"components\", \"resources\", \"services\", \"providers\"'>**Dependency Injection**</dfn> system.\n\n* Even dependencies can have dependencies, creating a hierarchy or **\"graph\" of dependencies**.\n* All **automatically handled** by the framework.\n* All the dependencies can require data from requests and **augment the path operation** constraints and automatic documentation.\n* **Automatic validation** even for *path operation* parameters defined in dependencies.\n* Support for complex user authentication systems, **database connections**, etc.\n* **No compromise** with databases, frontends, etc. But easy integration with all of them."
+        },
+        {
+          "n": 5,
+          "source_file": "tutorial/dependencies/sub-dependencies.md",
+          "start": 4459,
+          "end": 4951,
+          "text": "## Recap\n\nApart from all the fancy words used here, the **Dependency Injection** system is quite simple.\n\nJust functions that look the same as the *path operation functions*.\n\nBut still, it is very powerful, and allows you to declare arbitrarily deeply nested dependency \"graphs\" (trees).\n\n**Tip**\n\nAll this might not seem as useful with these simple examples.\n\nBut you will see how useful it is in the chapters about **security**.\n\nAnd you will also see the amounts of code it will save you."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/dependencies/index.md",
+          "start": 9403,
+          "end": 10123
+        },
+        {
+          "source_file": "tutorial/dependencies/index.md",
+          "start": 301,
+          "end": 971
+        },
+        {
+          "source_file": "tutorial/background-tasks.md",
+          "start": 3495,
+          "end": 3926
+        },
+        {
+          "source_file": "features.md",
+          "start": 4570,
+          "end": 5317
+        },
+        {
+          "source_file": "tutorial/dependencies/sub-dependencies.md",
+          "start": 4459,
+          "end": 4951
+        }
+      ],
+      "translated": "What does the Dependency Injection system do with the hierarchical dependency tree?",
+      "seconds": 28.639692068099976,
+      "raw": "O sistema de Injeção de Dependências (Dependency Injection) cria uma árvore hierárquica de dependências e cuida de resolver todas essas dependências para você (e suas sub-dependências), fornecendo (injetando) os resultados em cada etapa.\n\nFontes: 1, 2\n--- segunda tentativa ---\nO sistema de Injeção de Dependências cria e organiza uma árvore hierárquica de dependências, onde cada função ou objeto dependente pode ter dependências próprias. O sistema FastAPI cuida de resolver todas essas dependências e fornecer (injetar) os resultados em cada etapa, garantindo que a árvore hierárquica de dependências seja construída de forma eficiente e eficaz.\n\nFontes: [1] [2] [3] [4] [5]"
+    },
+    "q017": {
+      "question": "Qual a diferença entre a `HTTPException` do FastAPI e a do Starlette?",
+      "answer": "A principal diferença entre a `HTTPException` do FastAPI e a do Starlette é que o FastAPI permite que qualquer dado JSON-able seja usado como detalhe (`detail`) da exceção, enquanto o Starlette só aceita strings para esse campo.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.8040488,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/handling-errors.md",
+          "start": 10904,
+          "end": 11869,
+          "text": "#### FastAPI's `HTTPException` vs Starlette's `HTTPException`\n\n**FastAPI** has its own `HTTPException`.\n\nAnd **FastAPI**'s `HTTPException` error class inherits from Starlette's `HTTPException` error class.\n\nThe only difference is that **FastAPI**'s `HTTPException` accepts any JSON-able data for the `detail` field, while Starlette's `HTTPException` only accepts strings for it.\n\nSo, you can keep raising **FastAPI**'s `HTTPException` as normally in your code.\n\nBut when you register an exception handler, you should register it for Starlette's `HTTPException`.\n\nThis way, if any part of Starlette's internal code, or a Starlette extension or plug-in, raises a Starlette `HTTPException`, your handler will be able to catch and handle it.\n\nIn this example, to be able to have both `HTTPException`s in the same code, Starlette's exceptions is renamed to `StarletteHTTPException`:\n\n```Python\nfrom starlette.exceptions import HTTPException as StarletteHTTPException\n```"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/handling-errors.md",
+          "start": 10904,
+          "end": 11869
+        },
+        {
+          "source_file": "tutorial/handling-errors.md",
+          "start": 12106,
+          "end": 13044
+        },
+        {
+          "source_file": "tutorial/handling-errors.md",
+          "start": 7921,
+          "end": 8880
+        },
+        {
+          "source_file": "tutorial/handling-errors.md",
+          "start": 6298,
+          "end": 7228
+        },
+        {
+          "source_file": "features.md",
+          "start": 5880,
+          "end": 6735
+        }
+      ],
+      "translated": "What is the difference between `HTTPException` from FastAPI and `Starlette`?",
+      "seconds": 30.30181646347046,
+      "raw": "A principal diferença entre a `HTTPException` do FastAPI e a do Starlette é que o FastAPI permite que qualquer dado JSON-able seja usado no campo `detail`, enquanto o Starlette só aceita strings para esse campo.\n--- segunda tentativa ---\nA principal diferença entre a `HTTPException` do FastAPI e a do Starlette é que o FastAPI permite que qualquer dado JSON-able seja usado como detalhe (`detail`) da exceção, enquanto o Starlette só aceita strings para esse campo.\n\nFontes: [1]"
+    },
+    "q019": {
+      "question": "Qual a vantagem de guardar as senhas com hash caso o banco de dados seja roubado?",
+      "answer": "Guardar as senhas com hash, mesmo que o banco de dados seja roubado, garante que os ladrões não possam usar essas senhas em outros sistemas. Isso é porque os ladrões só terão os hashes das senhas, e não as senhas em formato de texto plano. Portanto, eles não poderão tentar usar essas mesmas senhas em outros sistemas, o que seria perigoso porque muitas pessoas usam a mesma senha em vários lugares. Fontes: [1] [2] [3]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6851152,
+      "cited": [
+        1,
+        2,
+        3
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/extra-models.md",
+          "start": 0,
+          "end": 587,
+          "text": "# Extra Models\n\nContinuing with the previous example, it will be common to have more than one related model.\n\nThis is especially the case for user models, because:\n\n* The **input model** needs to be able to have a password.\n* The **output model** should not have a password.\n* The **database model** would probably need to have a hashed password.\n\n**Danger**\n\nNever store user's plaintext passwords. Always store a \"secure hash\" that you can then verify.\n\nIf you don't know, you will learn what a \"password hash\" is in the [security chapters](security/simple-oauth2.md#password-hashing)."
+        },
+        {
+          "n": 2,
+          "source_file": "tutorial/security/simple-oauth2.md",
+          "start": 9352,
+          "end": 9639,
+          "text": "##### Why use password hashing\n\nIf your database is stolen, the thief won't have your users' plaintext passwords, only the hashes.\n\nSo, the thief won't be able to try to use those same passwords in another system (as many users use the same password everywhere, this would be dangerous)."
+        },
+        {
+          "n": 3,
+          "source_file": "tutorial/security/oauth2-jwt.md",
+          "start": 2269,
+          "end": 2547,
+          "text": "### Why use password hashing\n\nIf your database is stolen, the thief won't have your users' plaintext passwords, only the hashes.\n\nSo, the thief won't be able to try to use that password in another system (as many users use the same password everywhere, this would be dangerous)."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/extra-models.md",
+          "start": 0,
+          "end": 587
+        },
+        {
+          "source_file": "tutorial/security/simple-oauth2.md",
+          "start": 9352,
+          "end": 9639
+        },
+        {
+          "source_file": "tutorial/security/oauth2-jwt.md",
+          "start": 2269,
+          "end": 2547
+        },
+        {
+          "source_file": "tutorial/security/oauth2-jwt.md",
+          "start": 8397,
+          "end": 8954
+        },
+        {
+          "source_file": "tutorial/security/simple-oauth2.md",
+          "start": 8691,
+          "end": 9018
+        }
+      ],
+      "translated": "What advantage does storing passwords with a hash have if the database is hacked?",
+      "seconds": 31.988086223602295,
+      "raw": "Quando o banco de dados é roubado, as senhas estão em formato de hash e não em formato de texto plano. Portanto, o ladrão não terá as senhas dos usuários em formato de texto plano. Isso impede que o ladrão use essas mesmas senhas em outro sistema (pois muitos usuários usam a mesma senha em vários lugares, o que seria perigoso).\n--- segunda tentativa ---\nGuardar as senhas com hash, mesmo que o banco de dados seja roubado, garante que os ladrões não possam usar essas senhas em outros sistemas. Isso é porque os ladrões só terão os hashes das senhas, e não as senhas em formato de texto plano. Portanto, eles não poderão tentar usar essas mesmas senhas em outros sistemas, o que seria perigoso porque muitas pessoas usam a mesma senha em vários lugares. Fontes: [1] [2] [3]"
+    },
+    "q020": {
+      "question": "De onde importar `Body`, `Query`, `Form` etc. para usar com modelos Pydantic v1 durante a migração?",
+      "answer": "Para usar `Body`, `Query`, `Form` etc. com modelos Pydantic v1 durante a migração, você deve importar essas funções do pacote `fastapi.temp_pydantic_v1_params`.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.7028955,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "how-to/migrate-from-pydantic-v1-to-pydantic-v2.md",
+          "start": 5369,
+          "end": 6149,
+          "text": "In this example above, the input model is a Pydantic v1 model, and the output model (defined in `response_model=ItemV2`) is a Pydantic v2 model.\n\n### Pydantic v1 parameters\n\nIf you need to use some of the FastAPI-specific tools for parameters like `Body`, `Query`, `Form`, etc. with Pydantic v1 models, you can import them from `fastapi.temp_pydantic_v1_params` while you finish the migration to Pydantic v2:\n\n```python\nfrom typing import Annotated\n\nfrom fastapi import FastAPI\nfrom fastapi.temp_pydantic_v1_params import Body\nfrom pydantic.v1 import BaseModel\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    size: float\n\napp = FastAPI()\n\n@app.post(\"/items/\")\nasync def create_item(item: Annotated[Item, Body(embed=True)]) -> Item:\n    return item\n```"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "how-to/migrate-from-pydantic-v1-to-pydantic-v2.md",
+          "start": 5369,
+          "end": 6149
+        },
+        {
+          "source_file": "how-to/migrate-from-pydantic-v1-to-pydantic-v2.md",
+          "start": 6151,
+          "end": 6923
+        },
+        {
+          "source_file": "how-to/migrate-from-pydantic-v1-to-pydantic-v2.md",
+          "start": 2581,
+          "end": 3575
+        },
+        {
+          "source_file": "how-to/migrate-from-pydantic-v1-to-pydantic-v2.md",
+          "start": 910,
+          "end": 1399
+        },
+        {
+          "source_file": "tutorial/request-form-models.md",
+          "start": 323,
+          "end": 1030
+        }
+      ],
+      "translated": "Where do I import `Body`, `Query`, `Form` etc. from to use with Pydantic v1 models during migration?",
+      "seconds": 26.127297163009644,
+      "raw": "Para usar `Body`, `Query`, `Form` etc. com modelos Pydantic v1 durante a migração, você deve importar essas funções do pacote `fastapi.temp_pydantic_v1_params`.\n\nFontes: [1]"
+    },
+    "q022": {
+      "question": "Por que combinar respostas predefinidas com respostas específicas de cada operação de rota?",
+      "answer": "Por que combinar respostas predefinidas com respostas específicas de cada operação de rota?\n\nCombinar respostas predefinidas com respostas específicas de cada operação de rota permite que você reutilize as respostas padrão para cenários comuns, enquanto ainda oferece a flexibilidade de personalizar as respostas para casos mais específicos. Isso é útil para evitar duplicar código e manter a consistência na documentação.\n\nFontes: [1] [3] [4]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6147797,
+      "cited": [
+        1,
+        3,
+        4
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/additional-responses.md",
+          "start": 8890,
+          "end": 9723,
+          "text": "## Combine predefined responses and custom ones\n\nYou might want to have some predefined responses that apply to many *path operations*, but you want to combine them with custom responses needed by each *path operation*.\n\nFor those cases, you can use the Python technique of \"unpacking\" a `dict` with `**dict_to_unpack`:\n\n```Python\nold_dict = {\n    \"old key\": \"old value\",\n    \"second old key\": \"second old value\",\n}\nnew_dict = {**old_dict, \"new key\": \"new value\"}\n```\n\nHere, `new_dict` will contain all the key-value pairs from `old_dict` plus the new key-value pair:\n\n```Python\n{\n    \"old key\": \"old value\",\n    \"second old key\": \"second old value\",\n    \"new key\": \"new value\",\n}\n```\n\nYou can use that technique to reuse some predefined responses in your *path operations* and combine them with additional custom ones.\n\nFor example:"
+        },
+        {
+          "n": 3,
+          "source_file": "tutorial/bigger-applications.md",
+          "start": 7963,
+          "end": 8935,
+          "text": "* They will be marked with a list of tags that contain a single string `\"items\"`.\n    * These \"tags\" are especially useful for the automatic interactive documentation systems (using OpenAPI).\n* All of them will include the predefined `responses`.\n* All these *path operations* will have the list of `dependencies` evaluated/executed before them.\n    * If you also declare dependencies in a specific *path operation*, **they will be executed too**.\n    * The router dependencies are executed first, then the [`dependencies` in the decorator](dependencies/dependencies-in-path-operation-decorators.md), and then the normal parameter dependencies.\n    * You can also add [`Security` dependencies with `scopes`](../advanced/security/oauth2-scopes.md).\n\n**Tip**\n\nHaving `dependencies` in the `APIRouter` can be used, for example, to require authentication for a whole group of *path operations*. Even if the dependencies are not added individually to each one of them.\n\n**Tip**"
+        },
+        {
+          "n": 4,
+          "source_file": "advanced/additional-responses.md",
+          "start": 7226,
+          "end": 7958,
+          "text": "## Combining information\n\nYou can also combine response information from multiple places, including the `response_model`, `status_code`, and `responses` parameters.\n\nYou can declare a `response_model`, using the default status code `200` (or a custom one if you need), and then declare additional information for that same response in `responses`, directly in the OpenAPI schema.\n\n**FastAPI** will keep the additional information from `responses`, and combine it with the JSON Schema from your model.\n\nFor example, you can declare a response with a status code `404` that uses a Pydantic model and has a custom `description`.\n\nAnd a response with a status code `200` that uses your `response_model`, but includes a custom `example`:"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/additional-responses.md",
+          "start": 8890,
+          "end": 9723
+        },
+        {
+          "source_file": "tutorial/bigger-applications.md",
+          "start": 12308,
+          "end": 12654
+        },
+        {
+          "source_file": "tutorial/bigger-applications.md",
+          "start": 7963,
+          "end": 8935
+        },
+        {
+          "source_file": "advanced/additional-responses.md",
+          "start": 7226,
+          "end": 7958
+        },
+        {
+          "source_file": "advanced/dataclasses.md",
+          "start": 4929,
+          "end": 5516
+        }
+      ],
+      "translated": "Why combine predefined responses with specific responses for each route operation?",
+      "seconds": 33.930099964141846,
+      "raw": "Combinar respostas predefinidas com respostas específicas de cada operação de rota permite que você reutilize respostas padrão para operações comuns, enquanto também adicione respostas personalizadas para operações específicas. Isso é útil para manter a consistência e a personalização ao mesmo tempo.\n--- segunda tentativa ---\nPor que combinar respostas predefinidas com respostas específicas de cada operação de rota?\n\nCombinar respostas predefinidas com respostas específicas de cada operação de rota permite que você reutilize as respostas padrão para cenários comuns, enquanto ainda oferece a flexibilidade de personalizar as respostas para casos mais específicos. Isso é útil para evitar duplicar código e manter a consistência na documentação.\n\nFontes: [1] [3] [4]"
+    },
+    "q024": {
+      "question": "Por que não dá para declarar campos `Body` em JSON junto com parâmetros `File` e `Form`?",
+      "answer": "Por que não dá para declarar campos `Body` em JSON junto com parâmetros `File` e `Form`? Isso não é permitido por causa da natureza do protocolo HTTP. O FastAPI segue as regras do protocolo HTTP, que determina que os campos `File` e `Form` são enviados como `multipart/form-data`, enquanto os campos `Body` em JSON são enviados como `application/json`.\n\nFontes: [1] [2]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.710531,
+      "cited": [
+        1,
+        2
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/request-files.md",
+          "start": 5811,
+          "end": 6139,
+          "text": "You can declare multiple `File` and `Form` parameters in a *path operation*, but you can't also declare `Body` fields that you expect to receive as JSON, as the request will have the body encoded using `multipart/form-data` instead of `application/json`.\n\nThis is not a limitation of **FastAPI**, it's part of the HTTP protocol."
+        },
+        {
+          "n": 2,
+          "source_file": "tutorial/request-forms-and-files.md",
+          "start": 738,
+          "end": 1705,
+          "text": "## Define `File` and `Form` parameters\n\nCreate file and form parameters the same way you would for `Body` or `Query`:\n\n```python\nfrom typing import Annotated\n\nfrom fastapi import FastAPI, File, Form, UploadFile\n\napp = FastAPI()\n\n@app.post(\"/files/\")\nasync def create_file(\n    file: Annotated[bytes, File()],\n    fileb: Annotated[UploadFile, File()],\n    token: Annotated[str, Form()],\n):\n    return {\n        \"file_size\": len(file),\n        \"token\": token,\n        \"fileb_content_type\": fileb.content_type,\n    }\n```\n\nThe files and form fields will be uploaded as form data and you will receive the files and form fields.\n\nAnd you can declare some of the files as `bytes` and some as `UploadFile`.\n\n**Warning**\n\nYou can declare multiple `File` and `Form` parameters in a *path operation*, but you can't also declare `Body` fields that you expect to receive as JSON, as the request will have the body encoded using `multipart/form-data` instead of `application/json`."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/request-files.md",
+          "start": 5811,
+          "end": 6139
+        },
+        {
+          "source_file": "tutorial/request-forms-and-files.md",
+          "start": 738,
+          "end": 1705
+        },
+        {
+          "source_file": "tutorial/request-forms.md",
+          "start": 3009,
+          "end": 3340
+        },
+        {
+          "source_file": "tutorial/request-forms.md",
+          "start": 1441,
+          "end": 2118
+        },
+        {
+          "source_file": "tutorial/request-forms.md",
+          "start": 546,
+          "end": 1439
+        }
+      ],
+      "translated": "Why can't I declare `Body` fields in JSON along with `File` and `Form` parameters?",
+      "seconds": 32.23910117149353,
+      "raw": "Por que não dá para declarar campos `Body` em JSON junto com parâmetros `File` e `Form` é porque o protocolo HTTP determina que os dados enviados por `File` e `Form` são enviados como `multipart/form-data`, não como `application/json`. Essa é uma característica do protocolo HTTP e não da biblioteca **FastAPI**. Fontes:1 2\n--- segunda tentativa ---\nPor que não dá para declarar campos `Body` em JSON junto com parâmetros `File` e `Form`? Isso não é permitido por causa da natureza do protocolo HTTP. O FastAPI segue as regras do protocolo HTTP, que determina que os campos `File` e `Form` são enviados como `multipart/form-data`, enquanto os campos `Body` em JSON são enviados como `application/json`.\n\nFontes: [1] [2]"
+    },
+    "q025": {
+      "question": "As funções `fake_password_hasher` e `fake_save_user` oferecem segurança real?",
+      "answer": "As funções `fake_password_hasher` e `fake_save_user` não oferecem segurança real. Elas são apenas usadas para demonstrar um possível fluxo de dados, mas não fornecem segurança de verdade.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.5670465,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/extra-models.md",
+          "start": 3640,
+          "end": 4275,
+          "text": "#### Unpacking a `dict` and extra keywords\n\nAnd then adding the extra keyword argument `hashed_password=hashed_password`, like in:\n\n```Python\nUserInDB(**user_in.model_dump(), hashed_password=hashed_password)\n```\n\n...ends up being like:\n\n```Python\nUserInDB(\n    username=user_dict[\"username\"],\n    password=user_dict[\"password\"],\n    email=user_dict[\"email\"],\n    full_name=user_dict[\"full_name\"],\n    hashed_password=hashed_password,\n)\n```\n\n**Warning**\n\nThe supporting additional functions `fake_password_hasher` and `fake_save_user` are just to demo a possible flow of the data, but they of course are not providing any real security."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/extra-models.md",
+          "start": 3640,
+          "end": 4275
+        },
+        {
+          "source_file": "tutorial/extra-models.md",
+          "start": 5060,
+          "end": 5864
+        },
+        {
+          "source_file": "tutorial/extra-models.md",
+          "start": 730,
+          "end": 1642
+        },
+        {
+          "source_file": "tutorial/security/oauth2-jwt.md",
+          "start": 8397,
+          "end": 8954
+        },
+        {
+          "source_file": "tutorial/body-nested-models.md",
+          "start": 6644,
+          "end": 7349
+        }
+      ],
+      "translated": "Do functions `fake_password_hasher` and `fake_save_user` offer real security?",
+      "seconds": 31.135531187057495,
+      "raw": "As funções `fake_password_hasher` e `fake_save_user` não fornecem segurança real. Elas são apenas usadas para demonstrar um possível fluxo de dados e não fornecem nenhum tipo de segurança ou hashing real.\n\nFontes:\n1\n--- segunda tentativa ---\nAs funções `fake_password_hasher` e `fake_save_user` não oferecem segurança real. Elas são apenas usadas para demonstrar um possível fluxo de dados, mas não fornecem segurança de verdade.\n\nFontes: [1]"
+    },
+    "q027": {
+      "question": "O que o FastAPI diz a quem se sente perdido com expressões regulares?",
+      "answer": "Se você se sente perdido com as ideias de **\"expressões regulares\"**, não se preocupe. Elas são um tópico difícil para muitas pessoas. Você ainda pode fazer muita coisa sem precisar de expressões regulares.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.7008885,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/query-params-str-validations.md",
+          "start": 8594,
+          "end": 8857,
+          "text": "If you feel lost with all these **\"regular expression\"** ideas, don't worry. They are a hard topic for many people. You can still do a lot of stuff without needing regular expressions yet.\n\nNow you know that whenever you need them you can use them in **FastAPI**."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/query-params-str-validations.md",
+          "start": 8594,
+          "end": 8857
+        },
+        {
+          "source_file": "tutorial/query-params-str-validations.md",
+          "start": 7710,
+          "end": 8592
+        },
+        {
+          "source_file": "index.md",
+          "start": 895,
+          "end": 1044
+        },
+        {
+          "source_file": "advanced/openapi-callbacks.md",
+          "start": 0,
+          "end": 683
+        },
+        {
+          "source_file": "fastapi-cli.md",
+          "start": 0,
+          "end": 391
+        }
+      ],
+      "translated": "What does FastAPI say to someone lost with regular expressions?",
+      "seconds": 17.841811180114746,
+      "raw": "Se você se sente perdido com as ideias de **\"expressões regulares\"**, não se preocupe. Elas são um tópico difícil para muitas pessoas. Você ainda pode fazer muita coisa sem precisar de expressões regulares.\n\nFontes: [1]"
+    },
+    "q029": {
+      "question": "Que status HTTP as utilidades de segurança retornavam, antes do FastAPI 0.122.0, após uma falha de autenticação?",
+      "answer": "Resposta:\n\nAntes do FastAPI 0.122.0, as utilidades de segurança retornavam o status HTTP `403 Forbidden` após uma falha de autenticação.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.7208868,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "how-to/authentication-error-status-code.md",
+          "start": 0,
+          "end": 903,
+          "text": "# Use Old 403 Authentication Error Status Codes\n\nBefore FastAPI version `0.122.0`, when the integrated security utilities returned an error to the client after a failed authentication, they used the HTTP status code `403 Forbidden`.\n\nStarting with FastAPI version `0.122.0`, they use the more appropriate HTTP status code `401 Unauthorized`, and return a sensible `WWW-Authenticate` header in the response, following the HTTP specifications, [RFC 7235](https://datatracker.ietf.org/doc/html/rfc7235#section-3.1), [RFC 9110](https://datatracker.ietf.org/doc/html/rfc9110#name-401-unauthorized).\n\nBut if for some reason your clients depend on the old behavior, you can revert to it by overriding the method `make_not_authenticated_error` in your security classes.\n\nFor example, you can create a subclass of `HTTPBearer` that returns a `403 Forbidden` error instead of the default `401 Unauthorized` error:"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "how-to/authentication-error-status-code.md",
+          "start": 0,
+          "end": 903
+        },
+        {
+          "source_file": "tutorial/response-status-code.md",
+          "start": 991,
+          "end": 1479
+        },
+        {
+          "source_file": "tutorial/security/first-steps.md",
+          "start": 7819,
+          "end": 8620
+        },
+        {
+          "source_file": "advanced/advanced-dependencies.md",
+          "start": 5497,
+          "end": 6381
+        },
+        {
+          "source_file": "advanced/additional-status-codes.md",
+          "start": 0,
+          "end": 271
+        }
+      ],
+      "translated": "What HTTP status codes did the security utilities return, before FastAPI 0.122.0, after a authentication failure?",
+      "seconds": 27.360092163085938,
+      "raw": "Antes do FastAPI 0.122.0, as utilidades de segurança retornavam o status HTTP 403 Forbidden após uma falha de autenticação. Fontes:1\n--- segunda tentativa ---\nResposta:\n\nAntes do FastAPI 0.122.0, as utilidades de segurança retornavam o status HTTP `403 Forbidden` após uma falha de autenticação.\n\nFontes: [1]"
+    },
+    "q030": {
+      "question": "No exemplo do restaurante de hambúrguer, por que o trabalho com o caixa fica \"em pausa\"?",
+      "answer": "No exemplo do restaurante de hambúrguer, o trabalho com o caixa fica \"em pausa\" porque você ainda não tem seus hambúrgueres. Ainda está esperando 🕙 para que eles estejam prontos. Portanto, você não pode continuar processando a conta ou qualquer outra tarefa até que os hambúrgueres estejam disponíveis.\n\nFontes: [1] [3]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6110182,
+      "cited": [
+        1,
+        3
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "async.md",
+          "start": 8492,
+          "end": 9387,
+          "text": "This is \"synchronous\" work, you are \"synchronized\" with the cashier/cook 👨‍🍳. You have to wait 🕙 and be there at the exact moment that the cashier/cook 👨‍🍳 finishes the burgers and gives them to you, or otherwise, someone else might take them.\n\nThen your cashier/cook 👨‍🍳 finally comes back with your burgers, after a long time waiting 🕙 there in front of the counter.\n\nYou take your burgers and go to the table with your crush.\n\nYou just eat them, and you are done. ⏹\n\nThere was not much talk or flirting as most of the time was spent waiting 🕙 in front of the counter. 😞\n\n**Note**\n\nBeautiful illustrations by [Ketrina Thompson](https://www.instagram.com/ketrinadrawsalot). 🎨\n\n---\n\nIn this scenario of the parallel burgers, you are a computer / program 🤖 with two processors (you and your crush), both waiting 🕙 and dedicating their attention ⏯ to be \"waiting on the counter\" 🕙 for a long time."
+        },
+        {
+          "n": 3,
+          "source_file": "async.md",
+          "start": 12039,
+          "end": 12686,
+          "text": "But in this case, if you could bring the 8 ex-cashier/cooks/now-cleaners, and each one of them (plus you) could take a zone of the house to clean it, you could do all the work in **parallel**, with the extra help, and finish much sooner.\n\nIn this scenario, each one of the cleaners (including you) would be a processor, doing their part of the job.\n\nAnd as most of the execution time is taken by actual work (instead of waiting), and the work in a computer is done by a CPU (Central Processing Unit), they call these problems \"CPU bound\".\n\n---\n\nCommon examples of CPU bound operations are things that require complex math processing.\n\nFor example:"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "async.md",
+          "start": 8492,
+          "end": 9387
+        },
+        {
+          "source_file": "async.md",
+          "start": 5560,
+          "end": 6540
+        },
+        {
+          "source_file": "async.md",
+          "start": 12039,
+          "end": 12686
+        },
+        {
+          "source_file": "async.md",
+          "start": 9389,
+          "end": 10038
+        },
+        {
+          "source_file": "async.md",
+          "start": 6542,
+          "end": 7259
+        }
+      ],
+      "translated": "Why does the cashier work stop in the restaurant example?",
+      "seconds": 33.170289516448975,
+      "raw": "No exemplo do restaurante de hambúrguer, o trabalho com o caixa fica \"em pausa\" porque você ainda não tem seus hambúrgueres. A preparação dos hambúrgueres é feita por outro caixa, então você não pode continuar processando a ordem até que os hambúrgueres estejam prontos.\n--- segunda tentativa ---\nNo exemplo do restaurante de hambúrguer, o trabalho com o caixa fica \"em pausa\" porque você ainda não tem seus hambúrgueres. Ainda está esperando 🕙 para que eles estejam prontos. Portanto, você não pode continuar processando a conta ou qualquer outra tarefa até que os hambúrgueres estejam disponíveis.\n\nFontes: [1] [3]"
+    },
+    "q032": {
+      "question": "O que o desenvolvedor passa a controlar ao usar `StreamingResponse`?",
+      "answer": "O desenvolvedor passa a controlar a forma como os dados são produzidos e codificados exatamente como ele precisa ser enviado, independentemente das anotações de tipo. Fontes: [1] [4]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6908828,
+      "cited": [
+        1,
+        4
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/custom-response.md",
+          "start": 9233,
+          "end": 10178,
+          "text": "### `StreamingResponse`\n\nTakes an async generator or a normal generator/iterator (a function with `yield`) and streams the response body.\n\n```python\nimport anyio\nfrom fastapi import FastAPI\nfrom fastapi.responses import StreamingResponse\n\napp = FastAPI()\n\nasync def fake_video_streamer():\n    for i in range(10):\n        yield b\"some fake video bytes\"\n        await anyio.sleep(0)\n\n@app.get(\"/\")\nasync def main():\n    return StreamingResponse(fake_video_streamer())\n```\n\n**Note**: Technical Details\n\nAn `async` task can only be cancelled when it reaches an `await`. If there is no `await`, the generator (function with `yield`) can not be cancelled properly and may keep running even after cancellation is requested.\n\nSince this small example does not need any `await` statements, we add an `await anyio.sleep(0)` to give the event loop a chance to handle cancellation.\n\nThis would be even more important with large or infinite streams.\n\n**Tip**"
+        },
+        {
+          "n": 4,
+          "source_file": "advanced/stream-data.md",
+          "start": 8166,
+          "end": 8372,
+          "text": "This also means that with `StreamingResponse` you have the **freedom** and **responsibility** to produce and encode the data bytes exactly as you need them to be sent, independent of the type annotations. 🤓"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/custom-response.md",
+          "start": 9233,
+          "end": 10178
+        },
+        {
+          "source_file": "advanced/stream-data.md",
+          "start": 10740,
+          "end": 11215
+        },
+        {
+          "source_file": "advanced/openapi-callbacks.md",
+          "start": 0,
+          "end": 683
+        },
+        {
+          "source_file": "advanced/stream-data.md",
+          "start": 8166,
+          "end": 8372
+        },
+        {
+          "source_file": "advanced/custom-response.md",
+          "start": 10180,
+          "end": 10492
+        }
+      ],
+      "translated": "What does the developer control when using `StreamingResponse`?",
+      "seconds": 24.12071657180786,
+      "raw": "Ao usar `StreamingResponse`, o desenvolvedor passa a controlar completamente a forma como os dados são produzidos e codificados para serem enviados. Ele tem a liberdade e responsabilidade de produzir e codificar os bytes de dados exatamente da maneira que deseja ser enviada, independentemente das anotações de tipo.\n\nFontes: 1, 4\n--- segunda tentativa ---\nO desenvolvedor passa a controlar a forma como os dados são produzidos e codificados exatamente como ele precisa ser enviado, independentemente das anotações de tipo. Fontes: [1] [4]"
+    },
+    "q034": {
+      "question": "Por que os benchmarks costumam não refletir bem as ferramentas?",
+      "answer": "Benchmark costumam não refletir bem as ferramentas porque esses testes geralmente focam em desempenho básico, esquecendo de testar as funcionalidades adicionais que as ferramentas podem oferecer. Fontes: [1] [5]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.62163794,
+      "cited": [
+        1,
+        5
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "benchmarks.md",
+          "start": 439,
+          "end": 1086,
+          "text": "## Benchmarks and speed\n\nWhen you check the benchmarks, it is common to see several tools of different types compared as equivalent.\n\nSpecifically, to see Uvicorn, Starlette and FastAPI compared together (among many other tools).\n\nThe simpler the problem solved by the tool, the better performance it will get. And most of the benchmarks don't test the additional features provided by the tool.\n\nThe hierarchy is like:\n\n* **Uvicorn**: an ASGI server\n    * **Starlette**: (uses Uvicorn) a web microframework\n        * **FastAPI**: (uses Starlette) an API microframework with several additional features for building APIs, with data validation, etc."
+        },
+        {
+          "n": 5,
+          "source_file": "alternatives.md",
+          "start": 11328,
+          "end": 11961,
+          "text": "### [Sanic](https://sanic.readthedocs.io/en/latest/)\n\nIt was one of the first extremely fast Python frameworks based on `asyncio`. It was made to be very similar to Flask.\n\n**Note**: Technical Details\n\nIt used [`uvloop`](https://github.com/MagicStack/uvloop) instead of the default Python `asyncio` loop. That's what made it so fast.\n\nIt clearly inspired Uvicorn and Starlette, that are currently faster than Sanic in open benchmarks.\n\n**Tip**: Inspired **FastAPI** to\n\nFind a way to have a crazy performance.\n\nThat's why **FastAPI** is based on Starlette, as it is the fastest framework available (tested by third-party benchmarks)."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "benchmarks.md",
+          "start": 439,
+          "end": 1086
+        },
+        {
+          "source_file": "benchmarks.md",
+          "start": 0,
+          "end": 437
+        },
+        {
+          "source_file": "alternatives.md",
+          "start": 21842,
+          "end": 22006
+        },
+        {
+          "source_file": "index.md",
+          "start": 17556,
+          "end": 18016
+        },
+        {
+          "source_file": "alternatives.md",
+          "start": 11328,
+          "end": 11961
+        }
+      ],
+      "translated": "Why do benchmarks usually not reflect well the tools?",
+      "seconds": 24.480244636535645,
+      "raw": "Benchmark costumam não refletir bem as ferramentas porque os benchmarks geralmente testam apenas a performance básica de uma ferramenta, sem considerar as funcionalidades adicionais que a ferramenta pode oferecer. Além disso, os benchmarks podem não testar todas as funcionalidades de uma ferramenta, focando apenas em algumas partes específicas. Fontes:1 2\n--- segunda tentativa ---\nBenchmark costumam não refletir bem as ferramentas porque esses testes geralmente focam em desempenho básico, esquecendo de testar as funcionalidades adicionais que as ferramentas podem oferecer. Fontes: [1] [5]"
+    },
+    "q035": {
+      "question": "A que a palavra \"servidor\" costuma se referir?",
+      "answer": "A palavra \"servidor\" costuma se referir tanto ao computador remoto (físico ou virtual) quanto ao programa que está rodando nesse computador.\n\nFontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.58805156,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "deployment/manually.md",
+          "start": 1930,
+          "end": 2537,
+          "text": "## Server Machine and Server Program\n\nThere's a small detail about names to keep in mind. 💡\n\nThe word \"**server**\" is commonly used to refer to both the remote/cloud computer (the physical or virtual machine) and also the program that is running on that machine (e.g. Uvicorn).\n\nJust keep in mind that when you read \"server\" in general, it could refer to one of those two things.\n\nWhen referring to the remote machine, it's common to call it **server**, but also **machine**, **VM** (virtual machine), **node**. Those all refer to some type of remote machine, normally running Linux, where you run programs."
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "deployment/manually.md",
+          "start": 1930,
+          "end": 2537
+        },
+        {
+          "source_file": "tutorial/server-sent-events.md",
+          "start": 372,
+          "end": 1011
+        },
+        {
+          "source_file": "deployment/concepts.md",
+          "start": 2713,
+          "end": 3303
+        },
+        {
+          "source_file": "deployment/concepts.md",
+          "start": 12698,
+          "end": 13567
+        },
+        {
+          "source_file": "deployment/concepts.md",
+          "start": 3305,
+          "end": 3489
+        }
+      ],
+      "translated": "What does the word \"server\" typically refer to?",
+      "seconds": 21.53437638282776,
+      "raw": "A palavra \"servidor\" costuma se referir tanto ao computador remoto ou virtual (a máquina física ou virtual) quanto ao programa que está rodando nessa máquina. Fontes:1\n--- segunda tentativa ---\nA palavra \"servidor\" costuma se referir tanto ao computador remoto (físico ou virtual) quanto ao programa que está rodando nesse computador.\n\nFontes: [1]"
+    },
+    "q037": {
+      "question": "O que vale ao adicionar dependências globais a toda a aplicação?",
+      "answer": "Adicionar dependências globais a toda a aplicação permite que você crie dependências que serão aplicadas a todos os operadores de caminho da aplicação. Isso é útil para cenários onde você deseja que uma dependência seja usada em todas as partes da aplicação, não apenas em um determinado operador de caminho.\n\nFontes: [1] [3]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6738361,
+      "cited": [
+        1,
+        3
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "tutorial/dependencies/global-dependencies.md",
+          "start": 0,
+          "end": 377,
+          "text": "# Global Dependencies\n\nFor some types of applications you might want to add dependencies to the whole application.\n\nSimilar to the way you can [add `dependencies` to the *path operation decorators*](dependencies-in-path-operation-decorators.md), you can add them to the `FastAPI` application.\n\nIn that case, they will be applied to all the *path operations* in the application:"
+        },
+        {
+          "n": 3,
+          "source_file": "tutorial/bigger-applications.md",
+          "start": 14170,
+          "end": 14959,
+          "text": "### Import `FastAPI`\n\nYou import and create a `FastAPI` class as normally.\n\nAnd we can even declare [global dependencies](dependencies/global-dependencies.md) that will be combined with the dependencies for each `APIRouter`:\n\n```python\nfrom fastapi import Depends, FastAPI\n\nfrom .dependencies import get_query_token, get_token_header\nfrom .internal import admin\nfrom .routers import items, users\n\napp = FastAPI(dependencies=[Depends(get_query_token)])\n\napp.include_router(users.router)\napp.include_router(items.router)\napp.include_router(\n    admin.router,\n    prefix=\"/admin\",\n    tags=[\"admin\"],\n    dependencies=[Depends(get_token_header)],\n    responses={418: {\"description\": \"I'm a teapot\"}},\n)\n\n@app.get(\"/\")\nasync def root():\n    return {\"message\": \"Hello Bigger Applications!\"}\n```"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "tutorial/dependencies/global-dependencies.md",
+          "start": 0,
+          "end": 377
+        },
+        {
+          "source_file": "tutorial/dependencies/dependencies-in-path-operation-decorators.md",
+          "start": 4818,
+          "end": 4963
+        },
+        {
+          "source_file": "tutorial/bigger-applications.md",
+          "start": 14170,
+          "end": 14959
+        },
+        {
+          "source_file": "tutorial/frontend.md",
+          "start": 5854,
+          "end": 6289
+        },
+        {
+          "source_file": "advanced/settings.md",
+          "start": 5534,
+          "end": 5840
+        }
+      ],
+      "translated": "What does it mean to add global dependencies to the entire application?",
+      "seconds": 23.751298666000366,
+      "raw": "Adicionar dependências globais a toda a aplicação do FastAPI permite que essas dependências sejam aplicadas a todos os operadores de caminho da aplicação. Isso é útil para cenários onde você deseja que certas funcionalidades ou dados sejam acessíveis em todas as partes da aplicação.\n--- segunda tentativa ---\nAdicionar dependências globais a toda a aplicação permite que você crie dependências que serão aplicadas a todos os operadores de caminho da aplicação. Isso é útil para cenários onde você deseja que uma dependência seja usada em todas as partes da aplicação, não apenas em um determinado operador de caminho.\n\nFontes: [1] [3]"
+    },
+    "q039": {
+      "question": "É possível montar uma subaplicação usando também um proxy com `root_path`?",
+      "answer": "Sim, é possível montar uma subaplicação usando um proxy com `root_path`. Você pode configurar o servidor com `fastapi run --root-path` e FastAPI cuidará da comunicação do caminho de montagem da subaplicação usando a mecânica do ASGI, conforme descrito no tópico [Behind a Proxy](behind-a-proxy.md). Fontes: [1]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.7553989,
+      "cited": [
+        1
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/behind-a-proxy.md",
+          "start": 14758,
+          "end": 15060,
+          "text": "## Mounting a sub-application\n\nIf you need to mount a sub-application (as described in [Sub Applications - Mounts](sub-applications.md)) while also using a proxy with `root_path`, you can do it normally, as you would expect.\n\nFastAPI will internally use the `root_path` smartly, so it will just work. ✨"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/behind-a-proxy.md",
+          "start": 14758,
+          "end": 15060
+        },
+        {
+          "source_file": "advanced/sub-applications.md",
+          "start": 2587,
+          "end": 3207
+        },
+        {
+          "source_file": "advanced/behind-a-proxy.md",
+          "start": 3782,
+          "end": 4586
+        },
+        {
+          "source_file": "advanced/behind-a-proxy.md",
+          "start": 11962,
+          "end": 12596
+        },
+        {
+          "source_file": "advanced/templates.md",
+          "start": 4095,
+          "end": 4365
+        }
+      ],
+      "translated": "Is it possible to mount a subapplication using also a proxy with `root_path`?",
+      "seconds": 19.467469215393066,
+      "raw": "Sim, é possível montar uma subaplicação usando um proxy com `root_path`. Você pode configurar o servidor com `fastapi run --root-path` e FastAPI cuidará da comunicação do caminho de montagem da subaplicação usando a mecânica do ASGI, conforme descrito no tópico [Behind a Proxy](behind-a-proxy.md). Fontes: [1]"
+    },
+    "q040": {
+      "question": "Quem deve cuidar do HTTPS na frente da aplicação na maioria dos casos?",
+      "answer": "Na maioria dos casos, é o proxy quem deve cuidar do HTTPS na frente da aplicação.\n\nFontes: [1] [2]",
+      "refused": false,
+      "reason": "respondeu",
+      "top_score": 0.6599494,
+      "cited": [
+        1,
+        2
+      ],
+      "sources": [
+        {
+          "n": 1,
+          "source_file": "advanced/behind-a-proxy.md",
+          "start": 0,
+          "end": 807,
+          "text": "# Behind a Proxy\n\nIn many situations, you would use a **proxy** like Traefik or Nginx in front of your FastAPI app.\n\nThese proxies could handle HTTPS certificates and other things.\n\n## Proxy Forwarded Headers\n\nA **proxy** in front of your application would normally set some headers on the fly before sending the requests to your **server** to let the server know that the request was **forwarded** by the proxy, letting it know the original (public) URL, including the domain, that it is using HTTPS, etc.\n\nThe **server** started by `fastapi run` is capable of interpreting these headers, and then passing that information to your application.\n\nBut for security, as the server doesn't know it is behind a trusted proxy, it won't interpret those headers.\n\n**Note**: Technical Details\n\nThe proxy headers are:"
+        },
+        {
+          "n": 2,
+          "source_file": "deployment/https.md",
+          "start": 2343,
+          "end": 3138,
+          "text": "It is a common practice to have **one program/HTTP server** running on the server (the machine, host, etc.) and **managing all the HTTPS parts**: receiving the **encrypted HTTPS requests**, sending the **decrypted HTTP requests** to the actual HTTP application running in the same server (the **FastAPI** application, in this case), take the **HTTP response** from the application, **encrypt it** using the appropriate **HTTPS certificate** and sending it back to the client using **HTTPS**. This server is often called a **[TLS Termination Proxy](https://en.wikipedia.org/wiki/TLS_termination_proxy)**.\n\nSome of the options you could use as a TLS Termination Proxy are:\n\n* Traefik (that can also handle certificate renewals)\n* Caddy (that can also handle certificate renewals)\n* Nginx\n* HAProxy"
+        }
+      ],
+      "retrieved": [
+        {
+          "source_file": "advanced/behind-a-proxy.md",
+          "start": 0,
+          "end": 807
+        },
+        {
+          "source_file": "deployment/https.md",
+          "start": 2343,
+          "end": 3138
+        },
+        {
+          "source_file": "deployment/https.md",
+          "start": 12928,
+          "end": 13439
+        },
+        {
+          "source_file": "deployment/https.md",
+          "start": 10802,
+          "end": 11073
+        },
+        {
+          "source_file": "deployment/https.md",
+          "start": 12049,
+          "end": 12926
+        }
+      ],
+      "translated": "Who should handle HTTPS in front of the application in most cases?",
+      "seconds": 27.300455570220947,
+      "raw": "Na maioria dos casos, é o programa/HTTP server que deve cuidar do HTTPS na frente da aplicação. Este programa recebe as requisições HTTPS criptografadas, envia as requisições HTTP não criptografadas para a aplicação real (que pode ser um FastAPI), e depois recebe a resposta da aplicação e a criptografa novamente usando o certificado HTTPS apropriado antes de enviar de volta ao cliente usando HTTPS. Este programa geralmente é chamado de **TLS Termination Proxy**.\n--- segunda tentativa ---\nNa maioria dos casos, é o proxy quem deve cuidar do HTTPS na frente da aplicação.\n\nFontes: [1] [2]"
+    },
+    "q042": {
+      "question": "Como enviar notificações push para celulares usando o Firebase?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.54048747,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/websockets.md",
+          "start": 13087,
+          "end": 13854
+        },
+        {
+          "source_file": "tutorial/testing.md",
+          "start": 6901,
+          "end": 7792
+        },
+        {
+          "source_file": "advanced/websockets.md",
+          "start": 9803,
+          "end": 10295
+        },
+        {
+          "source_file": "deployment/docker.md",
+          "start": 5216,
+          "end": 5620
+        },
+        {
+          "source_file": "tutorial/background-tasks.md",
+          "start": 0,
+          "end": 742
+        }
+      ],
+      "translated": "How do you send push notifications to mobile phones using Firebase?",
+      "seconds": 16.467108726501465,
+      "raw": "NÃO ENCONTREI NA DOCUMENTAÇÃO"
+    },
+    "q044": {
+      "question": "Como indexar documentos e fazer buscas com Elasticsearch?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.5069985,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "tutorial/frontend.md",
+          "start": 1315,
+          "end": 2168
+        },
+        {
+          "source_file": "deployment/server-workers.md",
+          "start": 4261,
+          "end": 4676
+        },
+        {
+          "source_file": "how-to/custom-docs-ui-assets.md",
+          "start": 5714,
+          "end": 6230
+        },
+        {
+          "source_file": "advanced/openapi-webhooks.md",
+          "start": 3025,
+          "end": 3229
+        },
+        {
+          "source_file": "history-design-future.md",
+          "start": 2753,
+          "end": 3249
+        }
+      ],
+      "translated": "How do I index documents and make searches with Elasticsearch?",
+      "seconds": 13.789409637451172,
+      "raw": "NÃO ENCONTREI NA DOCUMENTAÇÃO\n\nFontes:\n1"
+    },
+    "q046": {
+      "question": "Como criar o aplicativo móvel em Flutter que consome a API?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.5615028,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 2234,
+          "end": 2715
+        },
+        {
+          "source_file": "tutorial/first-steps.md",
+          "start": 6857,
+          "end": 7168
+        },
+        {
+          "source_file": "advanced/openapi-callbacks.md",
+          "start": 685,
+          "end": 1331
+        },
+        {
+          "source_file": "tutorial/bigger-applications.md",
+          "start": 14170,
+          "end": 14959
+        },
+        {
+          "source_file": "advanced/openapi-callbacks.md",
+          "start": 4530,
+          "end": 5400
+        }
+      ],
+      "translated": "How do I create a Flutter mobile app that consumes the API?",
+      "seconds": 15.344037055969238,
+      "raw": "NÃO ENCONTREI NA DOCUMENTAÇÃO"
+    },
+    "q048": {
+      "question": "Como carregar um modelo do scikit-learn e servir previsões?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.5164859,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/events.md",
+          "start": 936,
+          "end": 1911
+        },
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 2234,
+          "end": 2715
+        },
+        {
+          "source_file": "advanced/events.md",
+          "start": 2798,
+          "end": 3479
+        },
+        {
+          "source_file": "deployment/server-workers.md",
+          "start": 4261,
+          "end": 4676
+        },
+        {
+          "source_file": "tutorial/path-params.md",
+          "start": 5947,
+          "end": 6786
+        }
+      ],
+      "translated": "How do I load a scikit-learn model and serve predictions using FastAPI?",
+      "seconds": 22.163511514663696,
+      "raw": "Para carregar um modelo do scikit-learn e servir previsões usando FastAPI, você pode seguir estes passos:\n\n1. Carregue o modelo do scikit-learn no início do seu aplicativo FastAPI, antes de iniciar a recepção de solicitações.\n2. Use o modelo para fazer previsões em cada solicitação.\n\nNÃO ENCONTREI NA DOCUMENTAÇÃO"
+    },
+    "q049": {
+      "question": "Como limitar a taxa de requisições com a biblioteca SlowAPI?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.54332614,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/strict-content-type.md",
+          "start": 2663,
+          "end": 3321
+        },
+        {
+          "source_file": "tutorial/testing.md",
+          "start": 6901,
+          "end": 7792
+        },
+        {
+          "source_file": "advanced/behind-a-proxy.md",
+          "start": 14091,
+          "end": 14756
+        },
+        {
+          "source_file": "tutorial/dependencies/dependencies-with-yield.md",
+          "start": 15408,
+          "end": 15898
+        },
+        {
+          "source_file": "async.md",
+          "start": 15972,
+          "end": 16632
+        }
+      ],
+      "translated": "How do you limit the request rate with the SlowAPI library?",
+      "seconds": 18.21721839904785,
+      "raw": "NÃO ENCONTREI NA DOCUMENTAÇÃO\n\nFontes: 1, 2, 3, 4, 5"
+    },
+    "q050": {
+      "question": "Como enviar e-mails com SMTP usando smtplib ou SendGrid?",
+      "answer": "NÃO ENCONTREI NA DOCUMENTAÇÃO.",
+      "refused": true,
+      "reason": "modelo_recusou",
+      "top_score": 0.51270556,
+      "cited": [],
+      "sources": [],
+      "retrieved": [
+        {
+          "source_file": "advanced/generate-clients.md",
+          "start": 2234,
+          "end": 2715
+        },
+        {
+          "source_file": "tutorial/server-sent-events.md",
+          "start": 9525,
+          "end": 10238
+        },
+        {
+          "source_file": "tutorial/testing.md",
+          "start": 6901,
+          "end": 7792
+        },
+        {
+          "source_file": "advanced/websockets.md",
+          "start": 9803,
+          "end": 10295
+        },
+        {
+          "source_file": "deployment/docker.md",
+          "start": 5216,
+          "end": 5620
+        }
+      ],
+      "translated": "How do I send emails using SMTP with smtplib or SendGrid?",
+      "seconds": 12.632841110229492,
+      "raw": "NÃO ENCONTREI NA DOCUMENTAÇÃO"
+    }
+  }
+}
