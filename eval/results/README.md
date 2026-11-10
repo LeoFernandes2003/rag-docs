@@ -101,3 +101,56 @@ Conferência manual da v5 (feita pelo aluno, lendo cada resposta ao lado da espe
   é vaga fora de contexto.
 - **v2, q001/q011/q033:** alucinação por cópia do exemplo do prompt, corrigida removendo o
   exemplo (v3 em diante).
+
+# Resultados do teste final (conjunto de teste)
+
+Medido em 10/11/2026, **uma única vez**, com o sistema congelado, no sistema do Docker (`docker compose up`, imagem do Ollama fixada por digest), com os comandos:
+
+```bash
+cd src
+set OLLAMA_URL=http://localhost:11435        # Ollama do Docker (no Linux/macOS: export OLLAMA_URL=...)
+python -m app.evaluation.retrieval --strategy structure --mode hybrid --translate --final
+python -m app.evaluation.generation --final --label v5
+python -m app.evaluation.generation --conferencia ../eval/results/generation-docs-structure-1000-test-v5-conferencia.md
+```
+
+Antes do teste, um ensaio no conjunto de desenvolvimento com o mesmo ambiente reproduziu o Recall@5 de 0,938 (15 de 16, erro só na q026), o que indica que o Ollama do Docker se comporta como o usado nas medições anteriores.
+
+| Medida (30 perguntas de teste: 24 com resposta, 6 sem) | Teste | Desenvolvimento (v5) |
+|---|---|---|
+| Recall@5 da busca (estrutura + híbrida + tradução) | **0,833** (20/24) | 0,938 (15/16) |
+| Citação válida (entre as respondidas) | **1,000** | 1,000 |
+| Fonte correta (trecho citado cobre a frase-fonte) | **0,792** (19/24) | 0,875 (14/16) |
+| Recusa indevida | **0/24** | 0/16 |
+| Recusa correta | **6/6** | 4/4 |
+| Perguntas sem resposta que o sistema respondeu | **0** | 0 |
+| Conferência manual do autor, com resposta | **22/24** | 15/16 |
+| Conferência manual do autor, sem resposta | **6/6** | 4/4 |
+
+Erros da busca: q004, q012, q037 e q040. Erros de "fonte correta": q004, q012, q030, q037 e q040. Respostas erradas na conferência do autor: q004 e q012.
+
+Tempo neste computador (CPU, sem GPU): recuperação das 24 perguntas em cerca de 2 minutos; geração das 30 respostas em 12,4 minutos (média de 25 s por pergunta, máximo de 38 s).
+
+## O que os resultados indicam
+
+- Os resultados do teste são um pouco piores que os do desenvolvimento na busca (0,833 contra 0,938) e na fonte (0,792 contra 0,875), como esperado: as configurações foram escolhidas olhando o desenvolvimento.
+- O ponto forte se manteve: nenhuma pergunta sem resposta foi respondida (6/6) e nenhuma pergunta com resposta foi recusada (0/24).
+- A métrica de fonte é mais rígida que o conteúdo: das 5 respostas com "fonte errada", 3 estavam corretas no conteúdo (q030, q037, q040).
+
+## Limitações
+
+- 24 perguntas com resposta: cada uma vale 4,2 pontos percentuais; só 6 sem resposta (16,7 pontos cada). Diferenças pequenas estão no ruído.
+- O conjunto de teste foi usado uma só vez; não foi medida a variação entre execuções.
+- A conferência manual foi feita pelo autor, que leu cada resposta e decidiu a marcação por conta própria. Antes de marcar, ele tinha lido uma segunda opinião da IA (registrado em `PROMPTS.md`, entrada 15); a marcação coincidiu com a dela nas duas respostas erradas.
+- O conjunto de perguntas aceita uma só fonte por pergunta, mas a documentação repete assuntos em vários arquivos (q040).
+- Modelos de 3 bilhões de parâmetros (tradução e respostas) são pequenos; a q004 mostra um erro de interpretação do modelo.
+
+## Casos de falha para a análise
+
+Análise completa, com trechos recuperados e causas, em `evidencias/analise-de-falhas.md`.
+
+- **q004:** busca trouxe a seção vizinha; o modelo inverteu o exemplo (resposta errada).
+- **q012:** o arquivo certo veio, mas a frase com os exemplos estava em outro trecho (resposta vaga, errada).
+- **q037:** frase-fonte no trecho seguinte ao recuperado (resposta aceitável).
+- **q040:** a documentação responde em mais de um arquivo (resposta aceitável).
+- **q030:** trecho certo recuperado, mas não citado (resposta correta, citação errada).

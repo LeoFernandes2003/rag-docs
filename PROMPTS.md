@@ -4,7 +4,7 @@ Mínimo exigido: 10 interações relevantes. Cada uma com o prompt, um resumo da
 
 Ferramenta usada: Claude (Anthropic), via chat, plano pago do autor (Leonardo Costa Fernandes, RA 2410279).
 
-Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a partir das conversas reais do projeto (23/10 a 31/10/2026). Os prompts estão resumidos, não copiados palavra por palavra. O autor revisou cada entrada e é responsável pelo conteúdo.
+Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a partir das conversas reais do projeto (23/10 a 10/11/2026). Os prompts estão resumidos, não copiados palavra por palavra. O autor revisou cada entrada e é responsável pelo conteúdo.
 
 ## Modelo de entrada
 
@@ -116,3 +116,17 @@ Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a
 **Aceito:** declarar claramente que a revisão foi de IA, em vez de fingir revisão humana.
 **Corrigido:** nada até agora; a regra do enunciado ("revisado por outro membro humano") segue pendente de confirmação por escrito do professor.
 **Descartado:** a ideia de aprovar sem comentário, porque esconderia quem revisou.
+
+### 15. Segunda opinião da IA antes da conferência manual do teste (10/11/2026)
+**Prompt:** o autor pediu uma lista do que a IA consideraria certo ou errado nas 30 respostas do teste final, deixando claro que ele leria tudo e decidiria.
+**Resposta (resumo):** a IA listou cada resposta com um motivo, chamou a lista de segunda opinião e disse que a marcação do arquivo era do autor: 22 ou 23 de 24 certas com resposta (só q004 clara, q012 duvidosa) e 6 de 6 recusas corretas.
+**Aceito:** usar a lista só como comparação. O autor leu as respostas e marcou ele mesmo: 22/24 e 6/6. A marcação coincidiu com a opinião da IA nas duas respostas erradas (q004 e q012).
+**Corrigido:** a explicação da IA sobre as 6 perguntas sem resposta foi ambígua; o autor as deixou sem `[x]` e o cálculo deu 0/6. A regra foi reexplicada (marca-se `[x]` quando o sistema fez o esperado, inclusive recusar) e o resultado final foi 6/6.
+**Descartado:** a IA preencher o arquivo de conferência (mesma regra da entrada 11). O autor leu cada resposta e decidiu a marcação por conta própria; o registro fica aqui para ficar claro que a opinião da IA existiu antes da marcação.
+
+### 16. Análise de falhas do teste final e correção da documentação (10/11/2026)
+**Prompt:** analisar os erros do teste final e dizer onde cada um falhou (busca, modelo ou citação).
+**Resposta (resumo):** a IA leu os JSON do teste e classificou 5 casos: 3 de busca (q012, q037, q040), 1 de modelo (q004) e 1 de citação (q030), com os trechos recuperados como evidência. Registrou também a limitação do JSON, que só guarda o texto dos trechos citados.
+**Aceito:** a classificação e o texto de `evidencias/analise-de-falhas.md`, com as causas de q004 e q030 marcadas como prováveis.
+**Corrigido:** a IA percebeu que `docs/avaliacao.md` dizia que "fonte certa" era o arquivo esperado, mas o código exige que o trecho citado cubra a frase-fonte; o texto foi corrigido. A IA também tinha comentado que o arquivo certo apareceu em 23 de 24 buscas; isso ficou só como informação complementar.
+**Descartado:** trocar a métrica oficial depois de ver o resultado do teste (continuam 0,833 na busca e 0,792 na fonte).
