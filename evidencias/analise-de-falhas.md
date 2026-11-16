@@ -62,6 +62,22 @@ Resumo por causa: 3 falhas de busca (q012, q037, q040), 1 de modelo (q004) e 1 d
 - **Resposta:** conteúdo correto, mas as citações apontam para outros dois trechos (um sobre "esperar o caixa", outro sobre limpar a casa em paralelo, que não tem relação com a pergunta).
 - **Causa:** erro de **citação**: o modelo parece ter usado o trecho certo no texto, mas citou os números de outros trechos (provável; os trechos não citados não são gravados no JSON).
 
+## Comparação com o baseline nas falhas de busca (16/11/2026)
+
+Recuperação do baseline (significado, trechos de tamanho fixo) no mesmo teste: 21 de 24 (0,875), com erros em q004, q024 e q040. O baseline acertou q012 e q037, que o sistema final errou. Isso é compatível com a hipótese de que a divisão por estrutura separou as frases esperadas, mas não a prova, porque os dois sistemas também diferem na busca por palavras e na tradução. q004 e q040 foram erros dos dois sistemas.
+
+## Casos de alucinação encontrados e a correção aplicada
+
+Os casos de alucinação mais claros apareceram no desenvolvimento, com o prompt v2 (arquivo `eval/results/generation-docs-structure-1000-dev-v2-conferencia.md`). No teste final **não houve alucinação**: nenhuma das 6 perguntas sem resposta foi respondida e todas as citações apontaram para trechos existentes.
+
+| Caso (prompt v2) | O que aconteceu | Causa |
+| --- | --- | --- |
+| q001, q011, q033 | O modelo escreveu literalmente o exemplo do prompt ("Use o parâmetro X para fazer Y"), que não vinha da documentação | O próprio prompt trazia esse exemplo de formato |
+| q003, q006, q016, q023 | O modelo imitou o molde do exemplo ("Use o parâmetro ...") em vez de responder com o texto da documentação | Mesma causa |
+| q036, q045 | Recusas escritas com outra grafia ("NÃO ENCONTROI", "NÃO ENCONTROU") não eram reconhecidas; a q036 contou como recusa indevida e a q045 (sem resposta) como respondida | A detecção da recusa só aceitava a frase exata |
+
+**Correção:** o exemplo foi removido do prompt a partir da v3 (o molde não reapareceu na v3, v4, v5 nem no teste) e a detecção da recusa passou a usar uma expressão regular tolerante a variações (`is_empty_answer`, em `src/app/rag/pipeline.py`). Com a v5, no desenvolvimento: recusa indevida 0 de 16 e recusa correta 4 de 4; no teste: 0 de 24 e 6 de 6.
+
 ## Limitações desta análise
 
 - A conferência de conteúdo foi feita pelo autor, que leu cada resposta e decidiu a marcação por conta própria. Antes de marcar, ele tinha lido uma segunda opinião da IA (registrado em `PROMPTS.md`, entrada 15); a marcação coincidiu com a dela nas duas respostas erradas.

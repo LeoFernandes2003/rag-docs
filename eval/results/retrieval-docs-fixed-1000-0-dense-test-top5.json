@@ -1,0 +1,44 @@
+{
+  "questions": 24,
+  "hits": 21,
+  "recall": 0.875,
+  "misses": [
+    {
+      "id": "q004",
+      "question": "Como o FastAPI distingue parâmetros de caminho de parâmetros de consulta?",
+      "source_file": "tutorial/query-params.md",
+      "retrieved_files": [
+        "tutorial/dependencies/classes-as-dependencies.md",
+        "tutorial/path-params.md",
+        "tutorial/query-params.md",
+        "tutorial/query-params.md",
+        "tutorial/query-params-str-validations.md"
+      ]
+    },
+    {
+      "id": "q024",
+      "question": "Por que não dá para declarar campos `Body` em JSON junto com parâmetros `File` e `Form`?",
+      "source_file": "tutorial/request-forms-and-files.md",
+      "retrieved_files": [
+        "tutorial/request-forms.md",
+        "tutorial/request-forms.md",
+        "tutorial/body-multiple-params.md",
+        "tutorial/request-forms.md",
+        "tutorial/body-nested-models.md"
+      ]
+    },
+    {
+      "id": "q040",
+      "question": "Quem deve cuidar do HTTPS na frente da aplicação na maioria dos casos?",
+      "source_file": "fastapi-cli.md",
+      "retrieved_files": [
+        "deployment/docker.md",
+        "deployment/https.md",
+        "deployment/https.md",
+        "deployment/https.md",
+        "deployment/https.md"
+      ]
+    }
+  ],
+  "translations": {}
+}
