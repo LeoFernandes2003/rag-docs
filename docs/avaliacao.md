@@ -64,6 +64,14 @@ python -m app.evaluation.generation --final --label v5
 
 Os números do conjunto de teste são os oficiais.
 
+### Passo 4b. Baseline no teste (comparação, depois do Passo 4)
+
+Para comparar o sistema final com o baseline no mesmo conjunto de teste, mede-se a recuperação do baseline (busca por significado, trechos de tamanho fixo). Esta medição não pode ser usada para ajustar o sistema:
+
+```bash
+python -m app.evaluation.retrieval --strategy fixed --mode dense --final
+```
+
 Para medir o sistema do Docker (o que será entregue), com os serviços de pé (`docker compose up -d`), os comandos rodam de dentro da pasta `src` apontando para o Ollama do Docker, que usa a porta 11435 no computador:
 
 ```bash
@@ -97,5 +105,14 @@ Estão em `eval/results/README.md`. A comparação de recuperação tem 10 combi
 | Recusa indevida | 0/24 |
 | Recusa correta | 6/6 |
 | Conferência manual do autor | 22/24 com resposta; 6/6 sem resposta |
+
+### Baseline no teste (16/11/2026, só recuperação)
+
+| Recuperação (24 com resposta) | Recall@5 |
+| --- | --- |
+| Baseline (significado, tamanho fixo) | 0,875 (21/24) |
+| Sistema final (estrutura, híbrida, tradução) | 0,833 (20/24) |
+
+A vantagem do sistema final no desenvolvimento (0,938 contra 0,812) não se confirmou no teste; a diferença de uma pergunta está no ruído. Detalhes em `eval/results/README.md`.
 
 Análise dos 5 casos de falha em `evidencias/analise-de-falhas.md`. Limitações (24 perguntas com resposta, uma só execução, modelo pequeno) em `eval/results/README.md`.

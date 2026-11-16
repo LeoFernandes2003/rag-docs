@@ -154,3 +154,34 @@ Análise completa, com trechos recuperados e causas, em `evidencias/analise-de-f
 - **q037:** frase-fonte no trecho seguinte ao recuperado (resposta aceitável).
 - **q040:** a documentação responde em mais de um arquivo (resposta aceitável).
 - **q030:** trecho certo recuperado, mas não citado (resposta correta, citação errada).
+
+# Baseline no conjunto de teste (comparação)
+
+Medido em 16/11/2026, **depois** de o sistema final ser congelado e de o resultado dele no teste ser conhecido, só para comparação: **nada foi ajustado a partir desta medição** e o sistema não foi trocado. Foi medida só a recuperação (não a geração). Comando, com o Ollama do Docker:
+
+```bash
+cd src
+set OLLAMA_URL=http://localhost:11435
+python -m app.evaluation.retrieval --strategy fixed --mode dense --final
+```
+
+Arquivo: `retrieval-docs-fixed-1000-0-dense-test-top5.json`.
+
+| Recuperação no teste (24 com resposta) | Acertos | Recall@5 | Perguntas erradas |
+|---|---|---|---|
+| Baseline (significado, trechos de tamanho fixo) | 21/24 | **0,875** | q004, q024, q040 |
+| Sistema final (estrutura + híbrida + tradução) | 20/24 | **0,833** | q004, q012, q037, q040 |
+
+Comparação com o desenvolvimento: no desenvolvimento o sistema final estava à frente (0,938 contra 0,812, 2 perguntas de 16); no teste ficou atrás (0,833 contra 0,875, 1 pergunta de 24).
+
+## O que isto indica
+
+- A vantagem do sistema final no desenvolvimento **não se confirmou** no teste. A diferença de uma pergunta está no ruído (intervalo de 95% de Wilson do baseline: cerca de 69% a 96%).
+- As duas configurações erraram juntas a q004 e a q040. O baseline acertou q012 e q037 (que o final errou) e errou q024 (que o final acertou).
+- Explicações possíveis, não separadas por este trabalho: a escolha foi feita sobre só 16 perguntas; o corpus é pequeno e as perguntas reaproveitam palavras do texto, o que favorece a busca por significado. O fato de o baseline (trechos fixos) acertar q012 e q037 é compatível com a hipótese de que a divisão por estrutura separou as frases esperadas, mas não a prova (os sistemas também diferem na busca por palavras e na tradução).
+
+## Limitações
+
+- Só a recuperação do baseline foi medida no teste; a geração (citação e recusa) do baseline não foi.
+- A medição foi feita depois de conhecer o resultado do sistema final (embora a configuração do baseline estivesse definida desde o início do trabalho).
+- Com 24 perguntas, uma pergunta vale 4,2 pontos percentuais: não é possível separar os dois sistemas.
