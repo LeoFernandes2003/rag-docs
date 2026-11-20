@@ -1,3 +1,5 @@
+import logging
+
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -54,3 +56,39 @@ def test_ask_devolve_503_quando_um_servico_esta_fora_do_ar():
     finally:
         app.dependency_overrides.clear()
     assert resposta.status_code == 503
+
+
+def test_ask_registra_pergunta_decisao_e_resposta_no_log(caplog):
+    from app.main import get_pipeline
+    from app.rag.pipeline import Answer
+
+    class AssistenteFalso:
+        def ask(self, question):
+            return Answer(question, "Use X [1].", False, "respondeu", 0.7, cited=[1])
+
+    app.dependency_overrides[get_pipeline] = lambda: AssistenteFalso()
+    try:
+        with caplog.at_level(logging.INFO, logger="app.ask"):
+            client.post("/ask", json={"question": "Como fazer X?"})
+    finally:
+        app.dependency_overrides.clear()
+    assert "pergunta recebida: 'Como fazer X?'" in caplog.text
+    assert "decisão: respondeu" in caplog.text
+    assert "citados=[1]" in caplog.text
+    assert "resposta (com fontes): Use X [1]." in caplog.text
+
+
+def test_ask_registra_a_falha_tratada_no_log(caplog):
+    from app.main import get_pipeline
+
+    class AssistenteQuebrado:
+        def ask(self, question):
+            raise ConnectionError("O Docker, o Qdrant e o Ollama estão ligados?")
+
+    app.dependency_overrides[get_pipeline] = lambda: AssistenteQuebrado()
+    try:
+        with caplog.at_level(logging.INFO, logger="app.ask"):
+            client.post("/ask", json={"question": "Como fazer X?"})
+    finally:
+        app.dependency_overrides.clear()
+    assert "falha tratada: serviço fora do ar" in caplog.text

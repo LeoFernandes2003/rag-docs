@@ -12,7 +12,7 @@
 ## Privacidade e LGPD
 
 - O corpus é documentação pública (licença MIT). As perguntas de avaliação são sintéticas.
-- O sistema não guarda perguntas nem respostas em disco além dos arquivos de avaliação gerados pelos scripts.
+- O sistema não grava perguntas nem respostas em arquivos próprios, além dos arquivos de avaliação gerados pelos scripts. A API escreve em log (saída padrão) a pergunta, a decisão e a resposta; o Docker guarda esse log no computador do usuário e ele some ao recriar o contêiner (`docker compose logs -t api`).
 - Nenhum dado pessoal real deve ser usado em perguntas, logs, vídeos ou capturas de tela.
 
 ## O que o sistema não faz
