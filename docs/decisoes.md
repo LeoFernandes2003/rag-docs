@@ -41,3 +41,9 @@ Cada registro tem contexto, decisão e alternativas descartadas. Os números vê
 - **Contexto:** depois do teste final, o baseline (busca só por significado, trechos de tamanho fixo) foi medido no mesmo conjunto e acertou uma pergunta a mais (0,875 contra 0,833).
 - **Decisão:** manter o sistema como estava. Trocar para o baseline seria ajustar o sistema ao conjunto de teste, o que quebra o protocolo, e a diferença de uma pergunta em 24 está no ruído.
 - **Alternativas:** adotar o baseline (descartada pelo motivo acima); repetir a comparação com mais perguntas, que fica como trabalho futuro. O resultado, incluindo o fato de a vantagem do desenvolvimento não se repetir no teste, está descrito no artigo (seções 4.4 e 4.8).
+
+## ADR 7. Registrar em log cada pergunta, depois do teste final
+
+- **Contexto:** o enunciado pede logs com data e hora de uma execução completa, mostrando entradas, decisões do sistema e saídas. A API não registrava nada; só os arquivos de avaliação guardavam as respostas, sem horário.
+- **Decisão:** a API passa a escrever uma linha de log para a pergunta recebida, a decisão (respondeu, evidência fraca ou modelo recusou, com nota de similaridade, trechos devolvidos e trechos citados), a resposta e as falhas tratadas. A mudança só registra: não altera a busca, o prompt nem a resposta, e por isso os resultados do teste final continuam valendo. Dois testes automáticos conferem o registro.
+- **Alternativas:** usar só o log de acesso do servidor (mostra apenas `POST /ask 200`, sem a pergunta nem a decisão); gerar o log a partir dos arquivos de avaliação (não tem horário e não vem da aplicação rodando).

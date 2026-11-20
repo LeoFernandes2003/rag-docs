@@ -7,6 +7,7 @@ Endereços:
   ou a recusa quando a documentação não tem evidência suficiente.
 """
 
+import logging
 import os
 from functools import lru_cache
 from pathlib import Path
@@ -17,6 +18,17 @@ from pydantic import BaseModel, Field
 
 from .rag.http import HttpError
 from .rag.pipeline import RagPipeline
+
+# Registro (log) de cada pergunta, com data e hora, para conferir o que o sistema recebeu,
+# decidiu e devolveu. Vai para a saída padrão: no Docker, `docker compose logs -t api`.
+logger = logging.getLogger("app.ask")
+if not logging.getLogger().handlers:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+logger.setLevel(logging.INFO)
 
 app = FastAPI(
     title="RAG de documentação técnica",
@@ -62,11 +74,30 @@ def ask(
     request: AskRequest, pipeline: Annotated[RagPipeline, Depends(get_pipeline)]
 ) -> dict[str, Any]:
     """Responde a pergunta com citações, ou recusa quando não há evidência."""
+    logger.info("pergunta recebida: %r", request.question)
     try:
-        return pipeline.ask(request.question).to_dict()
+        answer = pipeline.ask(request.question)
+        logger.info(
+            "decisão: %s | nota de similaridade=%.3f | trechos devolvidos=%d | citados=%s "
+            "| busca por palavras com: %r | %.1f s",
+            answer.reason,
+            answer.top_score,
+            len(answer.retrieved),
+            answer.cited,
+            answer.translated,
+            answer.seconds,
+        )
+        logger.info(
+            "resposta (%s): %s",
+            "recusa" if answer.refused else "com fontes",
+            " ".join(answer.answer.split()),
+        )
+        return answer.to_dict()
     except ConnectionError as error:
+        logger.warning("falha tratada: serviço fora do ar (%s)", error)
         raise HTTPException(status_code=503, detail=str(error)) from error
     except HttpError as error:
+        logger.warning("falha tratada: um serviço respondeu com erro (código %s)", error.status)
         raise HTTPException(
             status_code=503,
             detail="Um serviço respondeu com erro. O índice do Qdrant foi criado? "
