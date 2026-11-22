@@ -11,8 +11,8 @@ Situação em 20/11/2026 (Marco 4). Os itens marcados como pendentes serão feit
 | 1 | Execução gravada (3 a 5 min), subindo do zero com `docker compose up` | | pendente (será gravada na versão `v1.0`) |
 | 2 | Integração contínua verde na tag `v1.0`, com link e captura | Aba **Actions** do repositório (ruff e pytest com cobertura, Python 3.12). Hoje a `main` está verde; a captura e o link da tag `v1.0` virão na entrega | parcial |
 | 3 | Resultados da avaliação, com o comando que os regera | `../eval/results/` (JSON brutos, arquivos de conferência e `README.md` com as tabelas); comandos passo a passo em `../docs/avaliacao.md` | pronto |
-| 4 | Logs de uma execução completa, com data e hora | | pendente |
-| 5 | Capturas de tela (opcional, pelo menos 5 situações, incluindo uma falha tratada) | `capturas/ui-resposta-2026-10-31.png` e `capturas/ui-recusa-2026-10-31.png` (uma resposta com fontes e uma recusa de pergunta sem resposta) | parcial (2 de 5; falta uma falha tratada, como a mensagem de erro com o Ollama desligado; refazer na `v1.0`) |
+| 4 | Logs de uma execução completa, com data e hora | `logs/execucao-2026-11-22.log` (6 perguntas da sessão de uso de 22/11/2026; descrição na seção 3) | pronto |
+| 5 | Capturas de tela (opcional, pelo menos 5 situações, incluindo uma falha tratada) | `capturas/ui-1-...png` a `capturas/ui-6-...png` (6 situações de 22/11/2026, incluindo a falha tratada com o Ollama desligado; descrição na seção 3). As duas capturas de 31/10 (`ui-resposta-2026-10-31.png` e `ui-recusa-2026-10-31.png`) ficam como registro de uma versão anterior | pronto (refazer só se o código mudar antes da `v1.0`) |
 | 6 | Casos de falha (mínimo 3) com análise da causa | `analise-de-falhas.md` (5 casos do teste final) e a seção "Casos de falha para a análise" de `../eval/results/README.md` | pronto |
 | 7 | Histórico do Git | Aba **Pull requests** (todos os PRs, com CI e comentário de revisão) e aba **Commits**. Trabalho individual: não há commits de outros integrantes. A revisão de cada PR foi feita por IA (Claude), declarada no comentário de cada um | pronto |
 | 8 | Este índice | `evidencias/README.md` | pronto |
@@ -39,7 +39,22 @@ Situação em 20/11/2026 (Marco 4). Os itens marcados como pendentes serão feit
 | Testes automáticos: 97 testes, cobertura de 73% (CI nº 32) | `../docs/testes-e-ci.md` e aba **Actions** |
 | Licenças dos componentes e dos modelos (3.8) | `../README.md` e `../docs/dados-e-modelos.md` |
 
-## 3. Como reproduzir (conferência ao vivo)
+## 3. Sessão de uso de 22/11/2026 (log e capturas)
+
+Seis perguntas feitas pela interface (http://localhost:8501), uma de cada vez, com o sistema no Docker e a API recém-recriada (`docker compose up -d --force-recreate api`), de modo que o log contém só estas perguntas. O log foi exportado com `docker compose logs -t api > evidencias/logs/execucao-2026-11-22.log`. Os horários do log vêm em UTC (3 horas à frente de Brasília); o relógio do Windows aparece nas capturas.
+
+| # | Situação | Captura | Linhas do log (`logs/execucao-2026-11-22.log`) | Resultado |
+| --- | --- | --- | --- | --- |
+| 1 | Resposta com fonte (`q002` do teste) | `capturas/ui-1-resposta-opentelemetry.png` | linhas 5 a 8 | respondeu, similaridade 0,704, cita `advanced/opentelemetry.md` |
+| 2 | Resposta com fonte (`q017` do teste) | `capturas/ui-2-resposta-httpexception.png` | linhas 9 a 12 | respondeu, similaridade 0,783, cita `tutorial/handling-errors.md` |
+| 3 | Recusa de assunto fora da documentação (`q048` do teste) | `capturas/ui-3-recusa-scikit-learn.png` | linhas 13 a 16 | recusou (`modelo_recusou`), similaridade 0,516 |
+| 4 | Recusa de assunto sem relação | `capturas/ui-4-recusa-fora-do-assunto.png` | linhas 17 a 20 | recusou (`modelo_recusou`), similaridade 0,406 |
+| 5 | Falha tratada: Ollama desligado (`docker compose stop ollama`) | `capturas/ui-5-falha-ollama-desligado.png` | linhas 21 a 23 | a API respondeu 503 com mensagem clara; o sistema não caiu. Na interface, o indicador de carregamento continuou girando depois do erro (detalhe visual, ainda não corrigido) |
+| 6 | Recuperação depois de religar o Ollama | `capturas/ui-6-recuperacao.png` | linhas 24 a 27 | respondeu, similaridade 0,619, cita `advanced/testing-dependencies.md` |
+
+Cada pergunta gera no log, nesta ordem: `pergunta recebida`, `decisão` (respondeu ou modelo_recusou, nota de similaridade, trechos devolvidos e citados, a pergunta traduzida usada na busca por palavras e o tempo), `resposta` e o código HTTP. As respostas das situações 1, 2 e 3 repetem o resultado do teste final (mesma nota de similaridade, mesma fonte). Os tempos desta sessão (de 23 s a 53 s por resposta) variam com a carga do computador; o teste final teve média de 25 s.
+
+## 4. Como reproduzir (conferência ao vivo)
 
 Os comandos completos estão em `../docs/avaliacao.md`. Em resumo, com `docker compose up -d` rodando:
 
@@ -52,9 +67,7 @@ python -m app.evaluation.retrieval --strategy structure --mode hybrid --translat
 
 A interface fica em http://localhost:8501. A geração das 30 respostas leva cerca de 12 minutos em CPU.
 
-## 4. O que falta
+## 5. O que falta
 
 1. Vídeo de 3 a 5 minutos (evidência 1).
 2. Execução verde do CI na tag `v1.0`, com link e captura (evidência 2).
-3. Logs com data e hora de uma execução completa (evidência 4).
-4. Mais três capturas de tela de situações diferentes e refazer as duas atuais na `v1.0` (evidência 5).
