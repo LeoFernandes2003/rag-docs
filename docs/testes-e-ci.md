@@ -10,7 +10,7 @@ Os testes ficam em `tests/` e rodam sem Ollama nem Qdrant (usam dados e serviço
 | `test_rag.py` | Divisão em trechos, BM25, fusão RRF, busca |
 | `test_pipeline.py` | Prompt, citações, recusa (variações), resposta vazia, nova tentativa, reranker, preparação automática, download do corpus |
 | `test_evaluation.py` | Perguntas, Recall@k e métricas da avaliação |
-| `test_health.py` | Endereços `/health`, `/config` e `/ask` da API |
+| `test_health.py` | Endereços `/health`, `/config` e `/ask` da API, e o registro em log de cada pergunta e das falhas tratadas |
 
 ## Como rodar
 
@@ -22,7 +22,7 @@ ruff check .
 
 ## Integração contínua
 
-O workflow `.github/workflows/ci.yml` roda em todo push na `main` e em todo pull request: instala as dependências (Python 3.12), roda `ruff check .` (estilo e erros comuns) e `pytest -v`. Os testes da API só rodam no CI, porque dependem do FastAPI instalado. O CI também mede a cobertura (veja abaixo).
+O workflow `.github/workflows/ci.yml` roda em todo push na `main`, em todo pull request e também sob demanda (aba **Actions**, botão **Run workflow**, inclusive sobre a tag `v1.0`): instala as dependências (Python 3.12), roda `ruff check .` (estilo e erros comuns) e `pytest -v`. Os testes da API só rodam no CI, porque dependem do FastAPI instalado. O CI também mede a cobertura (veja abaixo).
 
 ## Regras de trabalho
 
@@ -38,7 +38,7 @@ A cobertura é medida com `pytest-cov` e impressa no final do log de cada execu�
 pytest --cov=src/app --cov-report=term-missing
 ```
 
-Resultado medido no CI em 05/11/2026 (CI #32, `main`, Python 3.12): **97 testes passaram, cobertura total de 73%** (1341 linhas de código, 358 sem teste).
+Resultado medido no CI em 05/11/2026 (CI #32, `main`, Python 3.12): **97 testes passaram, cobertura total de 73%** (1341 linhas de código, 358 sem teste). Depois dessa medição foram acrescentados 2 testes (o registro em log da API, ADR 7), e hoje são **99 testes**; a cobertura não foi medida de novo, então os 73% valem para o CI #32.
 
 Onde a cobertura é alta: `chunking.py`, `bm25.py`, `pipeline.py`, `retrieve.py`, `translate.py`, `ollama.py` e `config.py` (100%), `qdrant.py` (97%) e `clean.py` (98%). Esses arquivos são a lógica central do RAG.
 
@@ -51,4 +51,4 @@ Onde é baixa, e por quê:
 | `evaluation/retrieval.py`, `evaluation/generation.py` | 36% e 45% | Scripts de avaliação que dependem dos serviços reais; foram executados à mão e seus resultados estão em `eval/results/`. |
 | `rag/index.py`, `setup.py`, `rag/http.py` | 45%, 59%, 52% | Indexação e preparação automática dependem de Qdrant e Ollama rodando. |
 
-Esse número será copiado para `evidencias/` (captura da linha `TOTAL`) junto com a execução do CI da tag `v1.0`. Ele mostra o que os testes automáticos cobrem, não a qualidade das respostas; essa é medida em `docs/avaliacao.md`.
+As execuções do CI usadas como prova (`main` e tag `v1.0`) estão indicadas em `evidencias/README.md`. O número de cobertura mostra o que os testes automáticos cobrem, não a qualidade das respostas; essa é medida em `docs/avaliacao.md`.

@@ -35,12 +35,16 @@ for example in EXAMPLES:
 question = st.text_input("Sua pergunta", key="question")
 
 if st.button("Perguntar", type="primary") and question.strip():
+    data = None
+    error_message = ""
     with st.spinner("Buscando na documentação e escrevendo a resposta..."):
         try:
             data = request_json("POST", f"{API_URL}/ask", {"question": question}, timeout=300)
         except (ConnectionError, HttpError) as error:
-            st.error(f"Não consegui falar com a API: {error}")
-            st.stop()
+            error_message = f"Não consegui falar com a API: {error}"
+    if data is None:
+        st.error(error_message)
+        st.stop()
     if data["refused"]:
         st.warning(
             "Não encontrei essa informação na documentação. "

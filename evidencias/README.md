@@ -2,7 +2,7 @@
 
 Este índice é o roteiro para conferir o trabalho: cada afirmação do artigo (`../docs/pesquisa-abnt.pdf`) aponta para a prova que a sustenta. Todas as provas saíram da execução real do projeto (scripts de `../eval/`, GitHub Actions e a própria aplicação); nenhum número foi editado à mão. A única parte manual é a conferência do conteúdo das respostas, em que o autor leu cada resposta e fez a marcação (antes, leu uma segunda opinião de IA, registrada em `../PROMPTS.md`); os arquivos estão em `../eval/results/`.
 
-Situação em 20/11/2026 (Marco 4). Os itens marcados como pendentes serão feitos antes da entrega final, com o sistema na tag `v1.0`.
+Situação em 22/11/2026. Os itens marcados como pendentes (vídeo e execução do CI na versão final) serão acrescentados antes da criação da tag `v1.0`.
 
 ## 1. Evidências pedidas no enunciado
 
@@ -36,7 +36,7 @@ Situação em 20/11/2026 (Marco 4). Os itens marcados como pendentes serão feit
 | Tempo de resposta em CPU: média de 25 s, máximo de 38 s (4.7) | Campo `seconds` de cada resposta em `generation-docs-structure-1000-test-v5.json` |
 | Limitações dos resultados (4.9) | `../docs/seguranca-e-limitacoes.md` e `../eval/results/README.md` |
 | Uso de IA no desenvolvimento | `../PROMPTS.md` |
-| Testes automáticos: 97 testes, cobertura de 73% (CI nº 32) | `../docs/testes-e-ci.md` e aba **Actions** |
+| Testes automáticos: 97 testes e cobertura de 73% medidos no CI nº 32; hoje são 99 testes (mais 2 do log da API) | `../docs/testes-e-ci.md` e aba **Actions** |
 | Licenças dos componentes e dos modelos (3.8) | `../README.md` e `../docs/dados-e-modelos.md` |
 
 ## 3. Sessão de uso de 22/11/2026 (log e capturas)
@@ -49,7 +49,7 @@ Seis perguntas feitas pela interface (http://localhost:8501), uma de cada vez, c
 | 2 | Resposta com fonte (`q017` do teste) | `capturas/ui-2-resposta-httpexception.png` | linhas 9 a 12 | respondeu, similaridade 0,783, cita `tutorial/handling-errors.md` |
 | 3 | Recusa de assunto fora da documentação (`q048` do teste) | `capturas/ui-3-recusa-scikit-learn.png` | linhas 13 a 16 | recusou (`modelo_recusou`), similaridade 0,516 |
 | 4 | Recusa de assunto sem relação | `capturas/ui-4-recusa-fora-do-assunto.png` | linhas 17 a 20 | recusou (`modelo_recusou`), similaridade 0,406 |
-| 5 | Falha tratada: Ollama desligado (`docker compose stop ollama`) | `capturas/ui-5-falha-ollama-desligado.png` | linhas 21 a 23 | a API respondeu 503 com mensagem clara; o sistema não caiu. Na interface, o indicador de carregamento continuou girando depois do erro (detalhe visual, ainda não corrigido) |
+| 5 | Falha tratada: Ollama desligado (`docker compose stop ollama`) | `capturas/ui-5-falha-ollama-desligado.png` | linhas 21 a 23 | a API respondeu 503 com mensagem clara; o sistema não caiu. Na interface, o indicador de carregamento continuou girando depois do erro (detalhe visual da interface naquele momento; corrigido depois, em 22/11/2026, no pull request "Corrige o indicador de carregamento quando a API falha") |
 | 6 | Recuperação depois de religar o Ollama | `capturas/ui-6-recuperacao.png` | linhas 24 a 27 | respondeu, similaridade 0,619, cita `advanced/testing-dependencies.md` |
 
 Cada pergunta gera no log, nesta ordem: `pergunta recebida`, `decisão` (respondeu ou modelo_recusou, nota de similaridade, trechos devolvidos e citados, a pergunta traduzida usada na busca por palavras e o tempo), `resposta` e o código HTTP. As respostas das situações 1, 2 e 3 repetem o resultado do teste final (mesma nota de similaridade, mesma fonte). Os tempos desta sessão (de 23 s a 53 s por resposta) variam com a carga do computador; o teste final teve média de 25 s.

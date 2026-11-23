@@ -4,7 +4,7 @@ Mínimo exigido: 10 interações relevantes. Cada uma com o prompt, um resumo da
 
 Ferramenta usada: Claude (Anthropic), via chat, plano pago do autor (Leonardo Costa Fernandes, RA 2410279).
 
-Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a partir das conversas reais do projeto (23/10 a 10/11/2026). Os prompts estão resumidos, não copiados palavra por palavra. O autor revisou cada entrada e é responsável pelo conteúdo.
+Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a partir das conversas reais do projeto (23/10 a 22/11/2026). Os prompts estão resumidos, não copiados palavra por palavra. O autor revisou cada entrada e é responsável pelo conteúdo.
 
 ## Modelo de entrada
 
@@ -130,3 +130,31 @@ Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a
 **Aceito:** a classificação e o texto de `evidencias/analise-de-falhas.md`, com as causas de q004 e q030 marcadas como prováveis.
 **Corrigido:** a IA percebeu que `docs/avaliacao.md` dizia que "fonte certa" era o arquivo esperado, mas o código exige que o trecho citado cubra a frase-fonte; o texto foi corrigido. A IA também tinha comentado que o arquivo certo apareceu em 23 de 24 buscas; isso ficou só como informação complementar.
 **Descartado:** trocar a métrica oficial depois de ver o resultado do teste (continuam 0,833 na busca e 0,792 na fonte).
+
+### 17. Revisão contra o enunciado: a API não registrava logs (10/11 a 20/11/2026)
+**Prompt:** conferir o repositório contra a seção "Evidências de funcionamento" do enunciado antes da entrega.
+**Resposta (resumo):** a IA comparou cada evidência com o que existia e apontou que a evidência 4 (logs com data e hora, mostrando entradas, decisões e saídas) não podia ser feita: a API não registrava nada, e os arquivos de avaliação não têm horário.
+**Aceito:** acrescentar o registro em log na API, depois do teste final, só escrevendo o log e sem alterar a busca, o prompt nem a resposta, para os resultados do teste continuarem valendo (ADR 7). Dois testes automáticos conferem o log.
+**Corrigido:** a IA não tinha percebido essa falta durante o desenvolvimento; só apareceu na revisão contra o enunciado. A mudança foi limitada a log de propósito, para não invalidar o teste final.
+**Descartado:** montar o "log" a partir dos JSON da avaliação (sem horário e não vem da aplicação rodando) e usar só o log de acesso do servidor (mostra `POST /ask 200`, sem a pergunta nem a decisão).
+
+### 18. Sessão de capturas e log: dados fora do roteiro e pull request com arquivos demais (20/11 a 22/11/2026)
+**Prompt:** guiar uma sessão de uso com seis situações (duas respostas, duas recusas, uma falha tratada e uma recuperação), exportar o log e preparar os arquivos para subir por pull request.
+**Resposta (resumo):** roteiro das seis situações, comandos para exportar o log com `docker compose logs -t api` e um pacote com o log, as capturas e o índice de evidências atualizado.
+**Aceito:** o roteiro e o pacote final (pull requests #19 e #20), com cada captura ligada às linhas do log no índice.
+**Corrigido:** (1) o primeiro log exportado trazia perguntas de teste feitas antes da sessão, que não faziam parte do roteiro; como o enunciado proíbe dados pessoais em logs, a API foi recriada para zerar o log e as seis situações foram refeitas. (2) O pull request #18 mostrou 24 arquivos em vez de 4, porque a pasta do computador tinha arquivos temporários (`__pycache__`); conferi "Files changed", fechamos o PR e refizemos como #19, arrastando só a partir da pasta limpa extraída do zip.
+**Descartado:** o primeiro log, o pull request #18 e a prática de subir arquivos a partir da pasta de trabalho.
+
+### 19. Indicador de carregamento preso depois de um erro (22/11/2026)
+**Prompt:** corrigir a interface, que continuava girando depois de a API devolver o erro 503 (situação 5 da sessão).
+**Resposta (resumo):** a IA indicou como causa provável o `st.stop()` dentro do bloco do indicador de carregamento e propôs guardar a mensagem de erro, sair do bloco e só então mostrar o erro e parar.
+**Aceito:** a correção em `src/app/ui.py`.
+**Corrigido:** o ambiente de trabalho da IA não tinha como instalar o Streamlit, então a causa é provável e a correção só foi verificada por leitura do código; a confirmação é a execução real (derrubar o Ollama, perguntar e ver o indicador sumir).
+**Descartado:** deixar o defeito apenas como "detalhe visual" no índice de evidências; ele foi corrigido e o índice atualizado.
+
+### 20. Revisão final de coerência da documentação (22/11/2026)
+**Prompt:** reler a proposta e o enunciado, e conferir tudo o que foi feito para ter certeza de que nada ficou de fora.
+**Resposta (resumo):** a IA releu o repositório e listou: README ainda com o status de 03/11; ADRs 6 e 7 misturados com os cinco de arquitetura (o enunciado pede de 3 a 5); `PROMPTS.md` sem as entradas da fase final; contagem de testes desatualizada (97, hoje 99); frase do Marco 2 em `eval/README.md`; e a limitação de que uma resposta sem citação válida ainda é devolvida, sem fontes.
+**Aceito:** todas as correções, reunidas em um único pull request, e o registro dessa limitação em `docs/seguranca-e-limitacoes.md`.
+**Corrigido:** nada no comportamento do sistema; só documentos e o indicador de carregamento.
+**Descartado:** renumerar os ADRs (mantidos os números para não quebrar as referências do artigo e do índice de evidências) e mudar o sistema por causa de qualquer achado (o sistema está congelado desde o teste).
