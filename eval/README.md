@@ -36,4 +36,4 @@ Uma pergunta por linha:
 - `answerable: false` marca perguntas cuja resposta não está na documentação.
 - `source_file` é o caminho relativo dentro do corpus, como aparece em `candidates.md`.
 
-Os resultados dos experimentos serão adicionados a partir do Marco 2.
+Os resultados dos experimentos (arquivos JSON brutos, arquivos de conferência manual e as tabelas comparativas) estão na pasta `results/`; o resumo é `results/README.md`.

@@ -36,6 +36,7 @@
 | Perguntas escritas a partir do corpus | Favorecem a busca por palavras | `eval/results/README.md` |
 | Métrica rígida | Achar o arquivo certo mas não o trecho exato conta como erro; no teste, 5 respostas com fonte errada, 3 delas corretas no conteúdo | `eval/results/README.md` |
 | Citação válida não é citação correta | O sistema garante que o trecho citado existe, não que seja o usado (q030) | `evidencias/analise-de-falhas.md` |
+| Resposta sem citação válida é mostrada | Depois da nova tentativa, uma resposta com texto mas sem nenhum `[n]` válido ainda é devolvida, sem fontes; no teste final todas as respostas tiveram citação válida | `src/app/rag/pipeline.py` |
 | Resposta errada com fonte certa | O arquivo certo foi citado, mas o modelo errou a interpretação (q004) | `evidencias/analise-de-falhas.md` |
 | Arquivos duplicados no corpus | Podem ocupar posições da busca | [corpus.md](corpus.md) |
 | Licença do Qwen | Uso comercial não permitido sem acordo | [dados-e-modelos.md](dados-e-modelos.md) |

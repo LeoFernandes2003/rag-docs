@@ -8,7 +8,7 @@ Assistente que responde dúvidas sobre uma documentação grande de código aber
 
 Projeto da disciplina de IA na Programação, Tema 4.
 
-> **Status (03/11/2026):** protótipo ponta a ponta funcionando. Já existem: corpus limpo, 50 perguntas de avaliação, busca (densa, por palavras e híbrida), resposta com citação e recusa, API (`POST /ask`), interface (Streamlit) e `docker compose up` testado de ponta a ponta. Resultados parciais em `eval/results/README.md`. Documentação técnica em `docs/README.md`.
+> **Status (22/11/2026):** versão final, com as funcionalidades congeladas. Desde o teste final (10/11) mudaram só documentos, o registro em log da API (ADR 7 em `docs/decisoes.md`) e o indicador de carregamento da interface. **Resultado oficial no conjunto de teste** (24 perguntas com resposta e 6 sem, medido uma única vez): Recall@5 0,833; citação válida 1,000; recusa indevida 0 de 24; recusa correta 6 de 6; conferência manual do autor 22 de 24 e 6 de 6. O baseline (busca só por significado, trechos de tamanho fixo) teve Recall@5 0,875: a diferença de uma pergunta está dentro do ruído e o sistema não foi trocado depois do teste. Onde ver: resultados em `eval/results/README.md`, trabalho de pesquisa em `docs/pesquisa-abnt.pdf`, provas de funcionamento em `evidencias/README.md`, documentação técnica em `docs/README.md` e uso de IA em `PROMPTS.md`.
 
 ## Como rodar
 

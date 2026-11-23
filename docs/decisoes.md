@@ -1,6 +1,6 @@
 # 3. Decisões de arquitetura
 
-Cada registro tem contexto, decisão e alternativas descartadas. Os números vêm de `eval/results/README.md`: as comparações de escolha foram feitas no conjunto de desenvolvimento (16 perguntas com resposta) e o resultado oficial é o do conjunto de teste (24 com resposta e 6 sem, medido em 10/11/2026), com o baseline medido também no teste em 16/11/2026.
+Cada registro tem contexto, decisão e alternativas descartadas. Os ADRs 1 a 5 são as decisões de arquitetura; os ADRs 6 e 7 são decisões de processo (protocolo de avaliação e registro de execução), separados mais abaixo. Os números vêm de `eval/results/README.md`: as comparações de escolha foram feitas no conjunto de desenvolvimento (16 perguntas com resposta) e o resultado oficial é o do conjunto de teste (24 com resposta e 6 sem, medido em 10/11/2026), com o baseline medido também no teste em 16/11/2026.
 
 ## ADR 1. Dividir o texto por estrutura (títulos), não por tamanho fixo
 
@@ -35,6 +35,10 @@ Cada registro tem contexto, decisão e alternativas descartadas. Os números vê
 - **Contexto:** o enunciado pede comparar reranking. Foi testado um reranker por nota atribuída pelo próprio modelo de texto a cada candidato.
 - **Decisão:** não adotar. Híbrida com tradução e reranker teve Recall@5 de 0,875, abaixo dos 0,938 sem ele, e deixa a resposta mais lenta (cerca de 45 segundos a mais por pergunta).
 - **Alternativas:** um modelo de reranking dedicado (cross-encoder) não foi testado. Fica como trabalho futuro.
+
+# Decisões de processo
+
+Os dois registros seguintes não mudam a arquitetura: dizem como o trabalho foi conduzido depois do teste final.
 
 ## ADR 6. Não trocar o sistema depois de ver o resultado do teste
 
