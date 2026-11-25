@@ -4,7 +4,7 @@ Mínimo exigido: 10 interações relevantes. Cada uma com o prompt, um resumo da
 
 Ferramenta usada: Claude (Anthropic), via chat, plano pago do autor (Leonardo Costa Fernandes, RA 2410279).
 
-Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a partir das conversas reais do projeto (23/10 a 22/11/2026). Os prompts estão resumidos, não copiados palavra por palavra. O autor revisou cada entrada e é responsável pelo conteúdo.
+Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a partir das conversas reais do projeto (23/10 a 25/11/2026). Os prompts estão resumidos, não copiados palavra por palavra. O autor revisou cada entrada e é responsável pelo conteúdo.
 
 ## Modelo de entrada
 
@@ -149,7 +149,7 @@ Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a
 **Prompt:** corrigir a interface, que continuava girando depois de a API devolver o erro 503 (situação 5 da sessão).
 **Resposta (resumo):** a IA indicou como causa provável o `st.stop()` dentro do bloco do indicador de carregamento e propôs guardar a mensagem de erro, sair do bloco e só então mostrar o erro e parar.
 **Aceito:** a correção em `src/app/ui.py`.
-**Corrigido:** o ambiente de trabalho da IA não tinha como instalar o Streamlit, então a causa é provável e a correção só foi verificada por leitura do código; a confirmação é a execução real (derrubar o Ollama, perguntar e ver o indicador sumir).
+**Corrigido:** o ambiente de trabalho da IA não tinha como instalar o Streamlit, então a causa era provável e a correção só foi verificada por leitura do código. A confirmação veio da execução real em 23/11/2026 (subindo do zero, derrubando o Ollama e perguntando): depois da mensagem de erro o indicador de carregamento sumiu.
 **Descartado:** deixar o defeito apenas como "detalhe visual" no índice de evidências; ele foi corrigido e o índice atualizado.
 
 ### 20. Revisão final de coerência da documentação (22/11/2026)
@@ -158,3 +158,18 @@ Nota de transparência: as entradas abaixo foram redigidas com ajuda do Claude a
 **Aceito:** todas as correções, reunidas em um único pull request, e o registro dessa limitação em `docs/seguranca-e-limitacoes.md`.
 **Corrigido:** nada no comportamento do sistema; só documentos e o indicador de carregamento.
 **Descartado:** renumerar os ADRs (mantidos os números para não quebrar as referências do artigo e do índice de evidências) e mudar o sistema por causa de qualquer achado (o sistema está congelado desde o teste).
+
+### 21. Falha de rede do Docker no teste do zero (23/11/2026)
+**Prompt:** colei no chat os erros que apareceram ao subir o projeto do zero: primeiro `Bind for 0.0.0.0:11435 failed: port is already allocated` e, depois, `qdrant:6333 não respondeu a tempo` (duas vezes).
+**Resposta (resumo):** para o primeiro erro, a IA pediu a lista de contêineres (`docker ps`) e viu que os contêineres da pasta antiga tinham voltado sozinhos quando o Docker Desktop reiniciou; a solução foi pará-los com `docker stop`. Para o segundo, a IA indicou uma falha da rede interna do Docker (o nome `qdrant` não era resolvido) e a sequência `docker compose down`, fechar o Docker Desktop, `wsl --shutdown`, abrir de novo e subir com `docker compose up --build`.
+**Aceito:** as duas soluções; depois delas o ambiente subiu até a mensagem "Ambiente pronto." e a indexação dos 1626 trechos terminou.
+**Corrigido:** nada no projeto; foi problema do ambiente do computador, não do código. A IA não tinha como confirmar a causa exata da falha de rede, só que a sequência funcionou.
+**Descartado:** mexer no `docker-compose.yml` ou no `setup` por causa desse erro.
+
+### 22. Edição do vídeo de evidência (23/11/2026)
+**Prompt:** enviei o vídeo gravado (7 min 2 s) e pedi que fosse deixado em condições de uso como evidência.
+**Resposta (resumo):** a IA analisou o vídeo e listou os problemas: mais de 5 minutos, o endereço público do computador aparecendo no PowerShell (linha `External URL` do Streamlit), um comando digitado errado, a janela do programa de gravação, um comando de logs que não rodou e esperas longas. Cortou e acelerou os trechos, cobriu o endereço com uma tarja preta e acrescentou legendas nos pontos de corte e de aceleração (4 min 39 s).
+**Aceito:** o vídeo editado, depois de eu assistir ao arquivo inteiro.
+**Corrigido:** a primeira versão editada ainda deixava o endereço visível em poucos quadros, nas bordas das tarjas; a IA achou isso lendo o texto dos quadros (OCR), aumentou as tarjas e conferiu de novo: na versão final nenhum quadro mostra o endereço. A conferência por leitura de texto não é infalível, por isso eu também assisti ao vídeo.
+**Descartado:** gravar de novo (custaria mais uma construção de cerca de 25 minutos) e desfocar em vez de cobrir (a tarja preta é mais segura).
+

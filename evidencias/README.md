@@ -2,14 +2,14 @@
 
 Este índice é o roteiro para conferir o trabalho: cada afirmação do artigo (`../docs/pesquisa-abnt.pdf`) aponta para a prova que a sustenta. Todas as provas saíram da execução real do projeto (scripts de `../eval/`, GitHub Actions e a própria aplicação); nenhum número foi editado à mão. A única parte manual é a conferência do conteúdo das respostas, em que o autor leu cada resposta e fez a marcação (antes, leu uma segunda opinião de IA, registrada em `../PROMPTS.md`); os arquivos estão em `../eval/results/`.
 
-Situação em 22/11/2026. Os itens marcados como pendentes (vídeo e execução do CI na versão final) serão acrescentados antes da criação da tag `v1.0`.
+Situação em 25/11/2026. O único item pendente (execução do CI na tag `v1.0`, com link e captura) será acrescentado na criação da tag.
 
 ## 1. Evidências pedidas no enunciado
 
 | # | Evidência | Onde está | Status |
 | --- | --- | --- | --- |
-| 1 | Execução gravada (3 a 5 min), subindo do zero com `docker compose up` | | pendente (será gravada na versão `v1.0`) |
-| 2 | Integração contínua verde na tag `v1.0`, com link e captura | Aba **Actions** do repositório (ruff e pytest com cobertura, Python 3.12). Hoje a `main` está verde; a captura e o link da tag `v1.0` virão na entrega | parcial |
+| 1 | Execução gravada (3 a 5 min), subindo do zero com `docker compose up` | `video/execucao-do-zero.mp4` (4 min 39 s, gravado em 23/11/2026; o que foi editado está na seção 4) | pronto |
+| 2 | Integração contínua verde na tag `v1.0`, com link e captura | Aba **Actions** do repositório (ruff e pytest com cobertura, Python 3.12). A `main` está verde: `capturas/ci-verde-main.png` (CI nº 49, commit `0d9218a`, 22/11/2026) e `capturas/ci-cobertura-main.png` (log do passo de testes: 99 testes e cobertura de 73%). A captura e o link da tag `v1.0` virão na entrega | parcial |
 | 3 | Resultados da avaliação, com o comando que os regera | `../eval/results/` (JSON brutos, arquivos de conferência e `README.md` com as tabelas); comandos passo a passo em `../docs/avaliacao.md` | pronto |
 | 4 | Logs de uma execução completa, com data e hora | `logs/execucao-2026-11-22.log` (6 perguntas da sessão de uso de 22/11/2026; descrição na seção 3) | pronto |
 | 5 | Capturas de tela (opcional, pelo menos 5 situações, incluindo uma falha tratada) | `capturas/ui-1-...png` a `capturas/ui-6-...png` (6 situações de 22/11/2026, incluindo a falha tratada com o Ollama desligado; descrição na seção 3). As duas capturas de 31/10 (`ui-resposta-2026-10-31.png` e `ui-recusa-2026-10-31.png`) ficam como registro de uma versão anterior | pronto (refazer só se o código mudar antes da `v1.0`) |
@@ -36,7 +36,7 @@ Situação em 22/11/2026. Os itens marcados como pendentes (vídeo e execução 
 | Tempo de resposta em CPU: média de 25 s, máximo de 38 s (4.7) | Campo `seconds` de cada resposta em `generation-docs-structure-1000-test-v5.json` |
 | Limitações dos resultados (4.9) | `../docs/seguranca-e-limitacoes.md` e `../eval/results/README.md` |
 | Uso de IA no desenvolvimento | `../PROMPTS.md` |
-| Testes automáticos: 97 testes e cobertura de 73% medidos no CI nº 32; hoje são 99 testes (mais 2 do log da API) | `../docs/testes-e-ci.md` e aba **Actions** |
+| Testes automáticos: 99 testes e cobertura de 73% (1356 linhas, 364 sem teste) medidos no CI nº 49 | `capturas/ci-cobertura-main.png`, `../docs/testes-e-ci.md` e aba **Actions** |
 | Licenças dos componentes e dos modelos (3.8) | `../README.md` e `../docs/dados-e-modelos.md` |
 
 ## 3. Sessão de uso de 22/11/2026 (log e capturas)
@@ -54,7 +54,20 @@ Seis perguntas feitas pela interface (http://localhost:8501), uma de cada vez, c
 
 Cada pergunta gera no log, nesta ordem: `pergunta recebida`, `decisão` (respondeu ou modelo_recusou, nota de similaridade, trechos devolvidos e citados, a pergunta traduzida usada na busca por palavras e o tempo), `resposta` e o código HTTP. As respostas das situações 1, 2 e 3 repetem o resultado do teste final (mesma nota de similaridade, mesma fonte). Os tempos desta sessão (de 23 s a 53 s por resposta) variam com a carga do computador; o teste final teve média de 25 s.
 
-## 4. Como reproduzir (conferência ao vivo)
+## 4. Vídeo da execução do zero
+
+O vídeo `video/execucao-do-zero.mp4` foi gravado em 23/11/2026, com a tela inteira, a partir de uma pasta criada do zip da `main`, depois de apagar os contêineres, a rede e os volumes do teste anterior, subindo tudo com `docker compose up --build`. Mostra: a pasta do projeto, `docker compose down`, `docker compose up --build`, a lista dos serviços no ar, uma pergunta com resposta e fonte, uma pergunta fora da documentação recusada, a falha tratada com o Ollama desligado (mensagem de erro, sem o indicador de carregamento preso), a recuperação depois de religar o Ollama, o log das perguntas e, no final, o pull request nº 21 e o CI verde no GitHub.
+
+O vídeo foi editado depois da gravação (a gravação original tinha 7 min 2 s). Tudo o que foi alterado está declarado aqui:
+
+- A gravação foi pausada durante a construção das imagens e o download dos modelos (cerca de 25 minutos); há uma legenda no ponto do corte.
+- Foram cortados um comando digitado errado (`docker compose um`), trechos em que a janela do programa de gravação aparecia e um comando de logs que não chegou a rodar na primeira tentativa.
+- Duas esperas da resposta foram aceleradas (6 vezes e 9 vezes), com legenda na tela.
+- O endereço público do computador, que o Streamlit imprime na linha `External URL`, foi coberto com uma tarja preta (regra do enunciado: nenhum dado pessoal em vídeos). Conferi o arquivo final quadro a quadro com leitura de texto (OCR) e o endereço não aparece.
+
+O sistema, os resultados e as respostas não foram alterados: só o tempo de espera e o que ficou fora da imagem.
+
+## 5. Como reproduzir (conferência ao vivo)
 
 Os comandos completos estão em `../docs/avaliacao.md`. Em resumo, com `docker compose up -d` rodando:
 
@@ -67,7 +80,6 @@ python -m app.evaluation.retrieval --strategy structure --mode hybrid --translat
 
 A interface fica em http://localhost:8501. A geração das 30 respostas leva cerca de 12 minutos em CPU.
 
-## 5. O que falta
+## 6. O que falta
 
-1. Vídeo de 3 a 5 minutos (evidência 1).
-2. Execução verde do CI na tag `v1.0`, com link e captura (evidência 2).
+1. Execução verde do CI na tag `v1.0`, com link e captura (evidência 2).

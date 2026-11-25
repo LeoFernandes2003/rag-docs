@@ -38,7 +38,7 @@ A cobertura é medida com `pytest-cov` e impressa no final do log de cada execu�
 pytest --cov=src/app --cov-report=term-missing
 ```
 
-Resultado medido no CI em 05/11/2026 (CI #32, `main`, Python 3.12): **97 testes passaram, cobertura total de 73%** (1341 linhas de código, 358 sem teste). Depois dessa medição foram acrescentados 2 testes (o registro em log da API, ADR 7), e hoje são **99 testes**; a cobertura não foi medida de novo, então os 73% valem para o CI #32.
+Resultado medido no CI em 22/11/2026 (CI nº 49, `main`, commit `0d9218a`, Python 3.12): **99 testes passaram, cobertura total de 73%** (1356 linhas de código, 364 sem teste). A captura do log está em `evidencias/capturas/ci-cobertura-main.png`. Na primeira medição, em 05/11/2026 (CI nº 32), eram 97 testes e também 73% (1341 linhas, 358 sem teste); os 2 testes a mais vieram do registro em log da API (ADR 7).
 
 Onde a cobertura é alta: `chunking.py`, `bm25.py`, `pipeline.py`, `retrieve.py`, `translate.py`, `ollama.py` e `config.py` (100%), `qdrant.py` (97%) e `clean.py` (98%). Esses arquivos são a lógica central do RAG.
 
