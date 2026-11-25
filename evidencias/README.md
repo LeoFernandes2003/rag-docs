@@ -2,14 +2,14 @@
 
 Este índice é o roteiro para conferir o trabalho: cada afirmação do artigo (`../docs/pesquisa-abnt.pdf`) aponta para a prova que a sustenta. Todas as provas saíram da execução real do projeto (scripts de `../eval/`, GitHub Actions e a própria aplicação); nenhum número foi editado à mão. A única parte manual é a conferência do conteúdo das respostas, em que o autor leu cada resposta e fez a marcação (antes, leu uma segunda opinião de IA, registrada em `../PROMPTS.md`); os arquivos estão em `../eval/results/`.
 
-Situação em 25/11/2026. O único item pendente (execução do CI na tag `v1.0`, com link e captura) será acrescentado na criação da tag.
+Situação em 25/11/2026. Todos os itens estão prontos. O link e a captura da execução do CI na tag `v1.0` ficam na descrição da Release `v1.0` (aba **Releases** do repositório), porque só passam a existir depois de a tag ser criada e porque commits feitos depois da tag não contam na entrega.
 
 ## 1. Evidências pedidas no enunciado
 
 | # | Evidência | Onde está | Status |
 | --- | --- | --- | --- |
 | 1 | Execução gravada (3 a 5 min), subindo do zero com `docker compose up` | `video/execucao-do-zero.mp4` (4 min 39 s, gravado em 23/11/2026; o que foi editado está na seção 4) | pronto |
-| 2 | Integração contínua verde na tag `v1.0`, com link e captura | Aba **Actions** do repositório (ruff e pytest com cobertura, Python 3.12). A `main` está verde: `capturas/ci-verde-main.png` (CI nº 49, commit `0d9218a`, 22/11/2026) e `capturas/ci-cobertura-main.png` (log do passo de testes: 99 testes e cobertura de 73%). A captura e o link da tag `v1.0` virão na entrega | parcial |
+| 2 | Integração contínua verde na tag `v1.0`, com link e captura | Aba **Actions** do repositório (ruff e pytest com cobertura, Python 3.12). A `main` está verde: `capturas/ci-verde-main.png` (CI nº 49, commit `0d9218a`, 22/11/2026) e `capturas/ci-cobertura-main.png` (log do passo de testes: 99 testes e cobertura de 73%). O link e a captura da execução na tag `v1.0` estão na descrição da Release `v1.0` (seção 6) | pronto |
 | 3 | Resultados da avaliação, com o comando que os regera | `../eval/results/` (JSON brutos, arquivos de conferência e `README.md` com as tabelas); comandos passo a passo em `../docs/avaliacao.md` | pronto |
 | 4 | Logs de uma execução completa, com data e hora | `logs/execucao-2026-11-22.log` (6 perguntas da sessão de uso de 22/11/2026; descrição na seção 3) | pronto |
 | 5 | Capturas de tela (opcional, pelo menos 5 situações, incluindo uma falha tratada) | `capturas/ui-1-...png` a `capturas/ui-6-...png` (6 situações de 22/11/2026, incluindo a falha tratada com o Ollama desligado; descrição na seção 3). As duas capturas de 31/10 (`ui-resposta-2026-10-31.png` e `ui-recusa-2026-10-31.png`) ficam como registro de uma versão anterior | pronto (refazer só se o código mudar antes da `v1.0`) |
@@ -80,6 +80,6 @@ python -m app.evaluation.retrieval --strategy structure --mode hybrid --translat
 
 A interface fica em http://localhost:8501. A geração das 30 respostas leva cerca de 12 minutos em CPU.
 
-## 6. O que falta
+## 6. CI na tag `v1.0`
 
-1. Execução verde do CI na tag `v1.0`, com link e captura (evidência 2).
+A tag `v1.0` foi criada pela página de Releases do GitHub, sobre a `main`. Em seguida, o CI foi executado sobre a tag (aba **Actions**, botão **Run workflow**, campo "Use workflow from" com a tag `v1.0`). O link dessa execução e a captura da página, com o resultado verde, estão na descrição da Release `v1.0`. Esse registro foi feito na descrição da Release, e não em um arquivo do repositório, para não alterar o código depois da criação da tag.
